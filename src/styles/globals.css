@@ -1,0 +1,151 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap");
+* {
+  font-family: "Roboto", sans-serif !important;
+  box-sizing: border-box;
+}
+body,
+html {
+  margin: 0;
+  padding: 0;
+}
+img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* overflow-slider */
+.overflow-slider {
+  display: flex;
+  overflow-x: scroll;
+  position: relative;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none !important;
+  transition: all 100ms 1s ease;
+  -ms-overflow-style: none !important;
+}
+
+.overflow-slider::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+}
+/* overflow-slider */
+
+.linear-red {
+  background: linear-gradient(180deg, white, rgba(231, 73, 45, 0.4), white);
+}
+.linear-blue-1 {
+  background: linear-gradient(100deg, white, rgba(61, 154, 231, 0.1), white);
+}
+.linear-blue-2 {
+  background: linear-gradient(180deg, white, rgba(61, 154, 231, 0.3), white);
+}
+.slides {
+  min-width: 35rem;
+  margin-right: 2rem;
+}
+.no-scrollbar::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+}
+.treeview .tree-node {
+  cursor: pointer;
+}
+.treeview .tree-branch-wrapper,
+.treeview .tree-node__leaf {
+  outline: none;
+  outline: none;
+}
+.treeview .tree-node {
+  cursor: pointer;
+}
+.treeview .tree-node:hover {
+  background: #10182a;
+  border-radius: 0.2rem;
+}
+.treeview .tree .tree-node--selected {
+  background: #306bb0;
+}
+.treeview .icon {
+  width: 1.5rem;
+  position: relative;
+  top: 2px;
+  display: inline-flex;
+  justify-content: end;
+  padding-right: 0.5rem;
+}
+.bg-code {
+  background-color: #011627;
+}
+.POST {
+  color: #ecc38d !important;
+}
+.DELETE {
+  color: #f88b6c !important;
+}
+.PATCH {
+  color: #a590bf !important;
+}
+.GET {
+  color: #23c45e !important;
+}
+.PUT {
+  color: white !important;
+}
+.one-line,
+.two-lines {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+  word-break: break-all;
+}
+.two-lines {
+  word-break: normal;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+@media (max-width: 1024px) {
+  #hambugger:not(:checked) ~ .hambugger-close {
+    display: none;
+  }
+  .slides {
+    min-width: 25rem;
+  }
+  .treeview {
+    display: none;
+  }
+  #doc-nav:not(:checked) ~ .treeview {
+    display: block;
+  }
+}
+@media (max-width: 568px) {
+  .slides {
+    min-width: 100%;
+  }
+}
+
+
+.PhoneInputInput,
+.PhoneInputInput:focus {
+  border: none !important;
+  background-color: transparent !important;
+  outline: none !important;
+}
+
+.show-scrollbar::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 7px;
+  height: 7px;
+}
+.show-scrollbar::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
+}

@@ -1,0 +1,78 @@
+import Footer from "@/components/home/footer";
+import Nav from "@/components/home/nav";
+import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Image from "next/image";
+import Link from "next/link";
+import { useRef } from "react";
+
+const width = typeof window !== 'undefined' ? window?.innerWidth : 400
+const Post = () => {
+
+  const mainRef = useRef<HTMLDivElement>(null);
+
+  const slide = (type: 'back' | 'front' = 'front') => {
+    if (mainRef.current) {
+      mainRef.current.scrollLeft += type === 'front' ? width - 10 : (width * -1) + 10;
+    }
+  }
+  return <main>
+    <Nav />
+    <div className="max-w-7xl px-5 mt-14 md:px-10 mx-auto">
+      <div className="pt-16">
+        <div className="text-right">Oct 12, 2023</div>
+        <h1 className="text-4xl font-bold mb-3">Introduction to SwayAuth</h1>
+        <p className="text-lg">Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          Veniam incidunt dicta quisquam. Maiores mollitia ab, maxime error obcaecati minima,
+          soluta ea ipsam placeat optio tenetur cumque consequuntur nobis corrupti veniam.
+        </p>
+        <div className="my-10">
+          <Image src="/dashboard.png" width={930} height={852} alt="" />
+        </div>
+        <div>
+          <p className="mb-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis, ipsam expedita voluptates perspiciatis excepturi, dolorum eligendi ipsa, obcaecati praesentium distinctio quis natus quae! Quae eveniet mollitia est suscipit ea laboriosam.</p>
+          <p className="mb-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis, ipsam expedita voluptates perspiciatis excepturi, dolorum eligendi ipsa, obcaecati praesentium distinctio quis natus quae! Quae eveniet mollitia est suscipit ea laboriosam.</p>
+          <p className="mb-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis, ipsam expedita voluptates perspiciatis excepturi, dolorum eligendi ipsa, obcaecati praesentium distinctio quis natus quae! Quae eveniet mollitia est suscipit ea laboriosam.</p>
+          <p className="mb-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis, ipsam expedita voluptates perspiciatis excepturi, dolorum eligendi ipsa, obcaecati praesentium distinctio quis natus quae! Quae eveniet mollitia est suscipit ea laboriosam.</p>
+          <p className="mb-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis, ipsam expedita voluptates perspiciatis excepturi, dolorum eligendi ipsa, obcaecati praesentium distinctio quis natus quae! Quae eveniet mollitia est suscipit ea laboriosam.</p>
+        </div>
+        <div className="mt-28">
+          <h3 className="text-xl font-bold">Next </h3>
+          <div className="mt-6 overflow-slider" ref={mainRef}>
+            <div className="max-w-[20rem] min-w-[20rem] mr-10">
+              <Image alt="" src='/features-1.png' width={1240} height={830} />
+              <div>
+                <Link href='/blog/introduction-system' className="block text-2xl font-bold my-3 underline underline-offset-4 one-line">Introductory System</Link>
+                <p className="two-lines">Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                  Illo sed error distinctio quod nobis fugiat voluptatum tempore facere libero
+                </p>
+              </div>
+            </div>
+            <div className="max-w-[20rem] min-w-[20rem] mr-10">
+              <Image alt="" src='/features-1.png' width={1240} height={830} />
+              <div>
+                <Link href='/blog/introduction-system' className="block text-2xl font-bold my-3 one-line underline underline-offset-4">Introductory System</Link>
+                <p className="two-lines">Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                  Illo sed error distinctio quod nobis fugiat voluptatum tempore facere libero
+                </p>
+              </div>
+            </div>
+          </div>
+          <button onClick={() => slide('back')} className="min-h-[3rem] hover:bg-slate-100 relative top-[-20rem] border rounded-full bg-white  left-0 min-w-[3rem] text-gray-600 hover:text-black text-2xl transition-all">
+            <FontAwesomeIcon icon={faArrowLeft} />
+          </button>
+          <button onClick={() => slide()} className="min-h-[3rem] relative hover:bg-slate-100 top-[-20rem] border rounded-full bg-white left-[calc(100%-6.5rem)] min-w-[3rem] text-gray-600 hover:text-black text-2xl transition-all">
+            <FontAwesomeIcon icon={faArrowRight} />
+          </button>
+        </div>
+      </div>
+    </div>
+    <div className="linear-blue-1">
+      <div className="max-w-7xl px-5 md:px-10 mx-auto">
+        <Footer />
+      </div>
+    </div>
+  </main>;
+};
+
+export default Post;
