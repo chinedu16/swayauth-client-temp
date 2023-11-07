@@ -1,7 +1,3 @@
-
-
-
-
 import { SpinnerCircle2 } from '@/components/spinner';
 import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -66,7 +62,7 @@ const Login = () => {
             </button>
           </div>
           <div className='mt-6 text-center'>
-            <div><span className='inline-block text-slate-600 mr-2'>Don't have an account?</span><Link href='/sign-up' className='text-blue-700'>Sign up</Link></div>
+            <div><span className='inline-block text-slate-600 mr-2'>Don&apos;t have an account?</span><Link href='/sign-up' className='text-blue-700'>Sign up</Link></div>
           </div>
           <div className='mt-4 flex justify-center items-center'>
             <span className='inline-block h-[0.1rem] bg-slate-400 w-4/12'></span>
