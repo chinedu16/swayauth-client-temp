@@ -1,4 +1,5 @@
 import '@/styles/globals.css';
+import '@/styles/chart.css';
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { Toaster } from 'react-hot-toast';
 import type { AppProps } from 'next/app';

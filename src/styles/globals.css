@@ -2,15 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap");
+
 * {
   font-family: "Roboto", sans-serif !important;
   box-sizing: border-box;
 }
+
 body,
 html {
   margin: 0;
   padding: 0;
 }
+
 img {
   max-width: 100%;
   max-height: 100%;
@@ -33,43 +36,54 @@ img {
   width: 0 !important;
   height: 0 !important;
 }
+
 /* overflow-slider */
 
 .linear-red {
   background: linear-gradient(180deg, white, rgba(231, 73, 45, 0.4), white);
 }
+
 .linear-blue-1 {
   background: linear-gradient(100deg, white, rgba(61, 154, 231, 0.1), white);
 }
+
 .linear-blue-2 {
   background: linear-gradient(180deg, white, rgba(61, 154, 231, 0.3), white);
 }
+
 .slides {
   min-width: 35rem;
   margin-right: 2rem;
 }
+
 .no-scrollbar::-webkit-scrollbar {
   width: 0 !important;
   height: 0 !important;
 }
+
 .treeview .tree-node {
   cursor: pointer;
 }
+
 .treeview .tree-branch-wrapper,
 .treeview .tree-node__leaf {
   outline: none;
   outline: none;
 }
+
 .treeview .tree-node {
   cursor: pointer;
 }
+
 .treeview .tree-node:hover {
   background: #10182a;
   border-radius: 0.2rem;
 }
+
 .treeview .tree .tree-node--selected {
   background: #306bb0;
 }
+
 .treeview .icon {
   width: 1.5rem;
   position: relative;
@@ -78,24 +92,31 @@ img {
   justify-content: end;
   padding-right: 0.5rem;
 }
+
 .bg-code {
   background-color: #011627;
 }
+
 .POST {
   color: #ecc38d !important;
 }
+
 .DELETE {
   color: #f88b6c !important;
 }
+
 .PATCH {
   color: #a590bf !important;
 }
+
 .GET {
   color: #23c45e !important;
 }
+
 .PUT {
   color: white !important;
 }
+
 .one-line,
 .two-lines {
   overflow: hidden;
@@ -106,28 +127,67 @@ img {
   line-clamp: 1;
   word-break: break-all;
 }
+
 .two-lines {
   word-break: normal;
   -webkit-line-clamp: 2;
   line-clamp: 2;
 }
+
 @media (max-width: 1024px) {
-  #hambugger:not(:checked) ~ .hambugger-close {
+  #hambugger:not(:checked)~.hambugger-close {
     display: none;
   }
+
   .slides {
     min-width: 25rem;
   }
+
   .treeview {
     display: none;
   }
-  #doc-nav:not(:checked) ~ .treeview {
+
+  #doc-nav:not(:checked)~.treeview {
     display: block;
   }
 }
+
 @media (max-width: 568px) {
   .slides {
     min-width: 100%;
+  }
+}
+
+
+.transition {
+  position: relative;
+  transition: all 0.1s;
+  animation: transition 0.1s ease-out;
+}
+
+@keyframes transition {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+
+  30% {
+    transform: scale(0.3);
+    opacity: 0.3;
+  }
+}
+
+@media (max-width: 768px) {
+  #hambugger2:checked~.nav-left {
+    left: 0;
+  }
+
+  .nav-left {
+    left: -110%;
+  }
+
+  #search-input:focus~.money {
+    display: none;
   }
 }
 
@@ -144,6 +204,7 @@ img {
   width: 7px;
   height: 7px;
 }
+
 .show-scrollbar::-webkit-scrollbar-thumb {
   border-radius: 4px;
   background-color: rgba(0, 0, 0, 0.5);

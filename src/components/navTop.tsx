@@ -1,16 +1,14 @@
+import { money } from "@/lib/utils";
 import { faBars, faGear, faRightFromBracket, faSearch, faWallet } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import avatar from '../assets/avatar.png';
-import DropDown from "./dropDown";
-import PreloadImage from "./preloadImage";
-import { money } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
+import DropDown from "./dropDown";
 
 const NavTop = () => {
   return <nav className="sticky max-h-[4rem] z-40 bg-white top-0 shadow-sm w-full p-2 border-b flex items-center">
     <div className="md:min-w-[220px] select-none md:px-4 flex items-center">
-      <label htmlFor="hambugger" className="md:hidden inline-block px-2 mr-2 text-2xl py-1 cursor-pointer">
+      <label htmlFor="hambugger2" className="md:hidden inline-block px-2 mr-2 text-2xl py-1 cursor-pointer">
         <FontAwesomeIcon icon={faBars} />
       </label>
       <div className='md:inline-flex items-center hidden'>

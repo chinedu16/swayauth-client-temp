@@ -53,7 +53,7 @@ const NavLeft = () => {
           <span className="inline-block">Settings</span>
         </NavLink>
       </div>
-      <label htmlFor="hambugger" className="w-full h-full bg-[rgba(255,255,255,0.7)]"></label>
+      <label htmlFor="hambugger2" className="w-full h-full bg-[rgba(255,255,255,0.7)]"></label>
     </div>
   </div>;
 };
