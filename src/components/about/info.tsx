@@ -16,7 +16,8 @@ const Info = () => {
             </div>
             <div>
               <h4 className="text-[1.3rem] font-semibold">Data Protection</h4>
-              <p className="my-2">Set up your authentication method with SwayAuth.
+              <p className="my-2">Your data is protected with industry standard data protection
+                practices without any worry of vendor lock-in.
               </p>
             </div>
           </div>
@@ -30,7 +31,8 @@ const Info = () => {
             </div>
             <div>
               <h4 className="text-[1.3rem] font-semibold">Authentication Gateway</h4>
-              <p className="my-2">Set up your authentication method with SwayAuth.
+              <p className="my-2">Swayauth is your scalable and secure authentication gateway to easy
+                user onboarding and user management.
               </p>
             </div>
           </div>
@@ -44,7 +46,9 @@ const Info = () => {
             </div>
             <div>
               <h4 className="text-[1.3rem] font-semibold">Security</h4>
-              <p className="my-2">Set up your authentication method with SwayAuth.
+              <p className="my-2">Swayauth supports multiple authentication strategies to give you the
+                highest level of user security. This includes Multi-factor
+                authentication to ensure user accounts are never compromised.
               </p>
             </div>
           </div>
