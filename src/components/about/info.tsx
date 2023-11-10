@@ -1,6 +1,5 @@
-import { faDoorOpen, faKey, faShieldHalved, faUnlockKeyhole, faUserLock } from "@fortawesome/free-solid-svg-icons";
+import { faDoorOpen, faKey, faShieldHalved } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Image from "next/image";
 
 const Info = () => {
   return <div className="my-16">
@@ -55,15 +54,37 @@ const Info = () => {
         </div>
       </div>
       <div className="w-full md:w-6/12">
-        <p className="py-6 md:p-6">
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nisi, porro numquam odit mollitia dolore error perferendis alias recusandae quae fugiat quasi ipsum excepturi ea at repudiandae eligendi? Rerum, at debitis?
-        </p>
-        <p className="py-6 md:p-6">
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nisi, porro numquam odit mollitia dolore error perferendis alias recusandae quae fugiat quasi ipsum excepturi ea at repudiandae eligendi? Rerum, at debitis?
-        </p>
-        <p className="py-6 md:p-6">
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nisi, porro numquam odit mollitia dolore error perferendis alias recusandae quae fugiat quasi ipsum excepturi ea at repudiandae eligendi? Rerum, at debitis?
-        </p>
+        <div className="py-6 md:p-6">
+          <h4 className="text-[1.3rem] font-semibold">Introduction</h4>
+          <div className="my-2">
+            <p className="mb-2">
+              Swayauth is a cutting edge technology company that aims to simplify authentication process in the tech industry.
+            </p>
+            <p className="">
+              We know that security is important, and how to implement these features can be complex in the tech industry.
+              So therefore, we offer a variety of robust secure proof methods of authentication that takes the ease of developers.
+            </p>
+          </div>
+        </div>
+        <div className="py-6 md:p-6">
+          <h4 className="text-[1.3rem] font-semibold">What we offer</h4>
+          <div className="my-2">
+            <p className="mb-2">
+              At swayauth, we offer simless authentication methods for developer and anyone who wants to use our platform.
+            </p>
+            <p className="mb-2">
+              These offerings includes, Facebook authentication, Google authentication, SMS authentication token, Email authentication token, and 2-Factor authentication.
+            </p>
+            <p className="">
+              Our offerings have been tested by experts in the field, ensuring that developers use the latest technology while worrying less about implementation.</p>
+          </div>
+        </div>
+        <div className="py-6 md:p-6">
+          <h4 className="text-[1.3rem] font-semibold">For developers</h4>
+          <div className="my-2">
+            <p className="mb-2">We welcome all developers to use our platform to manage authentication, and there application users data using our platform. </p>
+          </div>
+        </div>
       </div>
     </div>
   </div>;

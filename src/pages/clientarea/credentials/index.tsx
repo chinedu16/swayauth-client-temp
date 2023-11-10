@@ -128,7 +128,7 @@ const Credentials = () => {
               </td>
               <td scope="row" className="px-4 pt-2 whitespace-nowrap">
                 <div className="whitespace-nowrap">
-                  <Link href='/credentials/343e229h030jhp-mg36lsq9p' className="underline underline-offset-2 hover:text-blue-700">Cloutra</Link>
+                  <Link href='/clientarea/credentials/343e229h030jhp-mg36lsq9p' className="underline underline-offset-2 hover:text-blue-700">Cloutra</Link>
                 </div>
               </td>
               <td scope="row" className="px-4 pt-2 whitespace-nowrap">
@@ -170,7 +170,7 @@ const Credentials = () => {
               </td>
               <td scope="row" className="px-4 pt-2 whitespace-nowrap">
                 <div className="whitespace-nowrap">
-                  <Link href='/credentials/343e229h030jhp-mg36lsq9p' className="underline underline-offset-2 hover:text-blue-700">Roadlers</Link>
+                  <Link href='/clientarea/credentials/343e229h030jhp-mg36lsq9p' className="underline underline-offset-2 hover:text-blue-700">Roadlers</Link>
                 </div>
               </td>
               <td scope="row" className="px-4 pt-2 whitespace-nowrap">
@@ -212,7 +212,7 @@ const Credentials = () => {
               </td>
               <td scope="row" className="px-4 pt-2 whitespace-nowrap">
                 <div className="whitespace-nowrap">
-                  <Link href='/credentials/343e229h030jhp-mg36lsq9p' className="underline underline-offset-2 hover:text-blue-700">Cloutra 2</Link>
+                  <Link href='/clientarea/credentials/343e229h030jhp-mg36lsq9p' className="underline underline-offset-2 hover:text-blue-700">Cloutra 2</Link>
                 </div>
               </td>
               <td scope="row" className="px-4 pt-2 whitespace-nowrap">

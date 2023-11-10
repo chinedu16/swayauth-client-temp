@@ -1,16 +1,14 @@
+import DropDown from "@/components/dropDown";
+import Layout from "@/components/layout";
+import { cropString } from "@/lib/utils";
 import { faCopy } from "@fortawesome/free-regular-svg-icons";
 import { faArrowLeft, faEllipsisV, faExpand, faPen, faPlus, faRotateRight, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import logo from '../../assets/logo-1.png';
-import CreateCredModal from "../../../components/clientarea/credentials/modals/createCred";
-import { ReactElement, useState } from "react";
-import EditOrg from "../../../components/clientarea/credentials/modals/editOrg";
-import { useRouter } from "next/router";
-import PreloadImage from "@/components/preloadImage";
-import DropDown from "@/components/dropDown";
 import Image from "next/image";
-import { cropString } from "@/lib/utils";
-import Layout from "@/components/layout";
+import { useRouter } from "next/router";
+import { ReactElement, useState } from "react";
+import CreateCredModal from "../../../components/clientarea/credentials/modals/createCred";
+import EditOrg from "../../../components/clientarea/credentials/modals/editOrg";
 
 const Company = () => {
   const [credModal, setCredModal] = useState(false);

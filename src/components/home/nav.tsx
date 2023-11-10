@@ -1,4 +1,4 @@
-import NavLink from "@/lib/home/navLink";
+import NavLink from "@/lib/navLink";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";

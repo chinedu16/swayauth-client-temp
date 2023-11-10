@@ -2,7 +2,7 @@ import AddTeam from "@/components/clientarea/settings/modals/addTeam";
 import Layout from "@/components/layout";
 import PreloadImage from "@/components/preloadImage";
 import { SpinnerCircle2 } from "@/components/spinner";
-import NavLink from "@/lib/home/navLink";
+import NavLink from "@/lib/navLink";
 import { fileToBase64 } from "@/lib/media";
 import { faBan, faBolt, faCamera, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

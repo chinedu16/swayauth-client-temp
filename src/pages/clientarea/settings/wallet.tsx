@@ -1,5 +1,5 @@
 import Layout from "@/components/layout";
-import NavLink from "@/lib/home/navLink";
+import NavLink from "@/lib/navLink";
 import { money } from "@/lib/utils";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

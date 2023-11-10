@@ -1,4 +1,4 @@
-import NavLink from "@/lib/home/navLink";
+import NavLink from "@/lib/navLink";
 import { faAddressBook, faBriefcase, faGear, faHouse } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -33,6 +33,7 @@ const NavLeft = () => {
           activeClass='bg-slate-100 border-blue-700 font-bold'
           inActiveClass="border-[transparent]"
           prefetch
+          extend
           className="flex items-center border-l-[0.3rem] py-4 px-6"
         >
           <span className="inline-block w-10">

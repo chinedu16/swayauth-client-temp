@@ -1,5 +1,5 @@
 import Layout from "@/components/layout";
-import NavLink from "@/lib/home/navLink";
+import NavLink from "@/lib/navLink";
 import { ReactElement } from "react";
 
 const Plan = () => {
