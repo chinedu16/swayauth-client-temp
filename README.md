@@ -1,4 +1,4 @@
-# **SWAYAUTH CLIENT :::: SUPER ADMIN API LIST**
+# **SWAYAUTH CLIENT (SUPER ADMIN API LIST)**
 
 ALL APIs follow the standard GET, POST, PATCH and PUT requests
 
