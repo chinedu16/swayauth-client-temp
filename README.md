@@ -357,7 +357,7 @@ RESPONSE::
 ```
 GET REQUEST::
 url="https://swayauth.com/v1/organisation?sort_by=name&per_page=100"
-//optional params are: status, sort_by, page, per_page etc
+//optional params are: status, sort_by, page, per_page e.t.c
 content_type="Content-Type: application/json"
 authorization="Bearer <token>"
 
