@@ -46,7 +46,7 @@ const ConfigureEmail = ({ isOpen, toggle, title }: { isOpen: boolean, toggle: ()
               <div className="w-[49%]">
                 <label>Company Name</label>
                 <div className='mt-1'>
-                  <input autoFocus autoComplete="name"
+                  <input autoComplete="name"
                     required
                     name='name'
                     className='w-full pr-10 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
