@@ -4,25 +4,29 @@ import PreloadImage from "@/components/preloadImage";
 import { SpinnerCircle2 } from "@/components/spinner";
 import NavLink from "@/lib/navLink";
 import { fileToBase64 } from "@/lib/media";
-import { faBan, faBolt, faCamera, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faBan, faBolt, faCamera, faCheckCircle, faCopy, faInfoCircle, faPen, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ChangeEvent, ReactElement, useState } from "react";
 import PhoneInput from "react-phone-number-input/input";
+import { cropString } from "@/lib/utils";
+import ConfigureEmail from "@/components/clientarea/settings/modals/configureEmail";
 
 const Settings = () => {
   const [phone, setPhone] = useState('');
   const [modal, setModal] = useState(false);
+  const [emailModal, setEmailModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState('');
 
   const toggleModal = () => setModal(!modal)
+  const toggleEmailModal = () => setEmailModal(!emailModal)
 
   const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = (e.target as any).files[0];
     setImage(await fileToBase64(file))
   }
   return <div>
-    <form className="flex flex-wrap justify-between shadow-md sm:rounded-lg bg-white mt-8 p-6">
+    <form className="flex flex-wrap justify-between items-end shadow-md sm:rounded-lg bg-white mt-8 p-6">
       <div className="w-full lg:w-6/12 lg:pr-6">
         <div className='mb-4 flex w-full justify-between'>
           <div className="w-[49%]">
@@ -171,6 +175,39 @@ const Settings = () => {
       </div>
     </form>
 
+
+    <div className="relative shadow-md sm:rounded-lg bg-white mt-8">
+      <div className="px-6 py-5 text-lg font-semibold text-left w-full">
+        <div className="w-full flex justify-between flex-wrap items-center">
+          <h4 className="text-xl">
+            Domain Verification
+          </h4>
+          <button onClick={toggleEmailModal} className="text-white hover:bg-blue-800 bg-blue-700 py-1 px-5 rounded-md"><span className="hidden sm:inline-block">Configure </span><FontAwesomeIcon icon={faPen} className="sm:ml-2" /></button>
+        </div>
+      </div>
+      <div className="px-6 font-semibold text-left w-full flex justify-between">
+        <div className="w-7/12">Domain</div>
+        <div className="w-2/12">Status</div>
+        <div className="w-3/12">
+          <span >Txt Record</span>
+          <span className="inline-block ml-1" data-tooltip2={`Add this to your dns records`}>
+            <FontAwesomeIcon icon={faInfoCircle} />
+          </span>
+        </div>
+      </div>
+      <div className="px-6 pt-2 pb-5 text-left w-full flex justify-between">
+        <div className="w-7/12">swayauth.com</div>
+        <div className="w-2/12 text-green-600">
+          <FontAwesomeIcon icon={faCheckCircle} className="mr-2" />
+          <span>Verified</span>
+        </div>
+        <div className="w-3/12">
+          {cropString('u9ed9ede989889e-e9e9e899e8', 20)}
+          <button className="inline-block ml-2" title='copy'><FontAwesomeIcon icon={faCopy} /></button>
+        </div>
+      </div>
+    </div>
+
     <div className="relative shadow-md sm:rounded-lg bg-white mt-8">
       <div className="px-6 py-5 text-lg font-semibold text-left w-full">
         <div className="w-full flex justify-between flex-wrap items-center">
@@ -302,6 +339,7 @@ const Settings = () => {
       </div>
     </div>
     <AddTeam title="Add Team" isOpen={modal} toggle={toggleModal} />
+    <ConfigureEmail title="Email Configuration" isOpen={emailModal} toggle={toggleEmailModal} />
   </div>;
 };
 

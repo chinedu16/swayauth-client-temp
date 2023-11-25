@@ -26,13 +26,13 @@ const Trust = () => {
           </div>
           <div className="flex flex-wrap mt-10">
             <div className="p-2 w-3/12 md:w-2/12">
-              <div className="shadow-xl md:p-3 rounded-xl">
-                <Image src="/google-icon.png" alt="" width={480} height={480} />
+              <div className="shadow-xl md:p-3 xl:p-4 rounded-xl">
+                <Image src="/google.png" alt="" width={480} height={480} />
               </div>
             </div>
             <div className="p-2 w-3/12 md:w-2/12">
-              <div className="shadow-xl md:p-3 rounded-xl">
-                <Image src="/facebook-icon.png" alt="" width={480} height={480} />
+              <div className="shadow-xl md:p-3 xl:p-4 rounded-xl">
+                <Image src="/facebook.png" alt="" width={480} height={480} />
               </div>
             </div>
             <div className="p-2 w-3/12 md:w-2/12">

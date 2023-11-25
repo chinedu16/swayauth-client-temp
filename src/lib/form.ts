@@ -40,7 +40,7 @@ export class Validator {
     return this
   }
 
-  String = <T = string>(v: any = ''): T => {
+  String = (v: any = ''): string => {
     let valid = (typeof v === 'string' &&
       (this.Pattern ? this.Pattern.test(v) : true))
       ? true : false;
@@ -119,6 +119,15 @@ export class Validator {
       message: this.Message
     } as any
   }
+
+  Number = (v: any = true): boolean => {
+    return {
+      valid: (typeof v === 'number'),
+      value: v,
+      pattern: this.Pattern,
+      message: this.Message
+    } as any
+  }
 }
 
 export function FormHandler<T extends { [key: string]: (v?: any) => string | boolean | any[] | ObjectType }>(e: any, schema: T): {
@@ -170,9 +179,9 @@ export const file2Base64 = (file: File): Promise<string> => {
 
 export function useForm<T extends
   { [key: string]: (v?: any) => string | boolean | any[] | ObjectType }
->({ schema, extFormSubmit }: {
+>({ schema, extendSubmit }: {
   schema: T,
-  extFormSubmit?: (obj: {
+  extendSubmit?: (obj: {
     data: { [K in keyof T]: ReturnType<T[K]> },
     error: boolean,
     affectedKey: keyof T
@@ -248,9 +257,9 @@ export function useForm<T extends
     const res = FormHandler(e, schema)
     setFormData(p => res)
     if (!res.error) {
-      if (extFormSubmit) {
+      if (extendSubmit) {
         setLoading(true)
-        await extFormSubmit(formData, { setError: handleExtSubmitError, resetForm: () => handleFormReset(e), setLoading })
+        await extendSubmit(formData, { setError: handleExtSubmitError, resetForm: () => handleFormReset(e), setLoading })
       }
     }
     setLoading(false)

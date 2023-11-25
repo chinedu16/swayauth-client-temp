@@ -1,37 +1,25 @@
 import Modal from "@/components/modal";
 import { SpinnerCircle2 } from "@/components/spinner";
 import { Validator, useForm } from "@/lib/form";
-import { fileToBase64 } from "@/lib/media";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { cropString } from "@/lib/utils";
+import { faCopy, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ChangeEvent, useState } from "react";
-import Select from 'react-select';
+import { useState } from "react";
 
-const scopeOptions = [
-  { value: 'View', label: 'View' },
-  { value: 'Update', label: 'Update' },
-  { value: 'Add', label: 'Add' },
-  { value: 'Delete', label: 'Delete' },
-]
-
-const AddTeam = ({ isOpen, toggle, title }: { isOpen: boolean, toggle: () => void, title: string }) => {
-  const [bioLength, setBioLength] = useState(0);
-  const [image, setImage] = useState('');
+const ConfigureEmail = ({ isOpen, toggle, title }: { isOpen: boolean, toggle: () => void, title: string }) => {
+  const [modal, setModal] = useState(false);
   const { affectedKey, data, error, loading, message, handleFormChanges, handleFormSubmit } = useForm({
     schema: {
+      domain: new Validator().String,
       name: new Validator().String,
-      url: new Validator().isUrl('Must be a valid url').String,
-      scope: new Validator().Array<'Facebook' | 'Google' | 'Manual' | 'Mail' | 'SMS'>,
-      permissions: new Validator().Array<'Add' | 'Delete' | 'Update' | 'View'>,
+      email: new Validator().isEmail('Must be a valid url').String,
     },
     extendSubmit: async (values, { resetForm, setError, setLoading }) => {
+      toggleModal();
     }
   })
 
-  const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
-    const file = (e.target as any).files[0];
-    setImage(await fileToBase64(file))
-  }
+  const toggleModal = () => setModal(!modal);
 
   return <Modal isOpen={isOpen} toggle={toggle} center>
     <div className="mx-auto transition w-full items-center justify-center flex" >
@@ -46,53 +34,35 @@ const AddTeam = ({ isOpen, toggle, title }: { isOpen: boolean, toggle: () => voi
           <form onChange={handleFormChanges} onSubmit={handleFormSubmit}>
             <div className='mb-4 flex justify-between'>
               <div className="w-[49%]">
-                <label>FIrst Name</label>
+                <label>Domain</label>
                 <div className='mt-1'>
-                  <input autoFocus autoComplete="name"
+                  <input autoFocus autoComplete="domain"
                     required
-                    name='name'
+                    name='domain'
                     className='w-full pr-10 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
-                    placeholder='e.g John' />
+                    placeholder='e.g swayauth.com' />
                 </div>
               </div>
               <div className="w-[49%]">
-                <label>Last Name</label>
+                <label>Company Name</label>
                 <div className='mt-1'>
                   <input autoFocus autoComplete="name"
                     required
                     name='name'
                     className='w-full pr-10 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
-                    placeholder='e.g Doe' />
+                    placeholder='e.g SwayAuth' />
                 </div>
               </div>
             </div>
-            <div className='mb-4'>
-              <label >Role</label>
-              <div className='mt-1'>
-                <select
-                  required
-                  name='role'
-                  className='w-full pr-10 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
-                >
-                  <option value="admin">Admin</option>
-                  <option value="super_admin">Super Admin</option>
-                </select>
-              </div>
-            </div>
             <div className='mb-5'>
-              <label>Permissions</label>
+              <label >Email Address</label>
               <div className='mt-1'>
-                <Select
-                  closeMenuOnSelect={false}
-                  defaultValue={[scopeOptions[0], scopeOptions[1]]}
-                  isMulti
-                  name='permissions'
+                <input
+                  autoComplete="email"
                   required
-                  styles={{ control: (styles) => ({ ...styles, borderColor: '#E5E7EB', borderRadius: 6, paddingTop: 3, paddingBottom: 3 }) }}
-                  options={scopeOptions}
-                  className="basic-multi-select"
-                  classNamePrefix="select"
-                />
+                  name='email'
+                  className='w-full pr-10 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
+                  placeholder='e.g no-reply@swayauth.com' />
               </div>
             </div>
             <div className='mb-4'>
@@ -112,7 +82,30 @@ const AddTeam = ({ isOpen, toggle, title }: { isOpen: boolean, toggle: () => voi
         </div>
       </div>
     </div>
+    <Modal isOpen={modal} toggle={toggleModal} center>
+      <div className="mx-auto transition w-full items-center justify-center flex" >
+        <div className="bg-white rounded-md w-full">
+          <div className="flex items-center p-4 w-full border-b">
+            <button onClick={toggleModal} className="mr-3 p-1 font-bold text-xl rounded-full hover:bg-slate-100 px-3">
+              <FontAwesomeIcon icon={faXmark} />
+            </button>
+            <h1 className='text-2xl font-bold'>TXT Record</h1>
+          </div>
+          <div className="p-7">
+            To verify domain ownership, and start sending email to your customers, you will need to add the value below as TXT Record in your DNS settings.
+            <div className="mt-4 flex justify-between border py-2 px-3 rounded-md border-gray-300">
+              <span>
+                {cropString('9ede9e98ge98g9-dg9e8g89e89ghed9g8e-ege7g9gge9ge', 30)}
+              </span>
+              <button title="copy" className="hover:bg-slate-200 px-1 rounded-full">
+                <FontAwesomeIcon icon={faCopy} />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Modal>
   </Modal>;
 };
 
-export default AddTeam;
+export default ConfigureEmail;

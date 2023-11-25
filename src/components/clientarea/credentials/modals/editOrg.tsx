@@ -32,7 +32,7 @@ const EditOrg = ({ isOpen, toggle, title }: { isOpen: boolean, toggle: () => voi
       scope: new Validator().Array<'Facebook' | 'Google' | 'Manual' | 'Mail' | 'SMS'>,
       permissions: new Validator().Array<'Add' | 'Delete' | 'Update' | 'View'>,
     },
-    extFormSubmit: async (values, { resetForm, setError, setLoading }) => {
+    extendSubmit: async (values, { resetForm, setError, setLoading }) => {
     }
   })
 

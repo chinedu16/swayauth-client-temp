@@ -40,7 +40,7 @@ const Company = () => {
       <div className="p-5 text-lg font-semibold text-left w-full">
         <div className="w-full flex justify-between flex-wrap items-center">
           <h4 className="text-xl">
-            APN Keys
+            Organization Tokens
           </h4>
           <div className="flex items-center">
             <button onClick={toggleCred} className="text-white hover:bg-blue-800 bg-blue-700 py-1 px-5 rounded-md mr-3"><span className="hidden sm:inline-block">Create</span><FontAwesomeIcon icon={faPlus} className="sm:ml-3" /></button>

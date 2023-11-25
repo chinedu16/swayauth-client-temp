@@ -17,16 +17,16 @@ const Credentials = () => {
     <div className="relative shadow-md sm:rounded-lg bg-white mt-8">
       <div className="p-5 text-lg font-semibold text-left mb-2 border-b-4 w-full">
         <h4 className="text-xl">
-          Administration Key
+          Application API Key
         </h4>
-        <p className="mt-1 text-base font-normal">Your administrative key is used for administrative purposes only. ie. Creating a new admin account, new organization and APN tokens, reviewing all organization data.</p>
+        <p className="mt-1 text-base font-normal">Your applicaton api key is used for administrative purposes only. ie. Creating a new admin account, new organization and APN tokens, reviewing all organization data.</p>
       </div>
       <div className="overflow-x-auto show-scrollbar">
         <table className="w-full text-left">
           <thead className="">
             <tr>
               <th scope="col" className="px-6 pt-3 w-full">
-                API Key
+                Key
               </th>
               <th scope="col" className="px-6 pt-3">
                 Actions
@@ -104,7 +104,7 @@ const Credentials = () => {
                 Org. ID
               </th>
               <th scope="col" className="px-4 py-3">
-                APNs
+                Tokens
               </th>
               <th scope="col" className="px-4 py-3">
                 Created At
@@ -133,7 +133,8 @@ const Credentials = () => {
               </td>
               <td scope="row" className="px-4 pt-2 whitespace-nowrap">
                 <div className="whitespace-nowrap">
-                  343e229h030jhp-mg36lsq9p<button className="inline-block ml-2" title='copy'><FontAwesomeIcon icon={faCopy} /></button>
+                  343e229h030jhp-mg36lsq9p
+                  <button className="inline-block ml-2" title='copy'><FontAwesomeIcon icon={faCopy} /></button>
                 </div>
               </td>
               <td scope="row" className="px-4 pt-2 whitespace-nowrap">

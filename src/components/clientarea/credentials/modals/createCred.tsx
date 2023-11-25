@@ -1,38 +1,47 @@
 import { faInfoCircle, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Select from 'react-select';
+import Select, { MultiValue } from 'react-select';
 import Modal from "@/components/modal";
 import { Validator, useForm } from "@/lib/form";
 import { SpinnerCircle2 } from "@/components/spinner";
+import { useState } from "react";
 
 const typeOptions = [
-  { value: 'Facebook', label: 'Facebook' },
-  { value: 'Google', label: 'Google' },
-  { value: 'Manual', label: 'Manual' },
-  { value: 'Mail', label: 'Mail' },
-  { value: 'SMS', label: 'SMS' },
+  { value: 'facebook', label: 'Facebook' },
+  { value: 'google', label: 'Google' },
+  { value: 'manual', label: 'Manual' },
+  { value: 'email', label: 'Email' },
+  { value: 'sms', label: 'SMS' },
 ]
 
 const scopeOptions = [
-  { value: 'View', label: 'View' },
-  { value: 'Add', label: 'Add' },
-  { value: 'Update', label: 'Update' },
-  { value: 'Delete', label: 'Delete' },
+  { value: 'read', label: 'Read' },
+  { value: 'create', label: 'Create' },
+  { value: 'update', label: 'Update' },
+  { value: 'delete', label: 'Delete' },
 ]
 
 const CreateCredModal = ({ isOpen, toggle }: { isOpen: boolean, toggle: () => void }) => {
+
+  const [manual, setManual] = useState(false);
 
   const { affectedKey, data, error, loading, message, handleFormChanges, handleFormSubmit } = useForm({
     schema: {
       name: new Validator().String,
       url: new Validator().isUrl('Must be a valid url').String,
-      scope: new Validator().Array<'Facebook' | 'Google' | 'Manual' | 'Mail' | 'SMS'>,
+      scope: new Validator().Array<'Facebook' | 'Google' | 'Manual' | 'Email' | 'SMS'>,
       permissions: new Validator().Array<'Add' | 'Delete' | 'Update' | 'View'>,
     },
-    extFormSubmit: async (values, { resetForm, setError, setLoading }) => {
+    extendSubmit: async (values, { resetForm, setError, setLoading }) => {
     }
   })
 
+  const handleScopeChanges = (e: MultiValue<{
+    value: string;
+    label: string;
+  }>) => {
+    setManual(e.findIndex(s => s.label === 'Manual') > -1 ? true : false)
+  }
 
   return <Modal isOpen={isOpen} toggle={toggle} center>
     <div className="mx-auto transition w-full items-center justify-center flex" >
@@ -76,15 +85,55 @@ const CreateCredModal = ({ isOpen, toggle }: { isOpen: boolean, toggle: () => vo
                   closeMenuOnSelect={false}
                   defaultValue={[typeOptions[0], typeOptions[1]]}
                   isMulti
+                  onChange={handleScopeChanges}
                   required
                   name="scope"
-                  styles={{ control: (styles, state) => ({ ...styles, borderColor: '#E5E7EB', borderRadius: 6, paddingTop: 3, paddingBottom: 3 }) }}
+                  styles={{ control: (styles) => ({ ...styles, borderColor: '#E5E7EB', borderRadius: 6, paddingTop: 3, paddingBottom: 3 }) }}
                   options={typeOptions}
-                  className="basic-multi-select"
                   classNamePrefix="select"
                 />
               </div>
             </div>
+            {
+              manual ?
+                <div >
+                  <div className="mb-4 flex items-center flex-wrap justify-between">
+                    <div className="w-6/12 mt-1">
+                      <label className="relative flex justify-between items-center cursor-pointer">
+                        <span className="me-3 text-gray-600">Two-Factor Authentication</span>
+                        <div className="relative inline-flex items-center cursor-pointer">
+                          <input type="checkbox" className="sr-only peer" />
+                          <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:w-5 after:h-5 after:transition-all peer-checked:bg-blue-600"></div>
+                        </div>
+                      </label>
+                    </div>
+                    <div className="w-4/12 mt-1">
+                      <select name="2factor" required className='w-full focus:outline-1 focus:outline-blue-700 focus:ring-2 border py-2 px-3 rounded-md' placeholder='e.g John' >
+                        <option value="app">Authenticator App</option>
+                        <option value="sms">SMS Token</option>
+                        <option value="email">Email Token</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div className="mb-4 flex items-center flex-wrap justify-between">
+                    <div className="w-6/12 mt-1">
+                      <label className="relative flex justify-between items-center cursor-pointer">
+                        <span className="me-3 text-gray-600">Verify Registeration</span>
+                        <div className="relative inline-flex items-center cursor-pointer">
+                          <input type="checkbox" className="sr-only peer" />
+                          <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:w-5 after:h-5 after:transition-all peer-checked:bg-blue-600"></div>
+                        </div>
+                      </label>
+                    </div>
+                    <div className="w-4/12 mt-1">
+                      <select name="2factor" required className='w-full focus:outline-1 focus:outline-blue-700 focus:ring-2 border py-2 px-3 rounded-md' placeholder='e.g John' >
+                        <option value="email">Email Link</option>
+                        <option value="sms">SMS Token</option>
+                      </select>
+                    </div>
+                  </div>
+                </div> : null
+            }
             <div className='mb-5'>
               <label>Permissions</label>
               <div className='mt-1'>
@@ -96,7 +145,6 @@ const CreateCredModal = ({ isOpen, toggle }: { isOpen: boolean, toggle: () => vo
                   required
                   styles={{ control: (styles) => ({ ...styles, borderColor: '#E5E7EB', borderRadius: 6, paddingTop: 3, paddingBottom: 3 }) }}
                   options={scopeOptions}
-                  className="basic-multi-select"
                   classNamePrefix="select"
                 />
               </div>
