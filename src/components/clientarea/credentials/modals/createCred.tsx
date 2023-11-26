@@ -28,7 +28,7 @@ const CreateCredModal = ({ isOpen, toggle }: { isOpen: boolean, toggle: () => vo
   const { affectedKey, data, error, loading, message, handleFormChanges, handleFormSubmit } = useForm({
     schema: {
       name: new Validator().String,
-      url: new Validator().isUrl('Must be a valid url').String,
+      redirect_url: new Validator().isUrl('Must be a valid url').String,
       scope: new Validator().Array<'Facebook' | 'Google' | 'Manual' | 'Email' | 'SMS'>,
       permissions: new Validator().Array<'Add' | 'Delete' | 'Update' | 'View'>,
     },
@@ -50,7 +50,7 @@ const CreateCredModal = ({ isOpen, toggle }: { isOpen: boolean, toggle: () => vo
           <button onClick={toggle} className="mr-3 p-1 font-bold text-xl rounded-full hover:bg-slate-100 px-3">
             <FontAwesomeIcon icon={faXmark} />
           </button>
-          <h1 className='text-2xl font-bold'>Create APN</h1>
+          <h1 className='text-2xl font-bold'>Create Token</h1>
         </div>
         <div className="p-7">
           <form onChange={handleFormChanges} onSubmit={handleFormSubmit}>
@@ -73,7 +73,7 @@ const CreateCredModal = ({ isOpen, toggle }: { isOpen: boolean, toggle: () => vo
               <div className='mt-1'>
                 <input type="url" autoComplete="url"
                   required
-                  name='url'
+                  name='redirect_url'
                   className='w-full pr-10 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
                   placeholder='e.g https://swayauth.com/verify-login' />
               </div>
@@ -127,7 +127,7 @@ const CreateCredModal = ({ isOpen, toggle }: { isOpen: boolean, toggle: () => vo
                     </div>
                     <div className="w-4/12 mt-1">
                       <select name="2factor" required className='w-full focus:outline-1 focus:outline-blue-700 focus:ring-2 border py-2 px-3 rounded-md' placeholder='e.g John' >
-                        <option value="email">Email Link</option>
+                        <option value="email">Email {data.redirect_url ? 'Link' : 'Token'}</option>
                         <option value="sms">SMS Token</option>
                       </select>
                     </div>
