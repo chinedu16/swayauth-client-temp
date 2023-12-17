@@ -1,5 +1,5 @@
 export const CONST = Object.freeze({
-  BASE_URL: process.env.NODE_ENV === 'production' ? 'https://api.swayauth.com/vi' : 'http://localhost:8000/v1',
+  BASE_URL: process.env.NODE_ENV === 'production' ? 'https://api.swayauth.com/v1' : 'http://localhost:8000/v1',
   LOCATION: {
     CLIENT_AREA: '/clientarea',
     LOGIN: '/login',
