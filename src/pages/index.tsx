@@ -8,6 +8,7 @@ import Pricing from "@/components/home/pricing";
 import Trust from "@/components/home/trust";
 
 export default function Home() {
+
   return (
     <main>
       <Nav />

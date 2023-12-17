@@ -1,13 +1,82 @@
+import Input from '@/components/input';
+import App2factor from '@/components/login/app2factor';
 import { SpinnerCircle2 } from '@/components/spinner';
+import { CONST } from '@/lib/constant';
+import { FormData } from '@/lib/form';
+import { normalRequest } from '@/lib/request';
 import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useRouter } from 'next/router';
+import { FormEvent, useState } from 'react';
+
+interface LoginProp {
+  two_factor_enabled: boolean,
+  reference?: string,
+  two_factor_type?: string,
+}
+
+interface TwoFactor {
+  open: boolean,
+  reference?: string,
+  token?: string,
+}
 
 const Login = () => {
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState('');
+  const [twoFactor, setTwoFactor] = useState<TwoFactor>({ open: false, reference: '', token: '' });
   const [visiblePassoword, setVisiblePassoword] = useState(false);
+  const router = useRouter();
+  const toggle2Auth = () => {
+    if (loading) return
+    setMessage('')
+    setTwoFactor(p => ({ ...p, open: !p.open }))
+  }
+  const handleChange = () => {
+    setMessage('')
+  }
+
+  const handle2AuthChange = (e: string) => {
+    setMessage('')
+    setTwoFactor(p => ({ ...p, token: e }))
+    if (e.length === 6) {
+      handle2faVerify(e)
+    }
+  }
+
+  const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    const data = FormData(e, ['email', 'password'])
+    setMessage('')
+    setLoading(true)
+    const res = await normalRequest<LoginProp>(CONST.AUTH.MANUAL_LOGIN, data, 'post', false)
+    if (res.status) {
+      if (res.data?.two_factor_enabled) {
+        setTwoFactor(p => ({ ...p, open: true, reference: res.data.reference }))
+      } else {
+        router.replace(CONST.LOCATION.CLIENT_AREA)
+      }
+    } else {
+      setMessage(res.message)
+    }
+    setLoading(false)
+  }
+
+  const handle2faVerify = async (e?: any) => {
+    const value = typeof e === 'string' ? e : twoFactor.token
+    if (value?.length === 6 && twoFactor.reference) {
+      const data = { token: value, reference: twoFactor.reference }
+      setLoading(true);
+      const res = await normalRequest<LoginProp>(CONST.AUTH.TWO_FACTOR_VERIFY, data, 'post', false)
+      if (res.status) {
+        router.replace(CONST.LOCATION.CLIENT_AREA)
+      } else {
+        setMessage(res.message)
+      }
+      setLoading(false);
+    }
+  }
 
   return (
     <main className="flex justify-center items-center p-2 md:p-12" style={{ height: '100svh' }}>
@@ -18,30 +87,47 @@ const Login = () => {
             <span className="inline-block ml-2 text-xl">swayauth</span>
           </div>
         </Link>
-        <form className='p-6 md:p-10 shadow-lg border rounded-md'>
+        <form onChange={handleChange} onSubmit={handleFormSubmit} className='p-6 md:p-10 shadow-lg border rounded-md'>
           <h1 className='text-2xl mb-3 font-bold'>Sign in to your account</h1>
           <div className='mb-4'>
             <label>Email</label>
             <div className='mt-1'>
-              <input autoFocus type="email" autoComplete="email"
-                className='w-full pr-10 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
-                placeholder='e.g johndoe@mail.com' />
+              <Input
+                disabled={loading}
+                autoFocus
+                type="email"
+                required
+                invalid={message}
+                name='email'
+                placeholder='e.g johndoe@mail.com'
+                autoComplete="email"
+              />
             </div>
           </div>
-          <div className='mb-4'>
+          <div className='mb-2'>
             <div className='flex justify-between items-center'>
               <label>Password</label>
               <button type='button' className='text-blue-700'>Forgot your password</button>
             </div>
             <div className='mt-1 flex items-center relative'>
-              <input
+              <Input
+                disabled={loading}
                 required
-                pattern='(?=.*\d)(?=.*[a-z])(?=.*[A-Z])((?=.*\W)|(?=.*_))^[^ ]+$'
-                title='Password must contain at least one symbol, digit, lowercase, and uppercase character.' autoComplete="new-password" type={visiblePassoword ? 'text' : 'password'}
-                className='w-full pr-10 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md' placeholder='*********' />
+                invalid={message}
+                type={visiblePassoword ? 'text' : 'password'}
+                name='password'
+                pattern='^(.*).{6,}$'
+                title='Password must be at least 6 character.'
+                placeholder='*********'
+              />
               <button onClick={() => setVisiblePassoword(!visiblePassoword)} type='button' className={`inline-block absolute right-3 ${visiblePassoword ? '' : 'opacity-40'}`}>
                 <FontAwesomeIcon icon={visiblePassoword ? faEye : faEyeSlash} />
               </button>
+            </div>
+            <div className='text-red-500 min-h-[0.7rem]'>
+              {
+                message && !twoFactor.open && <small>* {message}</small>
+              }
             </div>
           </div>
           <label className='flex items-center mb-6'>
@@ -49,9 +135,12 @@ const Login = () => {
             <span className='inline-block ml-2 text-slate-600'>Stay signed in</span>
           </label>
           <div className='mb-4'>
-            <button type='button' className='my-2 active:bg-blue-700 flex items-center justify-center w-full bg-blue-600 py-3 rounded-lg text-white'>
+            <button
+              disabled={loading}
+              type='submit'
+              className='my-2 active:[&:not(:disabled)]:bg-blue-700 flex items-center justify-center w-full bg-blue-600 py-3 rounded-lg text-white'>
               {
-                loading ?
+                loading && !twoFactor.open ?
                   <span className='inline-block'>
                     <SpinnerCircle2 color='white' />
                   </span> :
@@ -81,6 +170,14 @@ const Login = () => {
           </div>
         </form>
       </div>
+      <App2factor
+        message={message}
+        handle2faVerify={handle2faVerify}
+        loading={loading}
+        length={6}
+        onChange={handle2AuthChange}
+        isOpen={twoFactor.open}
+        toggle={toggle2Auth} />
     </main>
   );
 };

@@ -4,8 +4,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import Link from "next/link";
 import DropDown from "./dropDown";
+import { logOut, useAppDispatch } from "@/store";
 
 const NavTop = () => {
+  const dispatch = useAppDispatch();
+
+  const logMeOut = () => {
+    dispatch(logOut())
+  }
+
   return <nav className="sticky max-h-[4rem] z-40 bg-white top-0 shadow-sm w-full p-2 border-b flex items-center">
     <div className="md:min-w-[220px] select-none md:px-4 flex items-center">
       <label htmlFor="hambugger2" className="md:hidden inline-block px-2 mr-2 text-2xl py-1 cursor-pointer">
@@ -39,7 +46,7 @@ const NavTop = () => {
               <FontAwesomeIcon icon={faWallet} className="w-[1rem]" />
               <span className="ml-3">Wallet</span>
             </Link>
-            <li className="block px-4 py-2 hover:bg-gray-100 cursor-pointer dark:hover:bg-gray-600 dark:hover:text-white">
+            <li onClick={logMeOut} className="block px-4 py-2 hover:bg-gray-100 cursor-pointer dark:hover:bg-gray-600 dark:hover:text-white">
               <FontAwesomeIcon icon={faRightFromBracket} className="w-[1rem]" />
               <span className="ml-3">Sign out</span>
             </li>

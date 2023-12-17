@@ -3,8 +3,17 @@ import Nav from "@/components/home/nav";
 import Pricing from "@/components/home/pricing";
 import Faq from "@/components/pricing/faq";
 import Learn from "@/components/pricing/learn";
+import { useAppSelector } from "@/store";
+import { useEffect } from "react";
 
 const PricingPage = () => {
+
+  const auth = useAppSelector(state => state.auth);
+
+  useEffect(() => {
+    console.log(auth);
+  }, []);
+
   return <main>
     <Nav />
     <div className="linear-blue-1">
@@ -34,5 +43,11 @@ const PricingPage = () => {
     </div>
   </main>;
 };
+
+export const getServerSideProps = async () => {
+  return {
+    props: {},
+  };
+}
 
 export default PricingPage;

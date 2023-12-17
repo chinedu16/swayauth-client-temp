@@ -108,7 +108,7 @@ const CreateCredModal = ({ isOpen, toggle }: { isOpen: boolean, toggle: () => vo
                       </label>
                     </div>
                     <div className="w-4/12 mt-1">
-                      <select name="2factor" required className='w-full focus:outline-1 focus:outline-blue-700 focus:ring-2 border py-2 px-3 rounded-md' placeholder='e.g John' >
+                      <select name="2factor" required className='w-full focus:outline-1 focus:outline-blue-700 focus:ring-2 border py-2 px-3 rounded-md'>
                         <option value="app">Authenticator App</option>
                         <option value="sms">SMS Token</option>
                         <option value="email">Email Token</option>
@@ -126,7 +126,7 @@ const CreateCredModal = ({ isOpen, toggle }: { isOpen: boolean, toggle: () => vo
                       </label>
                     </div>
                     <div className="w-4/12 mt-1">
-                      <select name="2factor" required className='w-full focus:outline-1 focus:outline-blue-700 focus:ring-2 border py-2 px-3 rounded-md' placeholder='e.g John' >
+                      <select name="2factor" required className='w-full focus:outline-1 focus:outline-blue-700 focus:ring-2 border py-2 px-3 rounded-md'>
                         <option value="email">Email {data.redirect_url ? 'Link' : 'Token'}</option>
                         <option value="sms">SMS Token</option>
                       </select>

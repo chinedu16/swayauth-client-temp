@@ -17,8 +17,8 @@ export class Validator {
   }
 
   isPassword(message?: string, regexp?: RegExp) {
-    this.OtherPattern.push(regexp ? regexp : /^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\d)(?=.*?[\W_]).{8,}$/)
-    this.OtherMessages.push(message ? message : '')
+    this.OtherPattern.push(regexp ? regexp : /^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\d)(?=.*?[\W_]).{6,}$/)
+    this.OtherMessages.push(message ? message : 'Password must be at least 6 letters, containing one symbol, digit, lowercase, and uppercase character.')
     return this
   }
 
@@ -30,7 +30,7 @@ export class Validator {
 
   isEmail(message?: string, regexp?: RegExp) {
     this.OtherPattern.push(regexp ? regexp : /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)
-    this.OtherMessages.push(message ? message : '')
+    this.OtherMessages.push(message ? message : 'Invalid email address format');
     return this
   }
 
@@ -130,6 +130,35 @@ export class Validator {
   }
 }
 
+
+export const FormClear = (event: any, fieldsArray: string[]) => {
+  event?.preventDefault();
+  for (let i = 0; i < fieldsArray.length; i++) {
+    try {
+      event.target[fieldsArray[i]].value = '';
+    } catch (error) { }
+  }
+}
+
+export const FormData = <T extends string>(
+  e: any,
+  o: Array<T>,
+): { [K in T]: string | number | boolean } => {
+  e?.preventDefault();
+  return o.reduce((res, k) => {
+    res[k] =
+      e?.target[k]?.attributes?.type?.value === 'checkbox'
+        ? e?.target[k]?.checked
+        : NodeList.prototype.isPrototypeOf(e?.target[k]) ?
+          [...e?.target[k]].map((node: any) => node?.value)
+          : isNaN(e?.target[k]?.value)
+            ? e?.target[k]?.value
+            : Number(e?.target[k]?.value);
+    return res;
+  }, Object.create(null));
+};
+
+
 export function FormHandler<T extends { [key: string]: (v?: any) => string | boolean | any[] | ObjectType }>(e: any, schema: T): {
   data: { [K in keyof T]: ReturnType<T[K]> }
   error: boolean
@@ -151,6 +180,7 @@ export function FormHandler<T extends { [key: string]: (v?: any) => string | boo
 
     const vRes = schema[k](val) as unknown as { valid: boolean, value: any, pattern: RegExp | undefined, message: string }
     if (!vRes.valid) {
+      console.log('i got here', vRes)
       error = true
       affectedKey = k
       message = vRes.message

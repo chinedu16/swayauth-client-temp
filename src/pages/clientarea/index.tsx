@@ -2,7 +2,7 @@ import Chart from "@/components/chart";
 import Layout from "@/components/layout";
 import PieChart from "@/components/pieChart";
 import { faFacebook, faGoogle } from "@fortawesome/free-brands-svg-icons";
-import { faChartPie, faCheck, faCommentSms, faEnvelope, faRetweet, faUsers, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faChartColumn, faChartPie, faCheck, faCommentSms, faEnvelope, faRetweet, faUsers, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ReactElement } from "react";
 
@@ -128,8 +128,8 @@ const Home = () => {
         <div className="bg-white border h-full rounded-md shadow-md p-6">
           <div className="flex mb-6 justify-between flex-wrap">
             <h3 className="text-lg">
-              <FontAwesomeIcon icon={faChartPie} className="mr-2" />
-              Statistics</h3>
+              <FontAwesomeIcon icon={faChartColumn} className="mr-2" />
+              Registered Users</h3>
             <select name="" id="" className="outline-none bg-white text-sm">
               <option value="">7 days</option>
               <option value="">1 month</option>
@@ -137,7 +137,7 @@ const Home = () => {
               <option value="">1 year</option>
             </select>
           </div>
-          <Chart data={thirthyDays} format={'7'} height="h-[18rem]" />
+          <Chart data={thirthyDays4} format={'180'} height="h-[18rem]" />
         </div>
       </div>
       <div className="w-full xl:w-6/12  mt-6 xl:mt-0 xl:pl-3">
@@ -145,7 +145,7 @@ const Home = () => {
           <div className="flex mb-6 justify-between flex-wrap">
             <h3 className="text-lg">
               <FontAwesomeIcon icon={faChartPie} className="mr-2" />
-              Statistics</h3>
+              Login</h3>
             <select name="" id="" className="outline-none bg-white text-sm">
               <option value="" >7 days</option>
               <option value="">1 month</option>
