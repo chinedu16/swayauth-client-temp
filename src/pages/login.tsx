@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 
 interface LoginProp {
   two_factor_enabled: boolean,
@@ -29,6 +29,11 @@ const Login = () => {
   const [twoFactor, setTwoFactor] = useState<TwoFactor>({ open: false, reference: '', token: '' });
   const [visiblePassoword, setVisiblePassoword] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    console.log(process.env.NODE_ENV)
+  }, []);
+
   const toggle2Auth = () => {
     if (loading) return
     setMessage('')
