@@ -30,10 +30,6 @@ const Login = () => {
   const [visiblePassoword, setVisiblePassoword] = useState(false);
   const router = useRouter();
 
-  useEffect(() => {
-    console.log(process.env.NODE_ENV)
-  }, []);
-
   const toggle2Auth = () => {
     if (loading) return
     setMessage('')
