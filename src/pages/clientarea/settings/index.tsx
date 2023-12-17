@@ -101,8 +101,7 @@ const Settings = () => {
             <div className='mt-1'>
               <select
                 name='last_name'
-                className='w-full pr-10 bg-slate-50 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
-                placeholder='e.g Doe' >
+                className='w-full pr-10 bg-slate-50 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md' >
                 <option value="">--Select state--</option>
                 <option value="Lagos">Lagos</option>
               </select>
@@ -113,8 +112,7 @@ const Settings = () => {
             <div className='mt-1'>
               <select
                 name='first_name'
-                className='w-full pr-10 bg-slate-50 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
-                placeholder='e.g John' >
+                className='w-full pr-10 bg-slate-50 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'>
                 <option value="">--Select country--</option>
                 <option value="Nigeria">Nigeria</option>
               </select>
