@@ -16,7 +16,7 @@ const CodeInput = ({ length = 6, onChange, loading }: { length?: number, loading
   // }
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    const buttons = ['Backspace', 'Delete'] as const
+    const buttons = ['Backspace', 'Delete', 'ArrowLeft'] as const
     const key = e.key as typeof buttons[number]
     const value = (e.target as any).value
     const name = Number((e.target as any).name)

@@ -3,6 +3,7 @@ export const CONST = Object.freeze({
   LOCATION: {
     CLIENT_AREA: '/clientarea',
     LOGIN: '/login',
+    VERIFY: '/verify',
     FORGOT_PASSWORD: '/forgot-password',
     REGISTER: '/register'
   },
@@ -10,7 +11,10 @@ export const CONST = Object.freeze({
   REFRESH_TOKEN: '__s_c_UUtk_tr',
   AUTH: {
     MANUAL_LOGIN: '/auth/login/client',
-    TWO_FACTOR_VERIFY: '/auth/2fa/verify'
+    MANUAL_REGISTER: '/auth/register/client',
+    MANUAL_REGISTER_VERIFY: '/auth/register/verify',
+    TWO_FACTOR_VERIFY: '/auth/2fa/verify',
+    TWO_FACTOR_ENABLE: '/auth/2fa/enable',
   },
   ACCOUNT: {
     GET_PROFILE: '/account',

@@ -44,11 +44,11 @@ export default function App({ Component, ...rest }: AppPropsWithLayout) {
       {
         getLayout(<>
           <Toaster
-            position="top-right"
+            position="bottom-center"
             toastOptions={{
               duration: 3500,
-              success: { style: { border: '1.5px solid #28A845' } },
-              error: { style: { border: '1.5px solid red' } },
+              success: { style: { border: '1.5px solid #2464EB', fontWeight: 600 } },
+              error: { style: { border: '1.5px solid red', fontWeight: 600 } },
             }}
           />
           <Component {...props} />

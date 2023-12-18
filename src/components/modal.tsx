@@ -18,7 +18,7 @@ const Modal = (
       noShadowToggle?: boolean
       className?: string
       center?: boolean
-      size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl'
+      size?: 'md' | 'xl' | '2xl'
       bgColor?: string
       children?: ReactNode
     }) => {

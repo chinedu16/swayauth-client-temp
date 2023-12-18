@@ -12,14 +12,17 @@ export const normalRequest = async <T = any>(
   try {
     const token = getAccessToken();
     if (auth && !token) throw new Error("INVALID_TOKEN");
+    let headers: any = {
+      "Content-Type": "application/json",
+    }
+    if (auth) {
+      headers.Authorization = "Bearer " + token
+    }
     const res = await axios({
       method,
       url: CONST.BASE_URL + url,
       data: data,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      },
+      headers,
     })
     if (res.data?.data?.access_token) saveAccessToken(res.data?.data?.access_token)
     return res.data as ResponseProp<T>
@@ -41,15 +44,18 @@ export const reduxRequest = <T>(
   try {
     const token = getAccessToken();
     if (auth && !token) throw new Error("INVALID_TOKEN");
+    let headers: any = {
+      "Content-Type": "application/json",
+    }
+    if (auth) {
+      headers.Authorization = "Bearer " + token
+    }
     dispatch(reduxFunc({ loading: "true" }));
     const res = await axios({
       method,
       url: CONST.BASE_URL + url,
       data: data,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      },
+      headers
     })
     dispatch(reduxFunc({ loading: "done", ...res.data }));
   } catch (error: any) {

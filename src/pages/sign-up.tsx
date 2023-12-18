@@ -1,4 +1,9 @@
+import Input from '@/components/input';
+import Success from '@/components/onboarding/success';
 import { SpinnerCircle2 } from '@/components/spinner';
+import { CONST } from '@/lib/constant';
+import { FormData } from '@/lib/form';
+import { normalRequest } from '@/lib/request';
 import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
@@ -7,12 +12,26 @@ import { FormEvent, useState } from 'react';
 
 const SignUp = () => {
   const [loading, setLoading] = useState(false)
+  const [successMessage, setSuccessMessage] = useState(false);
+  const [message, setMessage] = useState('');
   const [visiblePassoword, setVisiblePassoword] = useState(false);
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
 
+  const handleChange = () => {
+    setMessage('')
   }
-  
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    const data = FormData(e, ['first_name', 'last_name', 'email', 'password'])
+    setMessage('')
+    setLoading(true)
+    const res = await normalRequest(CONST.AUTH.MANUAL_REGISTER, data, 'post', false)
+    if (res.status) {
+      setSuccessMessage(true)
+    } else {
+      setMessage(res.message)
+    }
+    setLoading(false)
+  }
+
   return (
     <main className="flex justify-center items-center p-2 py-24 md:p-12" style={{ height: '100svh' }}>
       <div className="max-w-xl w-full">
@@ -22,7 +41,7 @@ const SignUp = () => {
             <span className="inline-block ml-2 text-xl">swayauth</span>
           </div>
         </Link>
-        <form onSubmit={handleSubmit} className='p-6 md:p-10 shadow-lg border rounded-md'>
+        <form onChange={handleChange} onSubmit={handleSubmit} className='p-6 md:p-10 shadow-lg border rounded-md'>
           <h1 className='text-2xl mb-6 font-bold'>Create an account</h1>
           <div className='mb-6 flex items-center justify-between'>
             <button type='button' className='inline-flex w-[48%] shadow-sm hover:bg-slate-50 active:bg-slate-100 rounded-md py-2 px-3 border items-center active:scale-105'>
@@ -47,39 +66,77 @@ const SignUp = () => {
             <div className='mb-4  w-[48%]'>
               <label>First Name</label>
               <div className='mt-1'>
-                <input required autoFocus autoComplete='given-name' type="text" className='w-full focus:outline-1 focus:outline-blue-700 focus:ring-2 border py-2 px-3 rounded-md' placeholder='e.g John' />
+                <Input
+                  disabled={loading}
+                  invalid={message}
+                  required
+                  autoFocus
+                  name='first_name'
+                  autoComplete='given-name'
+                  type="text"
+                  placeholder='e.g John'
+                />
               </div>
             </div>
             <div className='mb-4 w-[48%]'>
               <label>Last Name</label>
               <div className='mt-1'>
-                <input required type="text" autoComplete='family-name' className='w-full focus:outline-1 focus:outline-blue-700 focus:ring-2 border py-2 px-3 rounded-md' placeholder='e.g Doe' />
+                <Input
+                  disabled={loading}
+                  invalid={message}
+                  required
+                  name='last_name'
+                  type="text"
+                  autoComplete='family-name'
+                  placeholder='e.g Doe'
+                />
               </div>
             </div>
           </div>
           <div className='mb-4'>
             <label>Email</label>
             <div className='mt-1'>
-              <input required type="email" autoComplete="email"
-                className='w-full pr-10 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
-                placeholder='e.g johndoe@mail.com' />
+              <Input
+                disabled={loading}
+                autoFocus
+                type="email"
+                required
+                invalid={message}
+                name='email'
+                placeholder='e.g johndoe@mail.com'
+                autoComplete="email"
+              />
             </div>
           </div>
-          <div className='mb-8'>
+          <div className='mb-1'>
             <label>Password</label>
             <div className='mt-1 flex items-center relative'>
-              <input
+              <Input
+                disabled={loading}
                 required
-                pattern='(?=.*\d)(?=.*[a-z])(?=.*[A-Z])((?=.*\W)|(?=.*_))^[^ ]+$'
-                title='Password must contain at least one symbol, digit, lowercase, and uppercase character.' autoComplete="new-password" type={visiblePassoword ? 'text' : 'password'}
-                className='w-full pr-10 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md' placeholder='*********' />
+                autoComplete="new-password"
+                invalid={message}
+                type={visiblePassoword ? 'text' : 'password'}
+                name='password'
+                pattern='^(.*).{6,}$'
+                title='Password must be at least 6 character.'
+                placeholder='*********'
+              />
               <button onClick={() => setVisiblePassoword(!visiblePassoword)} type='button' className={`inline-block absolute right-3 ${visiblePassoword ? '' : 'opacity-40'}`}>
                 <FontAwesomeIcon icon={visiblePassoword ? faEye : faEyeSlash} />
               </button>
             </div>
           </div>
+          <div className='text-red-500 min-h-[2rem]'>
+            {
+              message && <small>* {message}</small>
+            }
+          </div>
           <div className='mb-4'>
-            <button type='submit' className='my-2 active:bg-blue-700 flex items-center justify-center w-full bg-blue-600 py-3 rounded-lg text-white'>
+            <button
+              disabled={loading}
+              type='submit'
+              className='my-2 active:[&:not(:disabled)]:bg-blue-700 flex items-center justify-center w-full bg-blue-600 py-3 rounded-lg text-white'>
               {
                 loading ?
                   <span className='inline-block'>
@@ -96,6 +153,7 @@ const SignUp = () => {
           </div>
         </form>
       </div>
+      <Success isOpen={successMessage} />
     </main>
   );
 };

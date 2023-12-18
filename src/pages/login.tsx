@@ -1,5 +1,5 @@
 import Input from '@/components/input';
-import App2factor from '@/components/login/app2factor';
+import App2factor from '@/components/onboarding/app2factor';
 import { SpinnerCircle2 } from '@/components/spinner';
 import { CONST } from '@/lib/constant';
 import { FormData } from '@/lib/form';

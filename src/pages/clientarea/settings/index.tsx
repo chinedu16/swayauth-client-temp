@@ -1,30 +1,94 @@
 import AddTeam from "@/components/clientarea/settings/modals/addTeam";
+import App2factorEable from "@/components/clientarea/settings/modals/app2FactorEnable";
+import ConfigureEmail from "@/components/clientarea/settings/modals/configureEmail";
 import Layout from "@/components/layout";
 import PreloadImage from "@/components/preloadImage";
 import { SpinnerCircle2 } from "@/components/spinner";
-import NavLink from "@/lib/navLink";
+import { CONST } from "@/lib/constant";
 import { fileToBase64 } from "@/lib/media";
+import NavLink from "@/lib/navLink";
+import { normalRequest } from "@/lib/request";
+import { cropString } from "@/lib/utils";
 import { faBan, faBolt, faCamera, faCheckCircle, faCopy, faInfoCircle, faPen, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import router from "next/router";
 import { ChangeEvent, ReactElement, useState } from "react";
+import toast from "react-hot-toast";
 import PhoneInput from "react-phone-number-input/input";
-import { cropString } from "@/lib/utils";
-import ConfigureEmail from "@/components/clientarea/settings/modals/configureEmail";
+
+interface LoginProp {
+  two_factor_enabled: boolean,
+  reference?: string,
+  two_factor_type?: string,
+}
+
+interface TwoFactor {
+  open: boolean,
+  reference?: string,
+  qrcode?: string,
+  token?: string,
+}
 
 const Settings = () => {
   const [phone, setPhone] = useState('');
   const [modal, setModal] = useState(false);
+  const [twoFactor, setTwoFactor] = useState<TwoFactor>({ open: false, qrcode: '', reference: '', token: '' });
+  const [message, setMessage] = useState('');
   const [emailModal, setEmailModal] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [twoFaLoading, setTwoFaLoading] = useState(false);
   const [image, setImage] = useState('');
 
   const toggleModal = () => setModal(!modal)
   const toggleEmailModal = () => setEmailModal(!emailModal)
 
+  const toggle2Auth = () => {
+    if (twoFaLoading) return
+    setMessage('')
+    setTwoFactor(p => ({ ...p, open: !p.open }))
+  }
+
+  const handle2AuthChange = (e: string) => {
+    setMessage('')
+    setTwoFactor(p => ({ ...p, token: e }))
+    if (e.length === 6) {
+      handle2faVerify(e)
+    }
+  }
+
+  const enable2fa = async () => {
+    setTwoFaLoading(true)
+    const res = await normalRequest<{ qrcode: string, reference: string }>(CONST.AUTH.TWO_FACTOR_ENABLE, { type: 'app' });
+    if (res.status) {
+      setTwoFactor(p => ({ ...p, open: true, reference: res.data?.reference, qrcode: res.data?.qrcode }))
+    } else {
+      toast.success(res.message)
+    }
+    setTwoFaLoading(false)
+  }
+
+  const handle2faVerify = async (e?: any) => {
+    const value = typeof e === 'string' ? e : twoFactor.token
+    if (value?.length === 6 && twoFactor.reference) {
+      const data = { token: value, reference: twoFactor.reference }
+      setTwoFaLoading(true);
+      const res = await normalRequest<LoginProp>(CONST.AUTH.TWO_FACTOR_VERIFY, data, 'post', false)
+      if (res.status) {
+        toggle2Auth()
+        toast.success(res.message);
+      } else {
+        setMessage(res.message)
+      }
+      setTwoFaLoading(false);
+    }
+  }
+
+
   const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = (e.target as any).files[0];
     setImage(await fileToBase64(file))
   }
+
   return <div>
     <form className="flex flex-wrap justify-between items-end shadow-md sm:rounded-lg bg-white mt-8 p-6">
       <div className="w-full lg:w-6/12 lg:pr-6">
@@ -178,13 +242,13 @@ const Settings = () => {
       <div className="px-6 py-5 text-lg font-semibold text-left w-full">
         <div className="w-full flex justify-between flex-wrap items-center">
           <h4 className="text-xl">
-            Domain Verification
+            SMTP Setup
           </h4>
           <button onClick={toggleEmailModal} className="text-white hover:bg-blue-800 bg-blue-700 py-1 px-5 rounded-md"><span className="hidden sm:inline-block">Configure </span><FontAwesomeIcon icon={faPen} className="sm:ml-2" /></button>
         </div>
       </div>
       <div className="px-6 font-semibold text-left w-full flex justify-between">
-        <div className="w-7/12">Domain</div>
+        <div className="w-7/12">Service Email</div>
         <div className="w-2/12">Status</div>
         <div className="w-3/12">
           <span >Txt Record</span>
@@ -194,7 +258,7 @@ const Settings = () => {
         </div>
       </div>
       <div className="px-6 pt-2 pb-5 text-left w-full flex justify-between">
-        <div className="w-7/12">swayauth.com</div>
+        <div className="w-7/12">no-reply@swayauth.com</div>
         <div className="w-2/12 text-green-600">
           <FontAwesomeIcon icon={faCheckCircle} className="mr-2" />
           <span>Verified</span>
@@ -204,6 +268,43 @@ const Settings = () => {
           <button className="inline-block ml-2" title='copy'><FontAwesomeIcon icon={faCopy} /></button>
         </div>
       </div>
+    </div>
+
+
+    <div className="relative shadow-md sm:rounded-lg bg-white mt-8">
+      <div className="px-6 py-5 text-lg font-semibold text-left w-full">
+        <div className="w-full flex justify-between flex-wrap items-center">
+          <h4 className="text-xl">
+            Two-Factor Authentication
+          </h4>
+          <button
+            disabled={twoFaLoading}
+            onClick={enable2fa} className="text-white inline-flex justify-center items-center min-w-[9.5rem] bg-blue-600 active:[&:not(:disabled)]:bg-blue-700  py-1 px-5 rounded-md">
+            {
+              twoFaLoading ?
+                <span className='inline-block py-[2.5px]'>
+                  <SpinnerCircle2 size="sm" color='white' />
+                </span> :
+                <span>
+                  Enable
+                </span>
+            }
+          </button>
+        </div>
+      </div>
+      <div className="px-6 pt-2 pb-5 text-left w-full">
+        <p>
+          Two-Factor authentication is enabled on this account, which means that upon login, you will be
+          challenge for your 6-digit token generated from your registered TOTP device.
+        </p>
+        <p className="mt-3 text-red-700">
+          Backup token is disaled for your account, which means that you
+          will be forced to use your TOTP device to login and you will not be
+          able to bypass two-factor authentication. It is recommended to enable
+          these immediately and store the codes somewhere safe. (e.g LastPass, 1Password, etc)!
+        </p>
+      </div>
+
     </div>
 
     <div className="relative shadow-md sm:rounded-lg bg-white mt-8">
@@ -337,6 +438,16 @@ const Settings = () => {
       </div>
     </div>
     <AddTeam title="Add Team" isOpen={modal} toggle={toggleModal} />
+    <App2factorEable
+      message={message}
+      handle2faVerify={handle2faVerify}
+      loading={twoFaLoading}
+      length={6}
+      qrcode={twoFactor.qrcode}
+      onChange={handle2AuthChange}
+      isOpen={twoFactor.open}
+      toggle={toggle2Auth}
+    />
     <ConfigureEmail title="Email Configuration" isOpen={emailModal} toggle={toggleEmailModal} />
   </div>;
 };
