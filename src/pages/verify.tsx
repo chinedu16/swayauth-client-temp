@@ -26,7 +26,6 @@ export const getServerSideProps = async <T extends ParsedUrlQuery>({ query }: {
         break;
     }
     const res = await normalRequest(url, { token: query.token, reference: query.reference }, 'post', false)
-    console.log(res)
     return { props: res }
   }
   return {
