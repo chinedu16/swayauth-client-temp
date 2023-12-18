@@ -3,7 +3,7 @@ import Modal from "../modal";
 import Link from "next/link";
 
 const Success = ({ isOpen, }: { isOpen: boolean }) => {
-  return <Modal size="md" center isOpen={isOpen} toggle={() => null} >
+  return <Modal size="xl" center isOpen={isOpen} toggle={() => null} >
     <div className="mx-auto transition w-full items-center justify-center flex" >
       <div className="bg-white rounded-md w-full">
         <div className="flex flex-col justify-center items-center p-10 text-center">
