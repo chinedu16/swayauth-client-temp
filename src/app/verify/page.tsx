@@ -12,7 +12,7 @@ interface SearchParamsProp {
   reference?: string
 }
 
-export const getVerifyReq = async (query: SearchParamsProp) => {
+const getVerifyReq = async (query: SearchParamsProp) => {
   if (query.token && query.reference && Number(query.token)) {
     const header = {
       "x-api-key": process.env.SWAYAUTH_IDENTITY

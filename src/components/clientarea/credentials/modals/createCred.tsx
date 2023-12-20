@@ -88,7 +88,7 @@ const CreateCredModal = ({ isOpen, toggle }: { isOpen: boolean, toggle: () => vo
                   onChange={handleScopeChanges}
                   required
                   name="scope"
-                  styles={{ control: (styles) => ({ ...styles, borderColor: '#E5E7EB', borderRadius: 6, paddingTop: 3, paddingBottom: 3 }) }}
+                  styles={{ control: (styles) => ({ ...styles, borderColor: '#E5E7EB', borderRadius: 6, paddingTop: 3, paddingBottom: 3 }) as any}}
                   options={typeOptions}
                   classNamePrefix="select"
                 />
@@ -143,7 +143,7 @@ const CreateCredModal = ({ isOpen, toggle }: { isOpen: boolean, toggle: () => vo
                   isMulti
                   name='permissions'
                   required
-                  styles={{ control: (styles) => ({ ...styles, borderColor: '#E5E7EB', borderRadius: 6, paddingTop: 3, paddingBottom: 3 }) }}
+                  styles={{ control: (styles) => ({ ...styles, borderColor: '#E5E7EB', borderRadius: 6, paddingTop: 3, paddingBottom: 3 }) as any }}
                   options={scopeOptions}
                   classNamePrefix="select"
                 />

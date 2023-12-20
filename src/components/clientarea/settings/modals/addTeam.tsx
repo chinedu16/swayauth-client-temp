@@ -89,7 +89,7 @@ const AddTeam = ({ isOpen, toggle, title }: { isOpen: boolean, toggle: () => voi
                   isMulti
                   name='permissions'
                   required
-                  styles={{ control: (styles) => ({ ...styles, borderColor: '#E5E7EB', borderRadius: 6, paddingTop: 3, paddingBottom: 3 }) }}
+                  styles={{ control: (styles) => ({ ...styles, borderColor: '#E5E7EB', borderRadius: 6, paddingTop: 3, paddingBottom: 3 }) as any }}
                   options={scopeOptions}
                   className="basic-multi-select"
                   classNamePrefix="select"
