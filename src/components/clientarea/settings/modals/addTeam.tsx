@@ -37,10 +37,10 @@ const AddTeam = ({ isOpen, toggle, title }: { isOpen: boolean, toggle: () => voi
     <div className="mx-auto transition w-full items-center justify-center flex" >
       <div className="bg-white rounded-md w-full">
         <div className="flex items-center p-4 w-full border-b">
-          <button onClick={toggle} className="mr-3 p-1 font-bold text-xl rounded-full hover:bg-slate-100 px-3">
+          <button onClick={toggle} className="mr-3 font-bold text-xl rounded-full hover:bg-slate-100 px-2">
             <FontAwesomeIcon icon={faXmark} />
           </button>
-          <h1 className='text-2xl font-bold'>{title}</h1>
+          <h2 className='text-xl font-bold'>{title}</h2>
         </div>
         <div className="p-7">
           <form onChange={handleFormChanges} onSubmit={handleFormSubmit}>
@@ -48,8 +48,9 @@ const AddTeam = ({ isOpen, toggle, title }: { isOpen: boolean, toggle: () => voi
               <div className="w-[49%]">
                 <label>FIrst Name</label>
                 <div className='mt-1'>
-                  <input autoFocus autoComplete="name"
+                  <input autoComplete="name"
                     required
+                    autoFocus
                     name='name'
                     className='w-full pr-10 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
                     placeholder='e.g John' />
@@ -58,7 +59,7 @@ const AddTeam = ({ isOpen, toggle, title }: { isOpen: boolean, toggle: () => voi
               <div className="w-[49%]">
                 <label>Last Name</label>
                 <div className='mt-1'>
-                  <input autoFocus autoComplete="name"
+                  <input autoComplete="name"
                     required
                     name='name'
                     className='w-full pr-10 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'

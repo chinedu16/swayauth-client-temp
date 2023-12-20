@@ -37,16 +37,16 @@ const NavTop = () => {
           <Image alt="" width={1742} height={2196} src='/avatar.jpg' className="object-cover" />
         </DropDown.Toggle>
         <DropDown.Body className="inline-block right-0 top-[calc(100%+0.5rem)] min-w-[10rem]">
-          <ul className="py-2 text-gray-700 dark:text-gray-200 bg-black rounded-md">
-            <li className="block px-4 py-2 hover:bg-gray-100 cursor-pointer dark:hover:bg-gray-600 dark:hover:text-white">
+          <ul className="py-2 dark:text-gray-200 bg-black rounded-md">
+            <li className="block px-4 py-2 text-white hover:bg-gray-600 cursor-pointer">
               <FontAwesomeIcon icon={faGear} className="w-[1rem] text-[1rem]" />
               <span className="ml-3">Settings</span>
             </li>
-            <Link href='/settings/wallet' className="block px-4 py-2 hover:bg-gray-100 cursor-pointer dark:hover:bg-gray-600 dark:hover:text-white">
+            <Link href='/settings/wallet' className="block text-white px-4 py-2 hover:bg-gray-600 cursor-pointer">
               <FontAwesomeIcon icon={faWallet} className="w-[1rem]" />
               <span className="ml-3">Wallet</span>
             </Link>
-            <li onClick={logMeOut} className="block px-4 py-2 hover:bg-gray-100 cursor-pointer dark:hover:bg-gray-600 dark:hover:text-white">
+            <li onClick={logMeOut} className="block px-4 py-2 text-white hover:bg-gray-600 cursor-pointer">
               <FontAwesomeIcon icon={faRightFromBracket} className="w-[1rem]" />
               <span className="ml-3">Sign out</span>
             </li>

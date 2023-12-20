@@ -1,16 +1,12 @@
 {
-  "name": "frontend",
+  "name": "client-app",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "GENERATE_SOURCEMAP=false next build",
-    "start": "next start -p 3000",
+    "dev": "next dev --turbo",
+    "build": "next build",
+    "start": "next start",
     "lint": "next lint"
-  },
-  "engines": {
-    "node": "18.x",
-    "npm": "9.x"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
@@ -22,7 +18,7 @@
     "axios": "^1.6.2",
     "js-cookie": "^3.0.5",
     "jwt-decode": "^4.0.0",
-    "next": "13.5.4",
+    "next": "14.0.4",
     "next-redux-wrapper": "^8.1.0",
     "nprogress": "^0.2.0",
     "react": "^18",
@@ -39,15 +35,13 @@
   "devDependencies": {
     "@types/js-cookie": "^3.0.6",
     "@types/node": "^20",
-    "@types/nprogress": "^0.2.3",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "@types/react-syntax-highlighter": "^15.5.7",
-    "autoprefixer": "^10",
+    "autoprefixer": "^10.0.1",
     "eslint": "^8",
-    "eslint-config-next": "13.5.4",
+    "eslint-config-next": "14.0.4",
     "postcss": "^8",
-    "tailwindcss": "^3",
+    "tailwindcss": "^3.3.0",
     "typescript": "^5"
   }
 }

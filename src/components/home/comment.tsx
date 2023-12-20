@@ -1,3 +1,4 @@
+"use client"
 import { whatOurCustomerSays } from "@/lib/home/data";
 import {
   faArrowLeft,

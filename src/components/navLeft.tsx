@@ -18,7 +18,7 @@ const NavLeft = () => {
           </span>
           <span className="inline-block">Dashboard</span>
         </NavLink>
-        <NavLink href='/clientarea/customers?page=1'
+        <NavLink href='/clientarea/customers'
           activeClass='bg-slate-100 border-blue-700 font-bold'
           inActiveClass="border-[transparent]"
           prefetch

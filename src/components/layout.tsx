@@ -1,8 +1,12 @@
-import { ReactElement } from "react";
+"use client";
 import NavLeft from "./navLeft";
 import NavTop from "./navTop";
 
-const Layout = ({ children }: { children: ReactElement }) => {
+const Layout = ({
+  children,
+}: {
+  children: React.ReactNode
+}) => {
   return (
     <main className="bg-slate-50">
       <NavTop />

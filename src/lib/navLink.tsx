@@ -1,13 +1,15 @@
+"use client"
 import Link, { LinkProps } from "next/link";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import { ReactNode } from "react";
 
 const NavLink = (prop: LinkProps & { className?: string, exact?: boolean, href: string, extend?: boolean, activeColor?: string, activeClass?: string, inActiveClass?: string, children: ReactNode }) => {
-  let { asPath } = useRouter();
+  let asPath = usePathname()
   if (typeof window !== 'undefined') {
     asPath += (window?.location?.hash || '')
+    console.log(asPath, prop.href);
   }
-  return <Link {...prop} style={{ color: asPath === prop.href ? (prop.activeColor || '') : '' }} className={`${prop.className ?? ''} ${(prop.exact ? prop.href?.includes(asPath) : prop.extend ? asPath.includes(prop.href) : asPath === prop.href) ? prop.activeClass : prop.inActiveClass}`} />;
+  return <Link {...prop} style={{ color: ((prop.extend && !prop.exact && asPath.includes(prop.href)) || asPath === prop.href) ? (prop.activeColor || '') : '' }} className={`${prop.className ?? ''} ${(prop.exact ? prop.href?.includes(asPath) : prop.extend ? asPath.includes(prop.href) : asPath === prop.href) ? prop.activeClass : prop.inActiveClass}`} />;
 };
 
 export default NavLink;

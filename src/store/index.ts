@@ -1,7 +1,6 @@
 import { CONST } from '@/lib/constant';
 import { removeAccessToken } from '@/lib/token';
 import { AsyncThunk, PayloadAction, combineReducers, configureStore, createAsyncThunk } from '@reduxjs/toolkit';
-import { createWrapper } from 'next-redux-wrapper';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { PersistConfig, persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
@@ -11,8 +10,7 @@ import auth from './slice/auth';
 const persistConfig: PersistConfig<any> = {
   key: 'root',
   storage,
-  // whitelist: ['main']
-  // blacklist: ['auth']
+  blacklist: ['auth']
 };
 
 const reducers = combineReducers({
@@ -53,12 +51,6 @@ export const logOut = createAsyncThunk(
 
 const store = configureStore({
   reducer: persistedReducer,
-  // middleware: (getDefaultMiddleware) =>
-  //   getDefaultMiddleware({
-  //     serializableCheck: {
-  //       ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-  //     },
-  //   }),
 })
 
 export const makeStore = () => store
@@ -70,5 +62,3 @@ export type AppDispatch = AppStore['dispatch'];
 
 export const useAppDispatch = () => useDispatch<AppDispatch>();
 export const useAppSelector: TypedUseSelectorHook<AppState> = useSelector;
-
-export const wrapper = createWrapper<AppStore>(makeStore, { debug: true });

@@ -16,7 +16,7 @@ const CodeInput = ({ length = 6, onChange, loading }: { length?: number, loading
   // }
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    const buttons = ['Backspace', 'Delete', 'ArrowLeft'] as const
+    const buttons = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'] as const
     const key = e.key as typeof buttons[number]
     const value = (e.target as any).value
     const name = Number((e.target as any).name)
@@ -25,6 +25,10 @@ const CodeInput = ({ length = 6, onChange, loading }: { length?: number, loading
         inputRefs.current[name].blur()
         inputRefs.current[name - 1].focus()
       }
+    }
+    if (key === 'ArrowLeft' && name > 0) {
+      inputRefs.current[name].blur()
+      inputRefs.current[name - 1].focus()
     }
   }
 
@@ -54,7 +58,7 @@ const CodeInput = ({ length = 6, onChange, loading }: { length?: number, loading
     }
   }
 
-  return <div className="inline-block">
+  return <div className="inline-block relative">
     {
       Array(length).fill(0).map((_, i) =>
         <input
@@ -70,16 +74,18 @@ const CodeInput = ({ length = 6, onChange, loading }: { length?: number, loading
           type="number"
           name={`${i}`}
           className={`
-        text-xl inline-flex mr-2
-      w-[3rem] focus:outline-1 
-      placeholder:text-3xl
+        md:text-xl inline-flex mr-2 relative
+        md:py-2 md:pl-4 w-[2.3rem] py-1 pl-3
+      md:w-[3rem] focus:outline-1 
+      placeholder:text-xl
+      md:placeholder:text-3xl
       placeholder:absolute
       disabled:bg-slate-300
       justify-center items-center
       invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2
     invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200
     invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 
-      focus:ring-2 border py-2 pl-4 rounded-md
+      focus:ring-2 border rounded-md
       [-moz-appearance:_textfield] [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none
       `} />
       )

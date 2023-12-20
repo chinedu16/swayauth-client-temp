@@ -8,15 +8,20 @@ export const normalRequest = async <T = any>(
   data: { [key: string]: any },
   method: Methods = "post",
   auth: boolean = true,
+  head: { [key: string]: any } | null = null
 ) => {
   try {
-    const token = getAccessToken();
-    if (auth && !token) throw new Error("INVALID_TOKEN");
     let headers: any = {
       "Content-Type": "application/json",
     }
-    if (auth) {
-      headers.Authorization = "Bearer " + token
+    if (head) {
+      headers = { ...headers, ...head }
+    } else {
+      const token = getAccessToken();
+      if (auth && !token) throw new Error("INVALID_TOKEN");
+      if (auth) {
+        headers.Authorization = "Bearer " + token
+      }
     }
     const res = await axios({
       method,

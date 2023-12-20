@@ -48,6 +48,7 @@ const Nav = ({
           <NavLink
             href="/blog"
             prefetch
+            extend
             activeColor="#1C4ED8"
             className="px-5 pl-0 lg:pl-5 hover:text-blue-700 block lg:inline-block py-3"
           >

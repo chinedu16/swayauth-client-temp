@@ -1,3 +1,7 @@
+"use client";
+
+import { useFormStatus } from "react-dom";
+
 const Input = ({
   disabled,
   autoFocus,
@@ -21,8 +25,10 @@ const Input = ({
   pattern?: string
   placeholder?: string
 }) => {
+  const { pending } = useFormStatus();
+
   return <input
-    disabled={disabled}
+    disabled={disabled || pending}
     autoFocus={autoFocus}
     type={type}
     required={required}
