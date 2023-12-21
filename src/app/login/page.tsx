@@ -2,25 +2,21 @@
 import Input from '@/components/input';
 import App2factor from '@/components/onboarding/app2factor';
 import FormButton from '@/components/onboarding/button';
-import { CONST } from '@/lib/constant';
-import { normalRequest } from '@/lib/request';
-import { handleLoginform } from '@/lib/server/form';
-import { LoginProp, TwoFactor } from '@/lib/types';
+import { handleLoginform, auth2faVerify } from '@/lib/server/form';
+import { TwoFactor } from '@/lib/types';
 import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useTransition } from 'react';
 import { useFormState } from 'react-dom';
 
 const Login = () => {
-  const [loading, setLoading] = useState(false);
+  const [isPending, startTransition] = useTransition()
   const [message, setMessage] = useState('');
   const [state, formAction] = useFormState(handleLoginform, { status: false, message: '', data: null })
   const [twoFactor, setTwoFactor] = useState<TwoFactor>({ open: false, reference: '', token: '' });
   const [visiblePassoword, setVisiblePassoword] = useState(false);
-  const router = useRouter();
 
   useEffect(() => {
     if (state.status) {
@@ -33,7 +29,7 @@ const Login = () => {
   }, [state]);
 
   const toggle2Auth = () => {
-    if (loading) return
+    if (isPending) return
     setMessage('')
     setTwoFactor(p => ({ ...p, open: !p.open }))
   }
@@ -54,14 +50,11 @@ const Login = () => {
     const value = typeof e === 'string' ? e : twoFactor.token
     if (value?.length === 6 && twoFactor.reference) {
       const data = { token: value, reference: twoFactor.reference }
-      setLoading(true);
-      const res = await normalRequest<LoginProp>(CONST.AUTH.TWO_FACTOR_VERIFY, data, 'post', false)
-      if (res.status) {
-        router.replace(CONST.LOCATION.CLIENT_AREA)
-      } else {
-        setMessage(res.message)
-      }
-      setLoading(false);
+      startTransition(() => {
+        auth2faVerify(data, true).then((res) => {
+          setMessage(res.message)
+        })
+      })
     } else {
       toggle2Auth()
     }
@@ -147,7 +140,7 @@ const Login = () => {
       <App2factor
         message={message}
         handle2faVerify={handle2faVerify}
-        loading={loading}
+        loading={isPending}
         length={6}
         onChange={handle2AuthChange}
         isOpen={twoFactor.open}

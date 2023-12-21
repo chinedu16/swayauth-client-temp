@@ -21,7 +21,6 @@ interface Decoded {
 export const isGoodToken = (token?: string) => {
   try {
     const tk = token ?? Cookie.get(CONST.ACCESS_TOKEN) ?? '';
-    console.log(Date.now(), (jwtDecode<Decoded>(tk)?.exp * 1000))
     return Date.now() < (jwtDecode<Decoded>(tk)?.exp * 1000);
   } catch (error: any) {
     return false

@@ -7,10 +7,11 @@ import { SpinnerCircle2 } from "@/components/spinner";
 import { CONST } from "@/lib/constant";
 import { fileToBase64 } from "@/lib/media";
 import { normalRequest } from "@/lib/request";
+import { auth2faVerify } from "@/lib/server/form";
 import { faBan, faBolt, faCamera, faCheckCircle, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState, useTransition } from "react";
 import toast from "react-hot-toast";
 import PhoneInput from "react-phone-number-input/input";
 
@@ -29,6 +30,7 @@ interface TwoFactor {
 
 const Settings = () => {
   const [phone, setPhone] = useState('');
+  const [isPending, startTransition] = useTransition()
   const [loaders, setLoaders] = useState({
     smtp: false,
     twoFactor: false,
@@ -78,15 +80,16 @@ const Settings = () => {
     const value = typeof e === 'string' ? e : twoFactor.token
     if (value?.length === 6 && twoFactor.reference) {
       const data = { token: value, reference: twoFactor.reference }
-      setLoading('twoFactor', true)
-      const res = await normalRequest<LoginProp>(CONST.AUTH.TWO_FACTOR_VERIFY, data, 'post', false)
-      if (res.status) {
-        toggle2Auth()
-        toast.success(res.message);
-      } else {
-        setMessage(res.message)
-      }
-      setLoading('twoFactor', false)
+      startTransition(() => {
+        auth2faVerify(data).then((res) => {
+          if (res.status) {
+            toggle2Auth()
+            toast.success(res.message);
+          } else {
+            setMessage(res.message)
+          }
+        })
+      })
     } else {
       toggle2Auth()
     }
@@ -449,7 +452,7 @@ const Settings = () => {
     <App2factorEable
       message={message}
       handle2faVerify={handle2faVerify}
-      loading={loaders.twoFactor}
+      loading={isPending}
       length={6}
       qrcode={twoFactor.qrcode}
       onChange={handle2AuthChange}

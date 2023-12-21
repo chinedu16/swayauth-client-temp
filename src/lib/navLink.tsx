@@ -7,7 +7,6 @@ const NavLink = (prop: LinkProps & { className?: string, exact?: boolean, href: 
   let asPath = usePathname()
   if (typeof window !== 'undefined') {
     asPath += (window?.location?.hash || '')
-    console.log(asPath, prop.href);
   }
   return <Link {...prop} style={{ color: ((prop.extend && !prop.exact && asPath.includes(prop.href)) || asPath === prop.href) ? (prop.activeColor || '') : '' }} className={`${prop.className ?? ''} ${(prop.exact ? prop.href?.includes(asPath) : prop.extend ? asPath.includes(prop.href) : asPath === prop.href) ? prop.activeClass : prop.inActiveClass}`} />;
 };

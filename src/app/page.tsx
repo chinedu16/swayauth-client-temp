@@ -7,17 +7,8 @@ import IntroBanner from "@/components/home/introBanner";
 import Nav from "@/components/home/nav";
 import Pricing from "@/components/home/pricing";
 import Trust from "@/components/home/trust";
-import { useAppDispatch } from "@/store";
-import { setAuth } from "@/store/slice/auth";
-import { useEffect } from "react";
 
 export default function Home() {
-
-  const dispatch = useAppDispatch()
-
-  useEffect(() => {
-    dispatch(setAuth(true))
-  }, []);
 
   return (
     <main>

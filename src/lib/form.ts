@@ -180,7 +180,6 @@ export function FormHandler<T extends { [key: string]: (v?: any) => string | boo
 
     const vRes = schema[k](val) as unknown as { valid: boolean, value: any, pattern: RegExp | undefined, message: string }
     if (!vRes.valid) {
-      console.log('i got here', vRes)
       error = true
       affectedKey = k
       message = vRes.message
