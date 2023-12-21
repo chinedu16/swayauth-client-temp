@@ -1,8 +1,12 @@
 'use client'
-import { useRef } from 'react'
-import { Provider } from 'react-redux'
-import { makeStore, AppStore } from '../store'
+import { usePathname } from 'next/navigation'
+import NProgress from 'nprogress'
+import { useEffect, useRef } from 'react'
 import { Toaster } from 'react-hot-toast'
+import { Provider } from 'react-redux'
+import { AppStore, makeStore } from '../store'
+
+NProgress.configure({ showSpinner: false });
 
 export default function StoreProvider({
   children
@@ -10,6 +14,12 @@ export default function StoreProvider({
   children: React.ReactNode
 }) {
   const storeRef = useRef<AppStore>()
+  const pathname = usePathname()
+
+  useEffect(() => {
+    NProgress.done()
+  }, [pathname]);
+
   if (!storeRef.current) {
     storeRef.current = makeStore()
   }

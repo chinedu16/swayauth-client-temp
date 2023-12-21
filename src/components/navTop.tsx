@@ -22,7 +22,7 @@ const NavTop = () => {
         <FontAwesomeIcon icon={faBars} />
       </label>
       <div className='md:inline-flex items-center hidden'>
-        <Image src='/logo-circle.png' alt="" className='w-[2rem] h-[2rem] max-w-[2.5rem]' width={1232} height={1232} />
+        <Image src='/logo-circle.png' alt="" className='w-[2rem] h-[2rem] max-w-[2.5rem]' width={400} height={400} />
         <span className="inline-block ml-2 text-xl">swayauth</span>
       </div>
     </div>
@@ -36,8 +36,8 @@ const NavTop = () => {
         {money(10000)}
       </h3>
       <DropDown.Container>
-        <DropDown.Toggle className="w-[2.5rem] h-[2.5rem] inline-flex items-center justify-center overflow-hidden rounded-full">
-          <Image alt="" width={1742} height={2196} src='/avatar.jpg' className="object-cover" />
+        <DropDown.Toggle className={`w-[2.5rem] ${loading ? 'opacity-50' : ''} border max-w-[2.5rem] h-[2.5rem] inline-flex items-center justify-center overflow-hidden rounded-full`}>
+          <Image src={data?.photo ? data.photo : '/avatar-2.png'} alt="" width={400} height={400} className="object-cover" />
         </DropDown.Toggle>
         <DropDown.Body className="inline-block right-0 top-[calc(100%+0.5rem)] min-w-[10rem]">
           <ul className="py-2 dark:text-gray-200 bg-black rounded-md">
