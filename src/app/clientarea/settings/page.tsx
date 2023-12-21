@@ -8,18 +8,13 @@ import { CONST } from "@/lib/constant";
 import { fileToBase64 } from "@/lib/media";
 import { normalRequest } from "@/lib/request";
 import { auth2faVerify } from "@/lib/server/form";
+import useAccount from "@/store/hooks/account";
 import { faBan, faBolt, faCamera, faCheckCircle, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { ChangeEvent, useState, useTransition } from "react";
 import toast from "react-hot-toast";
-import PhoneInput from "react-phone-number-input/input";
-
-interface LoginProp {
-  two_factor_enabled: boolean,
-  reference?: string,
-  two_factor_type?: string,
-}
+import PhoneInput from "react-phone-number-input";
 
 interface TwoFactor {
   open: boolean,
@@ -29,8 +24,9 @@ interface TwoFactor {
 }
 
 const Settings = () => {
-  const [phone, setPhone] = useState('');
   const [isPending, startTransition] = useTransition()
+  const { data } = useAccount()
+  const [phone, setPhone] = useState(data?.phone || '');
   const [loaders, setLoaders] = useState({
     smtp: false,
     twoFactor: false,
@@ -95,6 +91,7 @@ const Settings = () => {
     }
   }
 
+  console.log(data)
 
   const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = (e.target as any).files[0];
@@ -108,20 +105,24 @@ const Settings = () => {
           <div className="w-[49%]">
             <label>First Name</label>
             <div className='mt-1'>
-              <input autoComplete="name"
+              <input
+                autoComplete='given-name'
                 required
+                defaultValue={data?.first_name}
                 name='first_name'
-                className='w-full pr-10 bg-slate-50 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
+                className='w-full bg-slate-50 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
                 placeholder='e.g John' />
             </div>
           </div>
           <div className="w-[49%]">
             <label>Last Name</label>
             <div className='mt-1'>
-              <input autoComplete="name"
+              <input
+                autoComplete='family-name'
                 required
+                defaultValue={data?.last_name}
                 name='last_name'
-                className='w-full pr-10 bg-slate-50 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
+                className='w-full bg-slate-50 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
                 placeholder='e.g Doe' />
             </div>
           </div>
@@ -130,10 +131,14 @@ const Settings = () => {
           <div className="w-full sm:w-[49%]">
             <label >Email</label>
             <div className='mt-1'>
-              <input type="email" autoComplete="email"
+              <input
+                type="email"
+                disabled
+                autoComplete="email"
                 required
+                defaultValue={data?.email}
                 name='email'
-                className='w-full pr-10 bg-slate-50 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
+                className='w-full bg-slate-50 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
                 placeholder='e.g johndoe@mail.com' />
             </div>
           </div>
@@ -145,7 +150,7 @@ const Settings = () => {
                   placeholder="+234"
                   value={phone}
                   defaultCountry="NG"
-                  className='w-full pr-10 bg-slate-50 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
+                  className='w-full bg-slate-50 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
                   onChange={(e) => setPhone(e as any)} />
               </div>
             </label>
@@ -156,8 +161,9 @@ const Settings = () => {
           <div className='mt-1'>
             <textarea autoComplete="address"
               required
+              defaultValue={data?.address || ''}
               name='address'
-              className='w-full pr-10 bg-slate-50 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
+              className='w-full bg-slate-50 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
               placeholder='e.g 123, Cresent Street.' />
           </div>
         </div>
@@ -168,7 +174,8 @@ const Settings = () => {
               <input type="email" autoComplete="email"
                 required
                 name='email'
-                className='w-full pr-10 bg-slate-50 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
+                defaultValue={data?.city || ''}
+                className='w-full bg-slate-50 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
                 placeholder='e.g New York' />
             </div>
           </div>
@@ -177,7 +184,8 @@ const Settings = () => {
             <div className='mt-1'>
               <select
                 name='last_name'
-                className='w-full pr-10 bg-slate-50 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border h-11  px-3 rounded-md' >
+                defaultValue={data?.state || ''}
+                className='w-full bg-slate-50 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border h-[2.65rem]  px-3 rounded-md' >
                 <option value="">--Select state--</option>
                 <option value="Lagos">Lagos</option>
               </select>
@@ -188,7 +196,8 @@ const Settings = () => {
             <div className='mt-1'>
               <select
                 name='first_name'
-                className='w-full pr-10 bg-slate-50 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border h-11 px-3 rounded-md'>
+                defaultValue={data?.country || ''}
+                className='w-full bg-slate-50 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border h-[2.65rem] px-3 rounded-md'>
                 <option value="">--Select country--</option>
                 <option value="Nigeria">Nigeria</option>
               </select>
@@ -221,7 +230,7 @@ const Settings = () => {
             <input type="password"
               required
               name='current_password'
-              className='w-full pr-10 bg-slate-50 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
+              className='w-full bg-slate-50 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
               placeholder='******' />
           </div>
         </div>
@@ -231,7 +240,7 @@ const Settings = () => {
             <input type="password"
               required
               name='current_password'
-              className='w-full pr-10 bg-slate-50 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
+              className='w-full bg-slate-50 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
               placeholder='******' />
           </div>
         </div>

@@ -22,7 +22,7 @@ export const handleRegisterForm = async (_: any, e: FormData): Promise<ResponseP
   const header = {
     "x-api-key": process.env.SWAYAUTH_IDENTITY
   }
-  const data = { email: e.get('email'), password: e.get('password') }
+  const data = { first_name: e.get('first_name'), last_name: e.get('last_name'), email: e.get('email'), password: e.get('password') }
   return await normalRequest(CONST.AUTH.MANUAL_REGISTER, data, 'post', false, header)
 }
 

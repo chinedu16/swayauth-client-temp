@@ -1,5 +1,6 @@
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
+import 'react-phone-number-input/style.css';
 import '../styles/chart.css';
 import '../styles/globals.css';
 import StoreProvider from './storeProvider';
