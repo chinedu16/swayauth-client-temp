@@ -258,7 +258,8 @@ const Settings = () => {
           </h4>
           <button
             disabled={loaders.smtp}
-            onClick={enable2fa} className="text-white inline-flex justify-center items-center min-w-[6rem] bg-blue-600 active:[&:not(:disabled)]:bg-blue-700 disabled:bg-blue-500 py-1 rounded-md">
+            onClick={toggleEmailModal}
+            className="text-white inline-flex justify-center items-center min-w-[6rem] bg-blue-600 active:[&:not(:disabled)]:bg-blue-700 disabled:bg-blue-500 py-1 rounded-md">
             {
               loaders.smtp ?
                 <span className='inline-block py-[0.5px]'>
@@ -270,7 +271,7 @@ const Settings = () => {
         </div>
       </div>
       <div className="px-6 font-semibold text-left w-full flex justify-between">
-        <div className="w-7/12">Service Email</div>
+        <div className="w-7/12">Service Email Address</div>
         <div className="w-3/12">Status</div>
       </div>
       <div className="px-6 pt-2 pb-5 text-left w-full flex justify-between">

@@ -37,10 +37,10 @@ const AddTeam = ({ isOpen, toggle, title }: { isOpen: boolean, toggle: () => voi
     <div className="mx-auto transition w-full items-center justify-center flex" >
       <div className="bg-white rounded-md w-full">
         <div className="flex items-center p-4 w-full border-b">
-          <button onClick={toggle} className="mr-3 font-bold text-xl rounded-full hover:bg-slate-100 px-2">
+          <button onClick={toggle} className="p-1 font-bold text-xl rounded-full hover:bg-slate-100 px-3">
             <FontAwesomeIcon icon={faXmark} />
           </button>
-          <h2 className='text-xl font-bold'>{title}</h2>
+          <h2 className='text-xl pl-3 font-bold'>{title}</h2>
         </div>
         <div className="p-7">
           <form onChange={handleFormChanges} onSubmit={handleFormSubmit}>

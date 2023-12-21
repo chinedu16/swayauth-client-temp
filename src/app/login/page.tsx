@@ -52,7 +52,7 @@ const Login = () => {
       const data = { token: value, reference: twoFactor.reference }
       startTransition(() => {
         auth2faVerify(data, true).then((res) => {
-          setMessage(res.message)
+          if (res?.message) setMessage(res.message)
         })
       })
     } else {
