@@ -5,8 +5,11 @@ import Image from "next/image";
 import Link from "next/link";
 import DropDown from "./dropDown";
 import { logOut, useAppDispatch } from "@/store";
+import useAccount from "@/store/hooks/account";
 
 const NavTop = () => {
+  const { data, loading } = useAccount();
+
   const dispatch = useAppDispatch();
 
   const logMeOut = () => {
