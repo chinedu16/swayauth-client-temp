@@ -2,7 +2,7 @@ import { CONST } from "@/lib/constant";
 import { reduxRequest } from "@/lib/request";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "..";
-import { updateAccount } from "../slice/account";
+import { AccountData, updateAccount } from "../slice/account";
 
 const useAccount = (auto = true) => {
     const { loading, data, message, status } = useAppSelector(state => state.account)
@@ -16,7 +16,12 @@ const useAccount = (auto = true) => {
         }
     }, []);
 
-    return { loading: loading == 'true', data, message, status }
+    const updateClientProfile = (data: AccountData | null) => {
+        if (data)
+            http(updateAccount({ data }))
+    }
+
+    return { loading: loading == 'true', data, message, status, updateClientProfile }
 }
 
 export default useAccount;

@@ -9,12 +9,16 @@ import { fileToBase64 } from "@/lib/media";
 import { normalRequest } from "@/lib/request";
 import { auth2faVerify } from "@/lib/server/form";
 import useAccount from "@/store/hooks/account";
-import { faBan, faBolt, faCamera, faCheckCircle, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faBan, faCamera, faCheckCircle, faChevronLeft, faChevronRight, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
-import { ChangeEvent, useState, useTransition } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { ChangeEvent, FormEvent, useEffect, useState, useTransition } from "react";
 import toast from "react-hot-toast";
-import PhoneInput from "react-phone-number-input";
+import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
+import geoData from '@/lib/geodata-small.json'
+import { FormData } from "@/lib/form";
+import { AccountData } from "@/store/slice/account";
 
 interface TwoFactor {
   open: boolean,
@@ -25,7 +29,14 @@ interface TwoFactor {
 
 const Settings = () => {
   const [isPending, startTransition] = useTransition()
-  const { data } = useAccount()
+  const { data, updateClientProfile } = useAccount()
+
+  const [location, setLocation] = useState({
+    state: '',
+    country: ''
+  });
+
+  const [phoneFocus, setPhoneFocus] = useState(false);
   const [phone, setPhone] = useState(data?.phone || '');
   const [loaders, setLoaders] = useState({
     smtp: false,
@@ -39,6 +50,22 @@ const Settings = () => {
   const [message, setMessage] = useState('');
   const [emailModal, setEmailModal] = useState(false);
   const [image, setImage] = useState('');
+  const page = useSearchParams().get('page') || '1'
+  const route = useRouter()
+
+  useEffect(() => {
+    if (data?.country) {
+      setLocation((p) => ({ ...p, country: data?.country || '', state: data.state || '' }))
+    }
+  }, [data]);
+
+  const changeDirection = (direction: 'prev' | 'next') => {
+    if (Number(page) > 0) {
+      let nextRoute = '/clientarea/customers?page='
+      nextRoute += direction === 'next' ? Number(page) + 1 : Number(page) - 1 > 0 ? Number(page) - 1 : Number(page)
+      route.push(nextRoute)
+    }
+  }
 
   const setLoading = (key: 'smtp' | 'twoFactor' | 'profile' | 'password' | 'member', value: boolean) => {
     setLoaders(p => ({ ...p, [key]: value }))
@@ -91,16 +118,59 @@ const Settings = () => {
     }
   }
 
-  console.log(data)
-
   const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = (e.target as any).files[0];
     setImage(await fileToBase64(file))
   }
 
+  const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    const data = FormData<string>(e,
+      ['company_name',
+        'first_name',
+        'last_name',
+        'phone',
+        'address',
+        'city',
+        'state',
+        'country',
+      ])
+    if (phone && isValidPhoneNumber(phone)) {
+      data.phone = phone
+    } else {
+      setPhoneFocus(true)
+    }
+    setLoading('profile', true)
+    const res = await normalRequest<AccountData>(CONST.ACCOUNT.UPDATE_ACCOUNT, data, 'patch');
+    setLoading('profile', false)
+    if (res.status) {
+      updateClientProfile(res.data)
+      toast.success('Account updated successfully')
+    } else {
+      toast.error(res.message?.substring(0, 100));
+    }
+  }
   return <div>
-    <form className="flex flex-wrap justify-between items-end shadow-md sm:rounded-lg bg-white mt-8 p-6">
-      <div className="w-full lg:w-6/12 lg:pr-6">
+    <div className="flex flex-wrap justify-between items-end shadow-md rounded-lg bg-white mt-8 p-6">
+      <form onSubmit={handleFormSubmit} className="w-full lg:w-6/12 lg:pr-6">
+        {
+          data?.email === data?.company?.email ?
+            <div className='mb-4 w-full'>
+              <label>Company Name</label>
+              <div className='mt-1'>
+                <input
+                  autoComplete='company'
+                  required
+                  disabled={loaders.profile}
+                  defaultValue={data?.company?.name}
+                  name='company_name'
+                  className='w-full bg-slate-50 focus:border-blue-700 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
+                  placeholder='e.g John' />
+              </div>
+              <div className="w-[49%]">
+              </div>
+            </div> :
+            null
+        }
         <div className='mb-4 flex w-full justify-between'>
           <div className="w-[49%]">
             <label>First Name</label>
@@ -108,9 +178,10 @@ const Settings = () => {
               <input
                 autoComplete='given-name'
                 required
+                disabled={loaders.profile}
                 defaultValue={data?.first_name}
                 name='first_name'
-                className='w-full bg-slate-50 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
+                className='w-full bg-slate-50 focus:border-blue-700 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
                 placeholder='e.g John' />
             </div>
           </div>
@@ -120,9 +191,10 @@ const Settings = () => {
               <input
                 autoComplete='family-name'
                 required
+                disabled={loaders.profile}
                 defaultValue={data?.last_name}
                 name='last_name'
-                className='w-full bg-slate-50 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
+                className='w-full bg-slate-50 focus:border-blue-700 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
                 placeholder='e.g Doe' />
             </div>
           </div>
@@ -138,7 +210,7 @@ const Settings = () => {
                 required
                 defaultValue={data?.email}
                 name='email'
-                className='w-full bg-slate-50 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
+                className='w-full bg-slate-50 focus:border-blue-700 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
                 placeholder='e.g johndoe@mail.com' />
             </div>
           </div>
@@ -147,10 +219,13 @@ const Settings = () => {
               <span className="inline-block">Phone Number</span>
               <div className='mt-1'>
                 <PhoneInput
-                  placeholder="+234"
+                  placeholder="eg +234..."
+                  onBlur={() => setPhoneFocus(false)}
+                  onFocus={() => setPhoneFocus(true)}
                   value={phone}
+                  disabled={loaders.profile}
                   defaultCountry="NG"
-                  className='w-full bg-slate-50 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
+                  className={`w-full sm:ring-offset-1 bg-slate-50 ${phoneFocus ? 'border-blue-700 ring-2 sm:ring-1' : ''} outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 border sm:border-2 py-[0.45rem] px-3 rounded-md`}
                   onChange={(e) => setPhone(e as any)} />
               </div>
             </label>
@@ -163,7 +238,8 @@ const Settings = () => {
               required
               defaultValue={data?.address || ''}
               name='address'
-              className='w-full bg-slate-50 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
+              disabled={loaders.profile}
+              className='w-full bg-slate-50 focus:border-blue-700 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
               placeholder='e.g 123, Cresent Street.' />
           </div>
         </div>
@@ -171,11 +247,13 @@ const Settings = () => {
           <div className="w-full sm:w-[32%]">
             <label >City</label>
             <div className='mt-1'>
-              <input type="email" autoComplete="email"
+              <input type="text"
+                autoComplete="city"
                 required
-                name='email'
+                disabled={loaders.profile}
+                name='city'
                 defaultValue={data?.city || ''}
-                className='w-full bg-slate-50 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
+                className='w-full bg-slate-50 focus:border-blue-700 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
                 placeholder='e.g New York' />
             </div>
           </div>
@@ -183,11 +261,19 @@ const Settings = () => {
             <label>State</label>
             <div className='mt-1'>
               <select
-                name='last_name'
+                name='state'
+                required
+                disabled={loaders.profile}
+                onChange={(e) => setLocation((p) => ({ ...p, state: e.target.value }))}
                 defaultValue={data?.state || ''}
-                className='w-full bg-slate-50 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border h-[2.65rem]  px-3 rounded-md' >
-                <option value="">--Select state--</option>
-                <option value="Lagos">Lagos</option>
+                className='w-full bg-slate-50 focus:border-blue-700 focus:border-2 focus:outline-1 focus:ring-1 ring-offset-1 border h-[2.65rem]  px-3 rounded-md' >
+                {
+                  location.country ?
+                    geoData.find((item) => item.name == location.country)?.states?.map((item, idx) =>
+                      <option key={idx} value={item.name} selected={location.state == item.name}>{item.name}</option>
+                    ) :
+                    <option value="" hidden>--Select state--</option>
+                }
               </select>
             </div>
           </div>
@@ -195,19 +281,26 @@ const Settings = () => {
             <label>Country</label>
             <div className='mt-1'>
               <select
-                name='first_name'
+                name='country'
+                required
+                disabled={loaders.profile}
+                onChange={(e) => setLocation((p) => ({ ...p, country: e.target.value }))}
                 defaultValue={data?.country || ''}
-                className='w-full bg-slate-50 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border h-[2.65rem] px-3 rounded-md'>
-                <option value="">--Select country--</option>
-                <option value="Nigeria">Nigeria</option>
+                className='w-full bg-slate-50 focus:border-blue-700 focus:outline-1 ring-offset-1 focus:ring-1  border focus:border-2 h-[2.65rem]  px-3 rounded-md' >
+                <option value="" hidden>--Select country--</option>
+                {
+                  geoData.map((item, i) =>
+                    <option key={i} selected={item.name === location.country} value={item.name}>{item.name}</option>
+                  )
+                }
               </select>
             </div>
           </div>
         </div>
-        <button disabled={loaders.profile} type='submit' className='my-2 active:bg-blue-700 w-full flex items-center justify-center px-14 bg-blue-600 py-2 rounded-lg text-white'>
+        <button disabled={loaders.profile} type='submit' className='my-2 disabled:cursor-wait active:bg-blue-700 w-full flex items-center justify-center px-14 bg-blue-600 py-2 rounded-lg text-white'>
           {
             loaders.profile ?
-              <span className='inline-block'>
+              <span className='inline-block py-[0.5px]'>
                 <SpinnerCircle2 color='white' />
               </span> :
               <span>
@@ -215,7 +308,7 @@ const Settings = () => {
               </span>
           }
         </button>
-      </div>
+      </form>
       <div className="lg:pl-6 lg:w-6/12 w-full mt-10 lg:mt-0">
         <div className='mt-4 mb-7 flex items-center'>
           <label className="inline-block relative border-2 w-[8rem] h-[8rem] cursor-pointer rounded-3xl overflow-hidden">
@@ -230,7 +323,7 @@ const Settings = () => {
             <input type="password"
               required
               name='current_password'
-              className='w-full bg-slate-50 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
+              className='w-full bg-slate-50 focus:border-blue-700 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
               placeholder='******' />
           </div>
         </div>
@@ -240,7 +333,7 @@ const Settings = () => {
             <input type="password"
               required
               name='current_password'
-              className='w-full bg-slate-50 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
+              className='w-full bg-slate-50 focus:border-blue-700 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
               placeholder='******' />
           </div>
         </div>
@@ -256,10 +349,10 @@ const Settings = () => {
           }
         </button>
       </div>
-    </form>
+    </div>
 
 
-    <div className="relative shadow-md sm:rounded-lg bg-white mt-8">
+    <div className="relative shadow-md rounded-lg bg-white mt-8">
       <div className="px-6 py-5 text-left w-full">
         <div className="w-full flex justify-between flex-wrap items-center">
           <h4 className="text-lg sm:text-xl font-semibold">
@@ -293,7 +386,7 @@ const Settings = () => {
     </div>
 
 
-    <div className="relative shadow-md sm:rounded-lg bg-white mt-8">
+    <div className="relative shadow-md rounded-lg bg-white mt-8">
       <div className="px-6 py-5 text-left w-full">
         <div className="w-full flex justify-between flex-wrap items-center">
           <h4 className="text-lg sm:text-xl font-semibold">
@@ -324,7 +417,7 @@ const Settings = () => {
 
     </div>
 
-    <div className="relative shadow-md sm:rounded-lg bg-white mt-8">
+    <div className="relative shadow-md rounded-lg bg-white pb-2 mt-8">
       <div className="px-6 py-5  text-left w-full">
         <div className="w-full flex justify-between flex-wrap items-center">
           <h4 className="text-lg sm:text-xl font-semibold">
@@ -369,7 +462,7 @@ const Settings = () => {
           </thead>
           <tbody >
             <tr >
-              <td scope="row" className="px-6 whitespace-nowrap">
+              <td scope="row" className="px-6 pt-4 whitespace-nowrap">
                 <div className="whitespace-nowrap">
                   1.
                 </div>
@@ -392,7 +485,7 @@ const Settings = () => {
               </td>
               <td scope="row" className="px-6 whitespace-nowrap">
                 <div className="whitespace-nowrap">
-                  <small className="inline-block bg-green-500 text-white py-1 px-3 rounded-md">Active</small>
+                  <small className="inline-block bg-green-500 text-white py-[0.15rem] px-3 rounded-md">Active</small>
                 </div>
               </td>
               <td scope="row" className="px-6 whitespace-nowrap">
@@ -400,7 +493,7 @@ const Settings = () => {
                   Oct 23, 2023
                 </div>
               </td>
-              <td className="px-6 py-4 whitespace-nowrap">
+              <td className="px-6 pt-4 whitespace-nowrap">
                 <div className="flex whitespace-nowrap items-center">
                   <button className="mr-2 hover:bg-slate-200 px-1 rounded-full" title='edit'>
                     <FontAwesomeIcon icon={faBan} />
@@ -412,7 +505,7 @@ const Settings = () => {
               </td>
             </tr>
             <tr >
-              <td scope="row" className="px-6 whitespace-nowrap">
+              <td scope="row" className="px-6 pt-4 whitespace-nowrap">
                 <div className="whitespace-nowrap">
                   2.
                 </div>
@@ -435,7 +528,7 @@ const Settings = () => {
               </td>
               <td scope="row" className="px-6 whitespace-nowrap">
                 <div className="whitespace-nowrap">
-                  <small className="inline-block bg-green-500 text-white py-1 px-3 rounded-md">Active</small>
+                  <small className="inline-block bg-green-500 text-white py-[0.15rem] px-3 rounded-md">Active</small>
                 </div>
               </td>
               <td scope="row" className="px-6 whitespace-nowrap">
@@ -443,10 +536,10 @@ const Settings = () => {
                   Oct 23, 2023
                 </div>
               </td>
-              <td className="px-6 py-4 whitespace-nowrap">
+              <td className="px-6 pt-2 whitespace-nowrap">
                 <div className="flex whitespace-nowrap items-center">
                   <button className="mr-2 hover:bg-slate-200 px-1 rounded-full" title='edit'>
-                    <FontAwesomeIcon icon={faBolt} />
+                    <FontAwesomeIcon icon={faBan} />
                   </button>
                   <button title="copy" className="hover:bg-slate-200 px-1 rounded-full">
                     <FontAwesomeIcon icon={faTrash} />
@@ -457,6 +550,17 @@ const Settings = () => {
           </tbody>
         </table>
       </div>
+    </div>
+    <div className="flex mt-3 justify-end items-center">
+      <button onClick={() => changeDirection('prev')}>
+        <FontAwesomeIcon icon={faChevronLeft} />
+        <span className="ml-1">Prev</span>
+      </button>
+      <input type="number" placeholder="1" defaultValue={page} className="w-10 mx-5 px-2 border border-slate-400 rounded-md [-moz-appearance:_textfield] [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none" />
+      <button onClick={() => changeDirection('next')}>
+        <span className="mr-1">Next</span>
+        <FontAwesomeIcon icon={faChevronRight} />
+      </button>
     </div>
     <AddTeam title="Add Team" isOpen={modal} toggle={toggleModal} />
     <App2factorEable

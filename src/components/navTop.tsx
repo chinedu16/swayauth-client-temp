@@ -1,19 +1,43 @@
+import { CONST } from "@/lib/constant";
+import { FormData } from "@/lib/form";
+import Link from "@/lib/link";
+import { normalRequest } from "@/lib/request";
 import { money } from "@/lib/utils";
-import { faBars, faGear, faRightFromBracket, faSearch, faWallet } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Image from "next/image";
-import Link from "next/link";
-import DropDown from "./dropDown";
 import { logOut, useAppDispatch } from "@/store";
 import useAccount from "@/store/hooks/account";
+import { faBars, faChevronDown, faGear, faRepeat, faRightFromBracket, faWallet, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Image from "next/image";
+import { FormEvent, useState } from "react";
+import toast from "react-hot-toast";
+import DropDown from "./dropDown";
+import Modal from "./modal";
+import { SpinnerCircle2 } from "./spinner";
+import useAssociation from "@/store/hooks/association";
 
 const NavTop = () => {
   const { data, loading } = useAccount();
-
+  const { data: assocData, loading: assocLoading } = useAssociation();
+  const [switchAccoutModal, setSwitchAccoutModal] = useState(false);
   const dispatch = useAppDispatch();
+  const [switchLoading, setSwitchLoading] = useState(false);
+
+  const toggleSwitchAccount = () => {
+    if (switchLoading) return
+    setSwitchAccoutModal(!switchAccoutModal)
+  }
 
   const logMeOut = () => {
     dispatch(logOut())
+  }
+
+  const switchAccount = async (e: FormEvent<HTMLFormElement>) => {
+    const data = FormData(e, ['company_id'])
+    setSwitchLoading(true)
+    const res = await normalRequest(CONST.ACCOUNT.SWITCH_ACCOUNT + `/${data.company_id}`, {}, 'put')
+    toggleSwitchAccount()
+    toast[res.status ? 'success' : 'error'](res.message)
+    setSwitchLoading(true)
   }
 
   return <nav className="sticky max-h-[4rem] z-40 bg-white top-0 shadow-sm w-full p-2 border-b flex items-center">
@@ -26,11 +50,7 @@ const NavTop = () => {
         <span className="inline-block ml-2 text-xl">swayauth</span>
       </div>
     </div>
-    <div className="w-full md:px-6 flex items-center">
-      <label htmlFor="search-input" className="inline-block absolute text-slate-400">
-        <FontAwesomeIcon icon={faSearch} />
-      </label>
-      <input id='search-input' type="text" placeholder="Search" className="mr-4 md:mr-10 pl-7 w-full py-2 outline-none border-[transparent] text-slate-700 border-b-[0.1rem] focus:border-slate-300" />
+    <div className="w-full md:px-6 pr-2 flex justify-end items-center">
       <h3 className="mr-4 money whitespace-nowrap bg-slate-200 font-bold 0 py-1 md:my-2 px-2 md:px-4 rounded-md text-xl md:text-2xl">
         <FontAwesomeIcon icon={faWallet} className="mr-3" />
         {money(10000)}
@@ -41,11 +61,20 @@ const NavTop = () => {
         </DropDown.Toggle>
         <DropDown.Body className="inline-block right-0 top-[calc(100%+0.5rem)] min-w-[10rem]">
           <ul className="py-2 dark:text-gray-200 bg-black rounded-md">
-            <li className="block px-4 py-2 text-white hover:bg-gray-600 cursor-pointer">
-              <FontAwesomeIcon icon={faGear} className="w-[1rem] text-[1rem]" />
-              <span className="ml-3">Settings</span>
+            <li onClick={toggleSwitchAccount} className="flex relative z-30 items-center justify-between px-4 py-2 text-white hover:bg-gray-600 cursor-pointer">
+              <span>
+                <FontAwesomeIcon icon={faRepeat} className="w-[1rem]" />
+                <span className="ml-3">Account</span>
+              </span>
+              <span>
+                <FontAwesomeIcon icon={faChevronDown} className="w-[1rem] text-slate-500" />
+              </span>
             </li>
-            <Link href='/settings/wallet' className="block text-white px-4 py-2 hover:bg-gray-600 cursor-pointer">
+            <Link href='/clientarea/settings?name=iubduieu' className="block px-4 py-2 text-white hover:bg-gray-600 cursor-pointer">
+              <FontAwesomeIcon icon={faGear} className="w-[1rem] scale-110 text-[1rem]" />
+              <span className="ml-3">Settings</span>
+            </Link>
+            <Link href='/clientarea/settings/wallet' className="block text-white px-4 py-2 hover:bg-gray-600 cursor-pointer">
               <FontAwesomeIcon icon={faWallet} className="w-[1rem]" />
               <span className="ml-3">Wallet</span>
             </Link>
@@ -57,6 +86,47 @@ const NavTop = () => {
         </DropDown.Body>
       </DropDown.Container>
     </div>
+
+    <Modal isOpen={switchAccoutModal} toggle={toggleSwitchAccount} center size="max-w-md">
+      <div className="mx-auto transition w-full items-center justify-center flex" >
+        <div className="bg-white rounded-md w-full">
+          <div className="flex items-center px-4 py-2 w-full border-b">
+            <button onClick={toggleSwitchAccount} className="p-1 font-bold text-xl rounded-full hover:bg-slate-100 px-3">
+              <FontAwesomeIcon icon={faXmark} />
+            </button>
+            <h2 className='text-xl pl-3 font-bold'>Switch Account</h2>
+          </div>
+          <div className="p-7">
+            <form onSubmit={switchAccount}>
+              <select
+                name='company_id'
+                className='w-full bg-slate-50 focus:border-blue-700 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border h-[2.65rem]  px-3 rounded-md' >
+                {
+                  assocData?.length ?
+                    assocData.map((item, idx) =>
+                      <option key={idx} value={item.company_id}>{item.company?.name} {item.creator ? '(owner)' : null}</option>
+                    ) :
+                    <option value="Lagos">--Select aaccount--</option>
+                }
+              </select>
+              <button
+                type='submit'
+                className='mt-4 active:bg-blue-700 w-full flex items-center justify-center px-14 bg-blue-600 py-2 rounded-lg text-white'>
+                {
+                  switchLoading ?
+                    <span className='inline-block'>
+                      <SpinnerCircle2 color='white' />
+                    </span> :
+                    <span>
+                      Continue
+                    </span>
+                }
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </Modal>
   </nav>;
 };
 

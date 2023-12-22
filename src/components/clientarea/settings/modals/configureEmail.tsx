@@ -26,7 +26,7 @@ const ConfigureEmail = ({ isOpen, toggle, title }: { isOpen: boolean, toggle: ()
   return <Modal isOpen={isOpen} toggle={toggle} center>
     <div className="mx-auto transition w-full items-center justify-center flex" >
       <div className="bg-white rounded-md w-full">
-        <div className="flex items-center p-4 w-full border-b">
+        <div className="flex sticky top-0 bg-white items-center p-4 w-full border-b">
           <button onClick={toggle} className="p-1 font-bold text-xl rounded-full hover:bg-slate-100 px-3">
             <FontAwesomeIcon icon={faXmark} />
           </button>
@@ -42,7 +42,7 @@ const ConfigureEmail = ({ isOpen, toggle, title }: { isOpen: boolean, toggle: ()
                     required
                     autoFocus
                     name='company_name'
-                    className='w-full pr-10 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
+                    className='w-full focus:border-blue-700 pr-10 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
                     placeholder='e.g SwayAuth' />
                 </div>
               </div>
@@ -53,7 +53,7 @@ const ConfigureEmail = ({ isOpen, toggle, title }: { isOpen: boolean, toggle: ()
                     autoComplete="domain"
                     required
                     name='domain'
-                    className='w-full pr-10 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
+                    className='w-full focus:border-blue-700 pr-10 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
                     placeholder='e.g swayauth.com' />
                 </div>
               </div>
@@ -65,41 +65,41 @@ const ConfigureEmail = ({ isOpen, toggle, title }: { isOpen: boolean, toggle: ()
                   autoComplete="email"
                   required
                   name='email'
-                  className='w-full pr-10 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
+                  className='w-full pr-10 focus:border-blue-700 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
                   placeholder='e.g no-reply@swayauth.com' />
               </div>
             </div>
-            <div className='mb-8 flex justify-between'>
-              <div className="w-[32%]">
+            <div className='mb-8 flex flex-wrap justify-between'>
+              <div className="w-full sm:w-[32%]">
                 <label>SMTP Host</label>
                 <div className='mt-1'>
                   <input
                     autoComplete="host"
                     required
                     name='host'
-                    className='w-full pr-10 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
+                    className='w-full pr-10 focus:border-blue-700 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
                     placeholder='e.g smtp.gmail.com' />
                 </div>
               </div>
-              <div className="w-[32%]">
+              <div className="w-full mt-4 sm:mt-0 sm:w-[32%]">
                 <label>SMTP Username</label>
                 <div className='mt-1'>
                   <input
                     autoComplete="username"
                     required
                     name='username'
-                    className='w-full pr-10 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
+                    className='w-full pr-10 focus:border-blue-700 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
                     placeholder='e.g smtpuser' />
                 </div>
               </div>
-              <div className="w-[32%]">
+              <div className="w-full mt-4 sm:mt-0 sm:w-[32%]">
                 <label>SMTP Password</label>
                 <div className='mt-1 flex items-center relative'>
                   <input
                     required
                     type={showSmtpPassword ? 'text' : 'password'}
                     name='password'
-                    className='w-full pr-10 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
+                    className='w-full pr-10 focus:border-blue-700 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
                     placeholder='*********' />
                   <button onClick={() => setShowSmtpPassword(!showSmtpPassword)} type='button'
                     className={`inline-block absolute right-3 ${showSmtpPassword ? '' : 'opacity-40'}`}>

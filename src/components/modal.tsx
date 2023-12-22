@@ -7,7 +7,7 @@ const Modal = (
     toggle,
     noShadowToggle,
     className,
-    size = '2xl',
+    size = 'max-w-2xl',
     center,
     bgColor = 'bg-[rgba(0,0,0,0.2)]',
     children
@@ -18,7 +18,7 @@ const Modal = (
       noShadowToggle?: boolean
       className?: string
       center?: boolean
-      size?: 'md' | 'xl' | '2xl'
+      size?: `max-w-${'sm' | 'md' | 'lg' | 'xl' | '2xl'}`
       bgColor?: string
       children?: ReactNode
     }) => {
@@ -31,7 +31,7 @@ const Modal = (
   return (
     isOpen ? createPortal(
       <div onClick={nonBlockToggle} className={`fixed px-4 ${bgColor} ${className} flex ${center ? 'items-center' : 'items-start pt-10'} transition-all w-full h-full top-0 left-0 right-0 z-[100] bottom-0`}>
-        <div className={`max-w-${size} w-full mx-auto`}>
+        <div className={`${size} w-full max-h-[90%] overflow-y-auto mx-auto`}>
           {children}
         </div>
       </div>

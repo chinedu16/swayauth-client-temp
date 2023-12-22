@@ -6,9 +6,10 @@ import Link from "next/link"
 
 interface SearchParamsProp {
   token?: string
-  intent?: 'register' | 'team' | 'two-factor'
+  intent?: 'register' | 'team' | 'two-factor' | 'switch-account'
   as?: 'client' | 'user',
   account?: 'old' | 'new'
+  email?: string
   reference?: string
 }
 

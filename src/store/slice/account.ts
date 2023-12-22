@@ -18,6 +18,10 @@ export interface AccountData {
   two_factor_type?: 'app' | 'sms' | 'mail'
   company_id?: string | null
   created_at?: string
+  company?: {
+    name?: string
+    email?: string
+  },
   updated_at?: string
   association?: {
     permissions: ('read' | 'write' | 'delete')[]
@@ -45,7 +49,6 @@ export const accountSlice = createSlice({
       state: AccountState,
       action: PayloadAction<AccountState>
     ) => {
-      console.log(action.payload);
       state.data = action.payload.data ?? state.data;
       state.loading = action.payload.loading ?? state.loading;
       state.status = action.payload.status ?? state.status;

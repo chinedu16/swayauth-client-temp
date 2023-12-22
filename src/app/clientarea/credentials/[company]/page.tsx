@@ -9,11 +9,16 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import CreateCredModal from "../../../../components/clientarea/credentials/modals/createCred";
 import EditOrg from "../../../../components/clientarea/credentials/modals/editOrg";
+import NProgress from 'nprogress';
 
 const Company = () => {
   const [credModal, setCredModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const router = useRouter()
+  const back = () => {
+    NProgress.start()
+    router.back()
+  }
   const toggleCred = () => setCredModal(!credModal)
   const toggleEditCred = () => setEditModal(!editModal)
 
@@ -21,34 +26,37 @@ const Company = () => {
     <div className="mb-14 flex justify-between items-center">
       <div className="flex items-center">
         <div>
-          <button onClick={() => router.back()} className="text-2xl px-[0.7rem] pt-2 pb-1 hover:bg-slate-200 rounded-full items-center text-blue-700 mr-2 sm:mr-6 justify-center "><FontAwesomeIcon icon={faArrowLeft} /></button>
+          <button onClick={back} className="text-2xl px-[0.7rem] pt-2 pb-1 active:bg-slate-200 rounded-full items-center text-blue-700 mr-2 sm:mr-6 justify-center "><FontAwesomeIcon icon={faArrowLeft} /></button>
         </div>
-        <div className="w-16 h-16 border shadow-sm flex items-center justify-center">
-          <Image src='/logo-circle.png' alt="" className='object-cover w-full' width={1232} height={1232} />
+        <div className="w-14 h-14 border shadow-sm flex items-center justify-center">
+          <Image src='/logo-circle.png' alt="" className='object-cover w-full' width={400} height={400} />
         </div>
         <div className="ml-4">
-          <h2 className="leading- text-2xl font-bold">Cloutra</h2>
-          <small>https://cloutra.com</small>
+          <h2 className="block truncate max-w-[10rem] md:max-w-[30rem] sm:max-w-[20rem] xs:max-w-[15rem] xxs:max-w-[10rem] text-2xl font-bold">Cloutra</h2>
+          <small className="inline-block truncate max-w-[10rem] md:max-w-[30rem] sm:max-w-[20rem] xs:max-w-[15rem] xxs:max-w-[10rem]">https://cloutra.com</small>
         </div>
       </div>
       <div>
-        <button onClick={toggleEditCred} className="text-white text-lg font-semibold  hover:bg-blue-800 bg-blue-700 py-1 px-5 rounded-md"><span className="hidden sm:inline-block">Edit</span><FontAwesomeIcon icon={faPen} className="sm:ml-3" /></button>
+        <button onClick={toggleEditCred} className="text-white  text-base font-semibold  hover:bg-blue-800 bg-blue-700 py-1 px-4 sm:min-w-[6rem] rounded-md"><span className="hidden sm:inline-block">Edit</span><FontAwesomeIcon icon={faPen} className="sm:ml-3" /></button>
       </div>
     </div>
 
     <div className="relativeshadow-md sm:rounded-lg bg-white mt-8">
-      <div className="p-5 text-lg font-semibold text-left w-full">
+      <div className="pl-5 pr-2 py-2 text-lg font-semibold text-left w-full">
         <div className="w-full flex justify-between flex-wrap items-center">
           <h4 className="text-xl">
-            Organization Tokens
+            Tokens
           </h4>
-          <div className="flex items-center">
-            <button onClick={toggleCred} className="text-white hover:bg-blue-800 bg-blue-700 py-1 px-5 rounded-md mr-3"><span className="hidden sm:inline-block">Create</span><FontAwesomeIcon icon={faPlus} className="sm:ml-3" /></button>
+          <div className="inline-flex items-center">
+            <button onClick={toggleCred} className="text-white sm:min-w-[6rem] text-base hover:bg-blue-800 bg-blue-700 py-1 px-5 rounded-md">
+              <span className="hidden mr-2 sm:inline-block">Create</span>
+              <span ><FontAwesomeIcon icon={faPlus} /></span>
+            </button>
             <DropDown.Container>
-              <DropDown.Toggle hideCaret className="w-[2.5rem] h-[2.5rem] inline-flex items-center justify-center overflow-hidden rounded-full">
-                <FontAwesomeIcon icon={faEllipsisV} className="text-3xl" />
+              <DropDown.Toggle hideCaret className="w-[2.5rem] ml-3 h-[2.5rem] inline-flex items-center justify-center overflow-hidden rounded-full">
+                <FontAwesomeIcon icon={faEllipsisV} className="text-2xl" />
               </DropDown.Toggle>
-              <DropDown.Body className="inline-block right-0 top-[calc(100%+0.5rem)] min-w-[10rem] text-base font-normal">
+              <DropDown.Body className="inline-block right-0 sm:left-auto sm:right-0 top-[calc(100%+0.5rem)] min-w-[10rem] text-base font-normal">
                 <ul className="py-2 text-gray-700 dark:text-gray-200 bg-black rounded-md">
                   <li className="block px-4 py-2 hover:bg-gray-100 cursor-pointer dark:hover:bg-gray-600 dark:hover:text-white">
                     <FontAwesomeIcon icon={faRotateRight} className="w-[1rem]" />

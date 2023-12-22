@@ -52,7 +52,7 @@ const AddTeam = ({ isOpen, toggle, title }: { isOpen: boolean, toggle: () => voi
                     required
                     autoFocus
                     name='name'
-                    className='w-full pr-10 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
+                    className='w-full focus:border-blue-700 pr-10 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
                     placeholder='e.g John' />
                 </div>
               </div>
@@ -62,7 +62,7 @@ const AddTeam = ({ isOpen, toggle, title }: { isOpen: boolean, toggle: () => voi
                   <input autoComplete="name"
                     required
                     name='name'
-                    className='w-full pr-10 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
+                    className='w-full pr-10 focus:border-blue-700 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
                     placeholder='e.g Doe' />
                 </div>
               </div>
@@ -73,8 +73,7 @@ const AddTeam = ({ isOpen, toggle, title }: { isOpen: boolean, toggle: () => voi
                 <select
                   required
                   name='role'
-                  className='w-full pr-10 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
-                >
+                  className='w-full bg-slate-50 focus:border-blue-700 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border h-[2.65rem] px-3 rounded-md'>
                   <option value="admin">Admin</option>
                   <option value="super_admin">Super Admin</option>
                 </select>

@@ -1,5 +1,5 @@
 'use client'
-import { usePathname } from 'next/navigation'
+import { usePathname, useSearchParams } from 'next/navigation'
 import NProgress from 'nprogress'
 import { useEffect, useRef } from 'react'
 import { Toaster } from 'react-hot-toast'
@@ -15,10 +15,11 @@ export default function StoreProvider({
 }) {
   const storeRef = useRef<AppStore>()
   const pathname = usePathname()
+  const search = useSearchParams()
 
   useEffect(() => {
     NProgress.done()
-  }, [pathname]);
+  }, [pathname, search]);
 
   if (!storeRef.current) {
     storeRef.current = makeStore()

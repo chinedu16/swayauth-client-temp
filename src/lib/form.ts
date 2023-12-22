@@ -140,10 +140,10 @@ export const FormClear = (event: any, fieldsArray: string[]) => {
   }
 }
 
-export const FormData = <T extends string>(
+export const FormData = <U = string | number | boolean, T extends string = string>(
   e: any,
   o: Array<T>,
-): { [K in T]: string | number | boolean } => {
+): { [K in T]: U } => {
   e?.preventDefault();
   return o.reduce((res, k) => {
     res[k] =
@@ -154,6 +154,7 @@ export const FormData = <T extends string>(
           : isNaN(e?.target[k]?.value)
             ? e?.target[k]?.value
             : Number(e?.target[k]?.value);
+    if (res[k] == undefined) delete res[k];
     return res;
   }, Object.create(null));
 };

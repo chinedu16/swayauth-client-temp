@@ -3,7 +3,7 @@ import Modal from "../modal";
 import { SpinnerCircle2 } from "../spinner";
 
 const App2factor = ({ isOpen, message, toggle, handle2faVerify, onChange, loading, length = 6 }: { handle2faVerify?: () => void, message?: string, loading?: boolean, isOpen: boolean, length?: number, onChange?: (v: string) => void, toggle: () => void }) => {
-  return <Modal size="xl" isOpen={isOpen} toggle={toggle} className="pt-[15%]" >
+  return <Modal size="max-w-xl" isOpen={isOpen} toggle={toggle} className="pt-[15%]" >
     <div className="mx-auto transition w-full items-center justify-center flex" >
       <div className="bg-white rounded-md w-full">
         <div className="flex items-center px-4 py-2 w-full border-b">

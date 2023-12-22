@@ -18,5 +18,8 @@ export const CONST = Object.freeze({
   },
   ACCOUNT: {
     GET_PROFILE: '/account',
+    UPDATE_ACCOUNT: '/account',
+    SWITCH_ACCOUNT: '/account/switch',
+    GET_ASSOCIATION: '/account/association',
   }
 })

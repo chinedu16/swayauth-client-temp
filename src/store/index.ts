@@ -5,6 +5,7 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { PersistConfig, persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import account from './slice/account';
+import association from './slice/association';
 import auth from './slice/auth';
 
 const persistConfig: PersistConfig<any> = {
@@ -15,6 +16,7 @@ const persistConfig: PersistConfig<any> = {
 
 const reducers = combineReducers({
   auth,
+  association,
   account,
 })
 
