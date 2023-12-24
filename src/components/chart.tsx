@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 
 const currMonth = 11 || new Date().getMonth();
 const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-const weeks = [<span>1<sup>st</sup> wk</span>, <span>2<sup>nd</sup> wk</span>, <span>3<sup>rd</sup> wk</span>, <span>4<sup>th</sup> wk</span>,]
+const weeks = [<span key={1}>1<sup>st</sup> wk</span>, <span key={2}>2<sup>nd</sup> wk</span>, <span key={3}>3<sup>rd</sup> wk</span>, <span key={4}>4<sup>th</sup> wk</span>,]
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 const get6months = (curr: number) => {
   if (curr > 4) {
