@@ -196,7 +196,8 @@ const Home = () => {
           <div className="flex mb-6 justify-between flex-wrap">
             <h3 className="text-lg">
               <FontAwesomeIcon icon={faChartColumn} className="mr-2" />
-              Registered Users</h3>
+              Registered Users
+            </h3>
             <select disabled={register.loading === 'true'} defaultValue={register.duration} onChange={updateRegisterStatistic} className="outline-none bg-white text-sm">
               <option value="7_days">7 days</option>
               <option value="30_days">1 month</option>
