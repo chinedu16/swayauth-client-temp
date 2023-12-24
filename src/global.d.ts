@@ -8,9 +8,11 @@ interface ResponseProp<T = any> {
   data: T
 }
 
+type loading = "true" | "false" | "done";
+
 interface AnyReduxState<T = any> {
+  loading?: loading
   status?: boolean;
   message?: string | null;
   data?: T | null;
-  loading?: "true" | "false" | "done";
 }

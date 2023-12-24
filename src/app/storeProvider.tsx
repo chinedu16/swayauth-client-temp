@@ -29,7 +29,7 @@ export default function StoreProvider({
     <Toaster
       position="bottom-center"
       toastOptions={{
-        duration: 3500,
+        duration: 2500,
         style: { maxWidth: '600px', borderRadius: '5rem', background: '#333', color: '#fff' },
         success: { iconTheme: { primary: '#2563EB', secondary: 'white' } },
         error: { style: { background: 'red' } },

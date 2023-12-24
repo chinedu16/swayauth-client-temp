@@ -14,6 +14,7 @@ export const CONST = Object.freeze({
     MANUAL_REGISTER: '/auth/register/client',
     MANUAL_REGISTER_VERIFY: '/auth/register/verify',
     TWO_FACTOR_VERIFY: '/auth/2fa/verify',
+    TOKEN_VERIFY: '/auth/token/verify',
     TWO_FACTOR_ENABLE: '/auth/2fa/enable',
   },
   ACCOUNT: {
@@ -21,5 +22,14 @@ export const CONST = Object.freeze({
     UPDATE_ACCOUNT: '/account',
     SWITCH_ACCOUNT: '/account/switch',
     GET_ASSOCIATION: '/account/association',
+  },
+  COMPANY: {
+    STATISTICS: {
+      GET_STATISTIC_PERFORMANCE: '/company/statistics/count',
+      GET_ALL_STATISTIC_PERFORMANCE: '/company/statistics/count?users&sms&mail&google&facebook&manual&duration=7_days',
+      GET_REGISTER_GRAPH: '/company/statistics/registered',
+      GET_LOGIN_GRAPH: '/company/statistics/login',
+    },
+    GET_WALLET: '/company/wallet/balance',
   }
 })

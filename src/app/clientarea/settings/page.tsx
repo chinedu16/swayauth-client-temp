@@ -29,7 +29,7 @@ interface TwoFactor {
 
 const Settings = () => {
   const [isPending, startTransition] = useTransition()
-  const { data, updateClientProfile } = useAccount()
+  const { data, loading, updateClientProfile } = useAccount()
 
   const [location, setLocation] = useState({
     state: '',
@@ -160,7 +160,7 @@ const Settings = () => {
                 <input
                   autoComplete='company'
                   required
-                  disabled={loaders.profile}
+                  disabled={loaders.profile || loading}
                   defaultValue={data?.company?.name}
                   name='company_name'
                   className='w-full bg-slate-50 focus:border-blue-700 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
@@ -178,7 +178,7 @@ const Settings = () => {
               <input
                 autoComplete='given-name'
                 required
-                disabled={loaders.profile}
+                disabled={loaders.profile || loading}
                 defaultValue={data?.first_name}
                 name='first_name'
                 className='w-full bg-slate-50 focus:border-blue-700 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
@@ -191,7 +191,7 @@ const Settings = () => {
               <input
                 autoComplete='family-name'
                 required
-                disabled={loaders.profile}
+                disabled={loaders.profile || loading}
                 defaultValue={data?.last_name}
                 name='last_name'
                 className='w-full bg-slate-50 focus:border-blue-700 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
@@ -223,7 +223,7 @@ const Settings = () => {
                   onBlur={() => setPhoneFocus(false)}
                   onFocus={() => setPhoneFocus(true)}
                   value={phone}
-                  disabled={loaders.profile}
+                  disabled={loaders.profile || loading}
                   defaultCountry="NG"
                   className={`w-full sm:ring-offset-1 bg-slate-50 ${phoneFocus ? 'border-blue-700 ring-2 sm:ring-1' : ''} outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 border sm:border-2 py-[0.45rem] px-3 rounded-md`}
                   onChange={(e) => setPhone(e as any)} />
@@ -238,7 +238,7 @@ const Settings = () => {
               required
               defaultValue={data?.address || ''}
               name='address'
-              disabled={loaders.profile}
+              disabled={loaders.profile || loading}
               className='w-full bg-slate-50 focus:border-blue-700 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
               placeholder='e.g 123, Cresent Street.' />
           </div>
@@ -250,7 +250,7 @@ const Settings = () => {
               <input type="text"
                 autoComplete="city"
                 required
-                disabled={loaders.profile}
+                disabled={loaders.profile || loading}
                 name='city'
                 defaultValue={data?.city || ''}
                 className='w-full bg-slate-50 focus:border-blue-700 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
@@ -263,7 +263,7 @@ const Settings = () => {
               <select
                 name='state'
                 required
-                disabled={loaders.profile}
+                disabled={loaders.profile || loading}
                 onChange={(e) => setLocation((p) => ({ ...p, state: e.target.value }))}
                 defaultValue={data?.state || ''}
                 className='w-full bg-slate-50 focus:border-blue-700 focus:border-2 focus:outline-1 focus:ring-1 ring-offset-1 border h-[2.65rem]  px-3 rounded-md' >
@@ -283,7 +283,7 @@ const Settings = () => {
               <select
                 name='country'
                 required
-                disabled={loaders.profile}
+                disabled={loaders.profile || loading}
                 onChange={(e) => setLocation((p) => ({ ...p, country: e.target.value }))}
                 defaultValue={data?.country || ''}
                 className='w-full bg-slate-50 focus:border-blue-700 focus:outline-1 ring-offset-1 focus:ring-1  border focus:border-2 h-[2.65rem]  px-3 rounded-md' >
@@ -297,7 +297,7 @@ const Settings = () => {
             </div>
           </div>
         </div>
-        <button disabled={loaders.profile} type='submit' className='my-2 disabled:cursor-wait active:bg-blue-700 w-full flex items-center justify-center px-14 bg-blue-600 py-2 rounded-lg text-white'>
+        <button disabled={loaders.profile || loading} type='submit' className='my-2 disabled:cursor-wait active:bg-blue-700 w-full flex items-center justify-center px-14 bg-blue-600 py-2 rounded-lg text-white'>
           {
             loaders.profile ?
               <span className='inline-block py-[0.5px]'>
@@ -322,6 +322,7 @@ const Settings = () => {
           <div className='mt-1'>
             <input type="password"
               required
+              disabled={loaders.password || loading}
               name='current_password'
               className='w-full bg-slate-50 focus:border-blue-700 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
               placeholder='******' />
@@ -332,12 +333,13 @@ const Settings = () => {
           <div className='mt-1'>
             <input type="password"
               required
+              disabled={loaders.password || loading}
               name='current_password'
               className='w-full bg-slate-50 focus:border-blue-700 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
               placeholder='******' />
           </div>
         </div>
-        <button disabled={loaders.password} type='submit' className='my-2 active:bg-blue-700 w-full flex items-center justify-center px-10 bg-blue-600 py-2 rounded-lg text-white'>
+        <button disabled={loaders.password || loading} type='submit' className='my-2 active:bg-blue-700 w-full flex items-center justify-center px-10 bg-blue-600 py-2 rounded-lg text-white'>
           {
             loaders.password ?
               <span className='inline-block'>

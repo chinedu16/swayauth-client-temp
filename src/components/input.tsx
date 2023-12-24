@@ -11,6 +11,8 @@ const Input = ({
   invalid,
   pattern,
   title,
+  className,
+  value,
   type,
   placeholder
 }: {
@@ -18,8 +20,10 @@ const Input = ({
   autoFocus?: boolean
   required?: boolean
   name?: string,
+  className?: string
   autoComplete?: string
   invalid?: boolean | string
+  value?: string
   type?: string
   title?: string
   pattern?: string
@@ -33,10 +37,12 @@ const Input = ({
     type={type}
     required={required}
     name={name}
+    value={value}
     title={title}
     pattern={pattern}
     autoComplete={autoComplete}
     className={`
+    ${className ? className : ''}
     w-full pr-10 focus:outline-1 
     ${invalid ? 'ring-red-200 border-red-700   ring-2' : ''}
     ${disabled ? 'bg-slate-100' : ''}

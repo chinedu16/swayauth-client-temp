@@ -50,7 +50,7 @@
   }
 
   .chart ._30 {
-    width: 0.7rem;
+    width: 3rem;
   }
 
   .chart title {
@@ -522,7 +522,7 @@
 
 [data-tooltip2]::before {
   bottom: 0% !important;
-  right: calc(0% - 0.5rem)!important;
+  right: calc(0% - 0.5rem) !important;
 }
 
 [data-tooltip]:hover:before,

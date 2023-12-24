@@ -19,6 +19,7 @@ export interface AccountData {
   company_id?: string | null
   created_at?: string
   company?: {
+    id?: string;
     name?: string
     email?: string
   },

@@ -9,7 +9,7 @@ export const normalRequest = async <T = any>(
   method: Methods = "post",
   auth: boolean = true,
   head: { [key: string]: any } | null = null
-) => {
+): Promise<ResponseProp<T>> => {
   try {
     let headers: any = {
       "Content-Type": "application/json",
@@ -32,7 +32,7 @@ export const normalRequest = async <T = any>(
     if (res.data?.data?.access_token) saveAccessToken(res.data?.data?.access_token)
     return res.data as ResponseProp<T>
   } catch (error: any) {
-    return { status: false, message: error.response?.data?.message || error?.message, data: null }
+    return { status: false, message: error.response?.data?.message || error?.message, data: null as never }
   }
 }
 

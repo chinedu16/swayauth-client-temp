@@ -26,6 +26,17 @@ export const handleRegisterForm = async (_: any, e: FormData): Promise<ResponseP
   return await normalRequest(CONST.AUTH.MANUAL_REGISTER, data, 'post', false, header)
 }
 
+export const newTeamRegister = async ({ data: { reference, token } }: ResponseProp<{
+  reference: string
+  token: string
+}>, e: FormData): Promise<ResponseProp> => {
+  const header = {
+    "x-api-key": process.env.SWAYAUTH_IDENTITY
+  }
+  const data = { password: e.get('password'), reference, token }
+  return await normalRequest(CONST.AUTH.MANUAL_REGISTER_VERIFY, data, 'post', false, header)
+}
+
 export const auth2faVerify = async (data: { token?: string, reference?: string }, navigate = false): Promise<ResponseProp<LoginProp | null>> => {
   const header = {
     "x-api-key": process.env.SWAYAUTH_IDENTITY

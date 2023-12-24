@@ -5,6 +5,8 @@ import { normalRequest } from "@/lib/request";
 import { money } from "@/lib/utils";
 import { logOut, useAppDispatch } from "@/store";
 import useAccount from "@/store/hooks/account";
+import useAssociation from "@/store/hooks/association";
+import useWallet from "@/store/hooks/wallet";
 import { faBars, faChevronDown, faGear, faRepeat, faRightFromBracket, faWallet, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
@@ -13,17 +15,18 @@ import toast from "react-hot-toast";
 import DropDown from "./dropDown";
 import Modal from "./modal";
 import { SpinnerCircle2 } from "./spinner";
-import useAssociation from "@/store/hooks/association";
 
 const NavTop = () => {
+
   const { data, loading } = useAccount();
+  const { data: walletData, loading: walletLoading } = useWallet();
   const { data: assocData, loading: assocLoading } = useAssociation();
   const [switchAccoutModal, setSwitchAccoutModal] = useState(false);
   const dispatch = useAppDispatch();
   const [switchLoading, setSwitchLoading] = useState(false);
 
   const toggleSwitchAccount = () => {
-    if (switchLoading) return
+    if (switchLoading || assocLoading) return
     setSwitchAccoutModal(!switchAccoutModal)
   }
 
@@ -32,12 +35,13 @@ const NavTop = () => {
   }
 
   const switchAccount = async (e: FormEvent<HTMLFormElement>) => {
-    const data = FormData(e, ['company_id'])
+    const sData = FormData(e, ['company_id'])
+    if (data?.company_id === data?.company?.id) return toast.error('Account is already active!')
     setSwitchLoading(true)
-    const res = await normalRequest(CONST.ACCOUNT.SWITCH_ACCOUNT + `/${data.company_id}`, {}, 'put')
+    const res = await normalRequest(CONST.ACCOUNT.SWITCH_ACCOUNT + `/${sData.company_id}`, {}, 'put')
+    setSwitchLoading(false)
     toggleSwitchAccount()
     toast[res.status ? 'success' : 'error'](res.message)
-    setSwitchLoading(true)
   }
 
   return <nav className="sticky max-h-[4rem] z-40 bg-white top-0 shadow-sm w-full p-2 border-b flex items-center">
@@ -51,9 +55,15 @@ const NavTop = () => {
       </div>
     </div>
     <div className="w-full md:px-6 pr-2 flex justify-end items-center">
-      <h3 className="mr-4 money whitespace-nowrap bg-slate-200 font-bold 0 py-1 md:my-2 px-2 md:px-4 rounded-md text-xl md:text-2xl">
+      <h3 className="mr-4 flex items-center money whitespace-nowrap bg-slate-200 font-bold 0 py-1 md:my-2 px-2 md:px-4 rounded-md text-xl md:text-2xl">
         <FontAwesomeIcon icon={faWallet} className="mr-3" />
-        {money(10000)}
+        {
+          walletLoading ?
+            <span className="inline-flex justify-center py-1 min-w-[3rem]">
+              <SpinnerCircle2 size="sm" />
+            </span> :
+            money(walletData?.amount)
+        }
       </h3>
       <DropDown.Container>
         <DropDown.Toggle className={`w-[2.5rem] ${loading ? 'opacity-50' : ''} border max-w-[2.5rem] h-[2.5rem] inline-flex items-center justify-center overflow-hidden rounded-full`}>
@@ -67,7 +77,11 @@ const NavTop = () => {
                 <span className="ml-3">Account</span>
               </span>
               <span>
-                <FontAwesomeIcon icon={faChevronDown} className="w-[1rem] text-slate-500" />
+                {
+                  assocLoading ?
+                    <SpinnerCircle2 /> :
+                    <FontAwesomeIcon icon={faChevronDown} className="w-[1rem] text-slate-500" />
+                }
               </span>
             </li>
             <Link href='/clientarea/settings?name=iubduieu' className="block px-4 py-2 text-white hover:bg-gray-600 cursor-pointer">

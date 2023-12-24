@@ -6,17 +6,21 @@ import { PersistConfig, persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import account from './slice/account';
 import association from './slice/association';
-import auth from './slice/auth';
+import wallet from './slice/wallet';
+import statistics from './slice/statistics';
+import graph from './slice/graph';
 
 const persistConfig: PersistConfig<any> = {
   key: 'root',
   storage,
-  blacklist: ['auth']
+  blacklist: ['auth', 'statistics', 'graph'],
 };
 
 const reducers = combineReducers({
-  auth,
   association,
+  wallet,
+  statistics,
+  graph,
   account,
 })
 

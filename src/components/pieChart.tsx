@@ -1,6 +1,7 @@
 import { useCallback } from "react";
+import { SpinnerCircle2 } from "./spinner";
 
-const PieChart = ({ colors, data, height = 200, width = 200 }: { data: { [key: string]: number }, colors: string[], height?: number, width?: number }) => {
+const PieChart = ({ colors, data, loading, height = 200, width = 200 }: { data: { [key: string]: number }, colors: string[], loading?: boolean, height?: number, width?: number }) => {
 
   const pieRef = useCallback((canvas: HTMLCanvasElement) => {
     if (canvas) {
@@ -39,14 +40,21 @@ const PieChart = ({ colors, data, height = 200, width = 200 }: { data: { [key: s
     }
   }, [data])
 
-  return <div className="flex flex-wrap">
-    <canvas ref={pieRef} width={width} height={height} />
+  return <div className={`flex flex-wrap ${loading ? ' opacity-20' : ''}`}>
+    {
+      loading ?
+        <span style={{ height, aspectRatio: 1 }} className="inline-flex items-center justify-center">
+          <SpinnerCircle2 size="xl" />
+        </span>
+        :
+        <canvas ref={pieRef} width={width} height={height} />
+    }
     <div className="mt-4 ml-10">
       {
         Object.keys(data).map((item, i) =>
           <div key={i} className="flex mb-1 items-center">
             <span style={{ backgroundColor: colors[i] }} className='inline-block rounded-sm mr-2 w-[1rem] h-[1rem]'></span>
-            <span className="capitalize inline-block">{item}</span>
+            <span className="capitalize inline-block">{item}: {data[item]}</span>
           </div>
         )
       }
