@@ -5,20 +5,20 @@ import ConfigureEmail from "@/components/clientarea/settings/modals/configureEma
 import PreloadImage from "@/components/preloadImage";
 import { SpinnerCircle2 } from "@/components/spinner";
 import { CONST } from "@/lib/constant";
+import { FormData } from "@/lib/form";
+import geoData from '@/lib/geodata-small.json';
 import { fileToBase64 } from "@/lib/media";
 import { normalRequest } from "@/lib/request";
 import { auth2faVerify } from "@/lib/server/form";
 import useAccount from "@/store/hooks/account";
-import { faBan, faCamera, faCheckCircle, faChevronLeft, faChevronRight, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { AccountData } from "@/store/slice/account";
+import { faBan, faCamera, faCheckCircle, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ChangeEvent, FormEvent, useEffect, useState, useTransition } from "react";
 import toast from "react-hot-toast";
 import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
-import geoData from '@/lib/geodata-small.json'
-import { FormData } from "@/lib/form";
-import { AccountData } from "@/store/slice/account";
 
 interface TwoFactor {
   open: boolean,
@@ -58,14 +58,6 @@ const Settings = () => {
       setLocation((p) => ({ ...p, country: data?.country || '', state: data.state || '' }))
     }
   }, [data]);
-
-  const changeDirection = (direction: 'prev' | 'next') => {
-    if (Number(page) > 0) {
-      let nextRoute = '/clientarea/customers?page='
-      nextRoute += direction === 'next' ? Number(page) + 1 : Number(page) - 1 > 0 ? Number(page) - 1 : Number(page)
-      route.push(nextRoute)
-    }
-  }
 
   const setLoading = (key: 'smtp' | 'twoFactor' | 'profile' | 'password' | 'member', value: boolean) => {
     setLoaders(p => ({ ...p, [key]: value }))
@@ -552,17 +544,6 @@ const Settings = () => {
           </tbody>
         </table>
       </div>
-    </div>
-    <div className="flex mt-3 justify-end items-center">
-      <button onClick={() => changeDirection('prev')}>
-        <FontAwesomeIcon icon={faChevronLeft} />
-        <span className="ml-1">Prev</span>
-      </button>
-      <input type="number" placeholder="1" defaultValue={page} className="w-10 mx-5 px-2 border border-slate-400 rounded-md [-moz-appearance:_textfield] [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none" />
-      <button onClick={() => changeDirection('next')}>
-        <span className="mr-1">Next</span>
-        <FontAwesomeIcon icon={faChevronRight} />
-      </button>
     </div>
     <AddTeam title="Add Team" isOpen={modal} toggle={toggleModal} />
     <App2factorEable

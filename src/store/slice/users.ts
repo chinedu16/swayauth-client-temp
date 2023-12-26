@@ -1,10 +1,11 @@
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
 
-export interface AccountData {
-  id?: string;
+export interface UsersData {
+  id: string;
   first_name?: string;
   last_name?: string;
+  email?: string;
   phone?: string | null;
   address?: string | null;
   city?: string | null;
@@ -15,40 +16,37 @@ export interface AccountData {
   verified?: boolean
   photo?: string;
   scope?: ('manual' | 'google' | 'facebook' | 'two_factor' | 'sms' | 'mail')[]
+  permissions: ('read' | 'write' | 'delete')[]
+  access: 'level_1'
   two_factor_type?: 'app' | 'sms' | 'mail'
-  company_id?: string | null
+  company_id?: string
+  organization_id?: string
+  organization?: {
+    name: string
+  }
+  organization_token_id?: string
   created_at?: string
   updated_at?: string
-  company?: {
-    id?: string;
-    name?: string
-    email?: string
-  },
-  association?: {
-    permissions: ('read' | 'write' | 'delete')[]
-    access: 'level_2' | 'level_3'
-  }
-  email?: string;
 }
 
-export interface AccountState extends AnyReduxState {
-  data?: AccountData | null;
+export interface UsersState extends AnyReduxState {
+  data?: UsersData[] | null;
 }
 
-const initialState: AccountState = {
+const initialState: UsersState = {
   status: false,
   message: null,
   data: null,
   loading: "false",
 };
 
-export const accountSlice = createSlice({
-  name: "account",
+export const usersSlice = createSlice({
+  name: "users",
   initialState,
   reducers: {
-    updateAccount: (
-      state: AccountState,
-      action: PayloadAction<AccountState>
+    updateUsers: (
+      state: UsersState,
+      action: PayloadAction<UsersState>
     ) => {
       state.data = action.payload.data ?? state.data;
       state.loading = action.payload.loading ?? state.loading;
@@ -58,6 +56,6 @@ export const accountSlice = createSlice({
   },
 });
 
-export const { updateAccount } = accountSlice.actions;
+export const { updateUsers } = usersSlice.actions;
 
-export default accountSlice.reducer;
+export default usersSlice.reducer;

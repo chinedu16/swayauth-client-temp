@@ -30,6 +30,23 @@ export const CONST = Object.freeze({
       GET_REGISTER_GRAPH: '/company/statistics/registered',
       GET_LOGIN_GRAPH: '/company/statistics/login',
     },
-    GET_WALLET: '/company/wallet/balance',
+    USERS: {
+      STATISTICS: '/company/users/statistics?users&organizations&active&disabled',
+      DELETE_USERS: '/company/users/delete',
+      ACTIVATE_USERS: '/company/users/activate',
+      DEACTIVATE_USERS: '/company/users/deactivate',
+      LIST: '/company/users'
+    },
+    ORGANIZATION: {
+      LIST: '/company/organizations',
+      DELETE: '/company/organizations',
+    },
+    CREDENTIALS: {
+      GET_APP_KEY: '/company/credentials/appkey',
+      ROTATE_APP_KEY: '/company/credentials/appkey/rotate'
+    },
+    WALLET: {
+      GET_WALLET: '/company/wallet/balance',
+    }
   }
 })

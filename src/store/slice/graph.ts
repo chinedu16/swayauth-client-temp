@@ -84,7 +84,6 @@ export const graphSlice = createSlice({
         state.data.login.facebook = action.payload.data.facebook
         state.data.login.google = action.payload.data.google
         state.data.login.manual = action.payload.data.manual
-        console.log(JSON.stringify(state.data))
       }
       state.message = action.payload.message ?? state.message;
       state.status = action.payload.status ?? state.status;

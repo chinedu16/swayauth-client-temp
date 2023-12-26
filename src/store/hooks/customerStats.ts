@@ -2,16 +2,16 @@ import { CONST } from "@/lib/constant";
 import { reduxRequest } from "@/lib/request";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "..";
-import { updateWallet } from "../slice/wallet";
+import { updateCustomerStats } from "../slice/customerStats";
 
-const useWallet = (auto = true) => {
-    const { loading, data, message, status } = useAppSelector(state => state.wallet)
+const useCustomerStats = (auto = true) => {
+    const { loading, data, message, status } = useAppSelector(state => state.customerStats)
     const http = useAppDispatch()
 
     useEffect(() => {
         if (auto) {
             if (loading === 'false' && data === null) {
-                http(reduxRequest(CONST.COMPANY.WALLET.GET_WALLET, {}, updateWallet, 'get'))
+                http(reduxRequest(CONST.COMPANY.USERS.STATISTICS, {}, updateCustomerStats, 'get'))
             }
         }
     }, []);
@@ -19,4 +19,4 @@ const useWallet = (auto = true) => {
     return { loading: loading == 'true', data, message, status }
 }
 
-export default useWallet;
+export default useCustomerStats;

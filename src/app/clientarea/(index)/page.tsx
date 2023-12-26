@@ -45,7 +45,6 @@ const Home = () => {
   const changeRegUserFormat = (e: ChangeEvent<HTMLSelectElement>) => {
     const v = e.target.value;
     const format = v[0] == '7' ? '7' : v[0] == '3' ? '30' : v[0] == '6' ? '180' : '360'
-    console.log(format);
     setRegUserDuration(format);
   }
 
