@@ -140,7 +140,7 @@ const Credentials = () => {
                           </td>
                           <td scope="row" className="px-4 pt-2 whitespace-nowrap">
                             <div className="whitespace-nowrap">
-                              <Link href='/clientarea/credentials/343e229h030jhp-mg36lsq9p' className="underline underline-offset-2 hover:text-blue-700">
+                              <Link href={`/clientarea/credentials/${item.id}`} className="underline underline-offset-2 hover:text-blue-700">
                                 {item.name}
                               </Link>
                             </div>

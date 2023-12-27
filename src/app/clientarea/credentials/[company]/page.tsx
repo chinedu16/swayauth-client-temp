@@ -235,7 +235,7 @@ const Company = () => {
       </div>
     </div>
     <CreateCredModal isOpen={credModal} toggle={toggleCred} />
-    <EditOrg title="Edit Organisation" isOpen={editModal} toggle={toggleEditCred} />
+    <EditOrg org={null} isOpen={editModal} toggle={toggleEditCred} />
   </div>;
 };
 
