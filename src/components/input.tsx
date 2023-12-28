@@ -14,6 +14,7 @@ const Input = ({
   className,
   value,
   type,
+  defaultValue,
   placeholder
 }: {
   disabled?: boolean
@@ -21,6 +22,7 @@ const Input = ({
   required?: boolean
   name?: string,
   className?: string
+  defaultValue?: string
   autoComplete?: string
   invalid?: boolean | string
   value?: string
@@ -37,6 +39,7 @@ const Input = ({
     type={type}
     required={required}
     name={name}
+    defaultValue={defaultValue}
     value={value}
     title={title}
     pattern={pattern}

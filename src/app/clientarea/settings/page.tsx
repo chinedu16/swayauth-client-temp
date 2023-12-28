@@ -2,20 +2,21 @@
 import AddTeam from "@/components/clientarea/settings/modals/addTeam";
 import App2factorEable from "@/components/clientarea/settings/modals/app2FactorEnable";
 import ConfigureEmail from "@/components/clientarea/settings/modals/configureEmail";
+import Input from "@/components/input";
 import PreloadImage from "@/components/preloadImage";
 import { SpinnerCircle2 } from "@/components/spinner";
 import { CONST } from "@/lib/constant";
-import { FormData } from "@/lib/form";
+import { FormClear, FormData } from "@/lib/form";
 import geoData from '@/lib/geodata-small.json';
 import { fileToBase64 } from "@/lib/media";
 import { normalRequest } from "@/lib/request";
 import { auth2faVerify } from "@/lib/server/form";
 import useAccount from "@/store/hooks/account";
+import useSmtp from "@/store/hooks/smtp";
 import { AccountData } from "@/store/slice/account";
-import { faBan, faCamera, faCheckCircle, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faBan, faCamera, faCheckCircle, faEye, faEyeSlash, faPlus, faTrash, faXmarkCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
 import { ChangeEvent, FormEvent, useEffect, useState, useTransition } from "react";
 import toast from "react-hot-toast";
 import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
@@ -29,7 +30,11 @@ interface TwoFactor {
 
 const Settings = () => {
   const [isPending, startTransition] = useTransition()
+  const [isClient, setIsClient] = useState(false)
+  const { data: smtp, loading: smtpLoading } = useSmtp()
   const { data, loading, updateClientProfile } = useAccount()
+  const [visiblePassoword, setVisiblePassoword] = useState(false);
+  const [visiblePassoword2, setVisiblePassoword2] = useState(false);
 
   const [location, setLocation] = useState({
     state: '',
@@ -39,7 +44,6 @@ const Settings = () => {
   const [phoneFocus, setPhoneFocus] = useState(false);
   const [phone, setPhone] = useState(data?.phone || '');
   const [loaders, setLoaders] = useState({
-    smtp: false,
     twoFactor: false,
     profile: false,
     password: false,
@@ -50,8 +54,10 @@ const Settings = () => {
   const [message, setMessage] = useState('');
   const [emailModal, setEmailModal] = useState(false);
   const [image, setImage] = useState('');
-  const page = useSearchParams().get('page') || '1'
-  const route = useRouter()
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
 
   useEffect(() => {
     if (data?.country) {
@@ -59,7 +65,7 @@ const Settings = () => {
     }
   }, [data]);
 
-  const setLoading = (key: 'smtp' | 'twoFactor' | 'profile' | 'password' | 'member', value: boolean) => {
+  const setLoading = (key: 'twoFactor' | 'profile' | 'password' | 'member', value: boolean) => {
     setLoaders(p => ({ ...p, [key]: value }))
   }
 
@@ -115,7 +121,7 @@ const Settings = () => {
     setImage(await fileToBase64(file))
   }
 
-  const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleAccountForm = async (e: FormEvent<HTMLFormElement>) => {
     const data = FormData<string>(e,
       ['company_name',
         'first_name',
@@ -141,9 +147,30 @@ const Settings = () => {
       toast.error(res.message?.substring(0, 100));
     }
   }
+
+  const handlePasswordChange = async (e: FormEvent<HTMLFormElement>) => {
+    const data = FormData(e, ['old_password', 'new_password'])
+    if (data.new_password == data.old_password) {
+      setMessage('Password is identical');
+      toast.error('Password is identical')
+      return
+    }
+    setLoading('password', true)
+    const res = await normalRequest(CONST.ACCOUNT.UPDATE_PASSWORD, data, 'patch')
+    setLoading('password', false)
+    if (res.status) {
+      toast.success(res.message?.substring(0, 100))
+      FormClear(e, ['old_password', 'new_password'])
+    } else {
+      toast.error(res.message?.substring(0, 100))
+    }
+  }
+
+  console.log(smtp)
+
   return <div>
     <div className="flex flex-wrap justify-between items-end shadow-md rounded-lg bg-white mt-8 p-6">
-      <form onSubmit={handleFormSubmit} className="w-full lg:w-6/12 lg:pr-6">
+      <form onSubmit={handleAccountForm} className="w-full lg:w-6/12 lg:pr-6">
         {
           data?.email === data?.company?.email ?
             <div className='mb-4 w-full'>
@@ -309,39 +336,55 @@ const Settings = () => {
             <span className="absolute top-[40%] left-[45%] text-blue-700"><FontAwesomeIcon icon={faCamera} /></span>
           </label>
         </div>
-        <div className='mb-4'>
-          <label >Current Password</label>
-          <div className='mt-1'>
-            <input type="password"
-              required
-              disabled={loaders.password || loading}
-              name='current_password'
-              className='w-full bg-slate-50 focus:border-blue-700 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
-              placeholder='******' />
+        <form onSubmit={handlePasswordChange} onChange={() => setMessage('')}>
+          <div className='mb-4'>
+            <label >Current Password</label>
+            <div className='mt-1 flex items-center relative'>
+              <Input
+                required
+                invalid={message}
+                disabled={loaders.password || loading}
+                type={visiblePassoword ? 'text' : 'password'}
+                name='old_password'
+                pattern='^(.*).{6,}$'
+                title='Password must be at least 6 character.'
+                placeholder='*********'
+              />
+              <button onClick={() => setVisiblePassoword(!visiblePassoword)} type='button' className={`inline-block absolute right-3 ${visiblePassoword ? '' : 'opacity-40'}`}>
+                <FontAwesomeIcon icon={visiblePassoword ? faEye : faEyeSlash} />
+              </button>
+            </div>
           </div>
-        </div>
-        <div className='mb-8'>
-          <label >New Password</label>
-          <div className='mt-1'>
-            <input type="password"
-              required
-              disabled={loaders.password || loading}
-              name='current_password'
-              className='w-full bg-slate-50 focus:border-blue-700 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
-              placeholder='******' />
+          <div className='mb-8'>
+            <label >New Password</label>
+            <div className='mt-1 flex items-center relative'>
+              <Input
+                required
+                invalid={message}
+                disabled={loaders.password || loading}
+                type={visiblePassoword ? 'text' : 'password'}
+                name='new_password'
+                pattern='^(.*).{6,}$'
+                title='Password must be at least 6 character.'
+                placeholder='*********'
+              />
+              <button onClick={() => setVisiblePassoword2(!visiblePassoword2)} type='button' className={`inline-block absolute right-3 ${visiblePassoword2 ? '' : 'opacity-40'}`}>
+                <FontAwesomeIcon icon={visiblePassoword2 ? faEye : faEyeSlash} />
+              </button>
+            </div>
           </div>
-        </div>
-        <button disabled={loaders.password || loading} type='submit' className='my-2 active:bg-blue-700 w-full flex items-center justify-center px-10 bg-blue-600 py-2 rounded-lg text-white'>
-          {
-            loaders.password ?
-              <span className='inline-block'>
-                <SpinnerCircle2 color='white' />
-              </span> :
-              <span>
-                Update password
-              </span>
-          }
-        </button>
+          <button disabled={loaders.password || loading} type='submit' className='my-2 active:bg-blue-700 w-full flex items-center justify-center px-10 bg-blue-600 py-2 rounded-lg text-white'>
+            {
+              loaders.password ?
+                <span className='inline-block'>
+                  <SpinnerCircle2 color='white' />
+                </span> :
+                <span>
+                  Update password
+                </span>
+            }
+          </button>
+        </form>
       </div>
     </div>
 
@@ -353,11 +396,11 @@ const Settings = () => {
             SMTP Setup
           </h4>
           <button
-            disabled={loaders.smtp}
+            disabled={smtpLoading}
             onClick={toggleEmailModal}
             className="text-white inline-flex justify-center items-center min-w-[6rem] bg-blue-600 active:[&:not(:disabled)]:bg-blue-700 disabled:bg-blue-500 py-1 rounded-md">
             {
-              loaders.smtp ?
+              smtpLoading ?
                 <span className='inline-block py-[0.5px]'>
                   <SpinnerCircle2 size="sm" color='white' />
                 </span> :
@@ -371,10 +414,25 @@ const Settings = () => {
         <div className="w-3/12">Status</div>
       </div>
       <div className="px-6 pt-2 pb-5 text-left w-full flex justify-between">
-        <div className="w-7/12">no-reply@swayauth.com</div>
-        <div className="w-3/12 text-green-600">
-          <FontAwesomeIcon icon={faCheckCircle} className="mr-2" />
-          <span>Verified</span>
+        <div className="w-7/12">
+          {
+            smtpLoading || !isClient ?
+              <span className="h-5 w-6/12 rounded-lg inline-block animate-pulse bg-slate-200"></span>
+              :
+              smtp?.email
+          }
+        </div>
+        <div className={`w-3/12 ${smtpLoading || !isClient ? '' : smtp?.verified ? 'text-green-600' : 'text-red-600'} `}>
+          {
+            smtpLoading || !isClient ?
+              <span className="h-5 w-6/12 rounded-lg inline-block animate-pulse bg-slate-200"></span>
+              :
+              <>
+                <FontAwesomeIcon icon={smtp?.verified ? faCheckCircle : faXmarkCircle} className="mr-2" />
+                <span>{smtp?.verified ? 'Verified' : 'Pending'}</span>
+              </>
+          }
+
         </div>
       </div>
     </div>

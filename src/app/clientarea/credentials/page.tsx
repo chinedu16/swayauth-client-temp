@@ -67,7 +67,7 @@ const Credentials = () => {
             <tr >
               <td scope="row" className="pl-6 font-normal whitespace-nowrap">
                 <span className={`inline-block ${appKetLoading ? 'animate-pulse bg-gray-100 rounded-full' : ''} w-[12rem] sm:w-[25rem] md:w-auto truncate`}>
-                  {isClient ? cropString(appKeyData?.key, 50) : null}
+                  {isClient ? cropString(appKeyData?.key, 50) : <span className="animate-pulse h-5 w-[12rem] rounded-lg md:w-[35rem] sm:w-[25rem] bg-slate-200 inline-block"></span>}
                 </span>
               </td>
               <td className="px-6 py-3 whitespace-nowrap">
@@ -186,7 +186,17 @@ const Credentials = () => {
                       </tr>
                 }
               </tbody>
-            </table> : null
+            </table> :
+
+            <div className="flex flex-wrap">
+              {
+                Array(12).fill(0).map((_, i) =>
+                  <span key={i} className="w-4/12  sm:w-2/12 p-2">
+                    <span key={i} className="animate-pulse w-full h-10 rounded-lg  bg-slate-200 inline-block"></span>
+                  </span>
+                )
+              }
+            </div>
         }
       </div>
     </div>

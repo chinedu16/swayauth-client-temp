@@ -13,11 +13,12 @@ import statistics from './slice/statistics';
 import wallet from './slice/wallet';
 import users from './slice/users';
 import appKey from './slice/appKey';
+import smtp from './slice/smtp';
 
 const persistConfig: PersistConfig<any> = {
   key: 'root',
   storage,
-  whitelist: ['association', 'wallet', 'account', 'appKey', 'organization']
+  whitelist: ['association', 'wallet', 'account', 'appKey', 'smtp', 'organization']
 };
 
 const reducers = combineReducers({
@@ -25,6 +26,7 @@ const reducers = combineReducers({
   wallet,
   users,
   statistics,
+  smtp,
   organization,
   appKey,
   customerStats,

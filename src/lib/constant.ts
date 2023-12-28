@@ -20,6 +20,7 @@ export const CONST = Object.freeze({
   ACCOUNT: {
     GET_PROFILE: '/account',
     UPDATE_ACCOUNT: '/account',
+    UPDATE_PASSWORD: '/account/password',
     SWITCH_ACCOUNT: '/account/switch',
     GET_ASSOCIATION: '/account/association',
   },
@@ -29,6 +30,13 @@ export const CONST = Object.freeze({
       GET_ALL_STATISTIC_PERFORMANCE: '/company/statistics/count?users&sms&mail&google&facebook&manual&duration=7_days',
       GET_REGISTER_GRAPH: '/company/statistics/registered',
       GET_LOGIN_GRAPH: '/company/statistics/login',
+    },
+    SMTP: {
+      DETAIL: '/company/mail',
+      LOGO: '/company/mail/photo',
+      SETUP: '/company/mail/setup',
+      UPDATE: '/company/mail/update',
+      VERIFY: '/company/mail/verify',
     },
     USERS: {
       STATISTICS: '/company/users/statistics?users&organizations&active&disabled',
