@@ -1,3 +1,4 @@
+import { AccountData, scope } from '@/store/slice/account';
 import Cookie from 'js-cookie';
 import { jwtDecode } from "jwt-decode";
 import toast from "react-hot-toast";
@@ -102,6 +103,7 @@ export const copyText = async (data?: string) => {
 interface Decoded {
   permissions: ('read' | 'write' | 'delete')[]
   access: 'level_2' | 'level_3'
+  scope: scope[]
 }
 
 export const isPermission = (permission: 'read' | 'write' | 'delete') => {
@@ -113,7 +115,20 @@ export const isPermission = (permission: 'read' | 'write' | 'delete') => {
   }
 }
 
-export const isAccess = (access: 'level_2' | 'level_3') => {
+export const isScope = (
+  scope: scope,
+  data?: AccountData | null
+) => {
+  try {
+    const tk = Cookie.get(CONST.ACCESS_TOKEN) ?? '';
+    return (data ?? jwtDecode<Decoded>(tk))?.scope?.includes(scope) || false
+  } catch (error: any) {
+    return false
+  }
+}
+
+
+export const isAccess = (access?: 'level_2' | 'level_3') => {
   try {
     const tk = Cookie.get(CONST.ACCESS_TOKEN) ?? '';
     return jwtDecode<Decoded>(tk).access == access

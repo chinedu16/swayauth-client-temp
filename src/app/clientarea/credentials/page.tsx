@@ -187,16 +187,11 @@ const Credentials = () => {
                 }
               </tbody>
             </table> :
-
-            <div className="flex flex-wrap">
-              {
-                Array(12).fill(0).map((_, i) =>
-                  <span key={i} className="w-4/12  sm:w-2/12 p-2">
-                    <span key={i} className="animate-pulse w-full h-10 rounded-lg  bg-slate-200 inline-block"></span>
-                  </span>
-                )
-              }
-            </div>
+            <table className="w-full text-left font-normal min-h-24">
+              <tbody className="relative">
+                <TableLoader row={7} col={6} />
+              </tbody>
+            </table>
         }
       </div>
     </div>

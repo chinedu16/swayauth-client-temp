@@ -11,7 +11,6 @@ export interface UsersData {
   city?: string | null;
   state?: string | null;
   country?: string | null;
-  ip_address?: string;
   status?: 'active' | 'disabled';
   verified?: boolean
   photo?: string;

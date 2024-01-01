@@ -8,6 +8,7 @@ import { fileToBase64 } from "@/lib/media";
 import { formRequest, normalRequest } from "@/lib/request";
 import { TwoFactor } from "@/lib/types";
 import useSmtp from "@/store/hooks/smtp";
+import { SmtpData } from "@/store/slice/smtp";
 import { faCamera, faEye, faEyeSlash, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ChangeEvent, FormEvent, useState } from "react";
@@ -34,7 +35,7 @@ const ConfigureEmail = ({ isOpen, toggle, title }: { isOpen: boolean, toggle: ()
   }
 
   const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    const data = FormData(e, ['photo', 'company_name', 'website', 'email', 'username', 'password', 'host'])
+    const data = FormData(e, ['photo', 'company_name', 'website', 'email', 'username', 'password', 'host']) as SmtpData
     if (image?.includes('http')) {
       data.photo = image
     }
@@ -42,12 +43,8 @@ const ConfigureEmail = ({ isOpen, toggle, title }: { isOpen: boolean, toggle: ()
     const res = await normalRequest<{ reference: string }>(CONST.COMPANY.SMTP[smtp ? 'UPDATE' : 'SETUP'], data, smtp ? 'patch' : 'post')
     setLoading(false)
     if (res.status) {
-      if (smtp) {
-        toggle();
-        toast.success(res.message);
-      } else {
-        setTwoFactor({ open: true, reference: res.data.reference, token: '' })
-      }
+      updateSmtpStatus({ ...smtp, ...data, verified: false })
+      setTwoFactor({ open: true, reference: res.data.reference, token: '' })
     } else {
       setMessage(res.message)
     }

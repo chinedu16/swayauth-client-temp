@@ -11,6 +11,7 @@ export const CONST = Object.freeze({
   REFRESH_TOKEN: '__s_c_UUtk_tr',
   AUTH: {
     MANUAL_LOGIN: '/auth/login/client',
+    GET_TWO_FA: '/auth/2fa',
     MANUAL_REGISTER: '/auth/register/client',
     MANUAL_REGISTER_VERIFY: '/auth/register/verify',
     TWO_FACTOR_VERIFY: '/auth/2fa/verify',
@@ -18,6 +19,7 @@ export const CONST = Object.freeze({
     TWO_FACTOR_ENABLE: '/auth/2fa/enable',
   },
   ACCOUNT: {
+    PHOTO: '/account/photo',
     GET_PROFILE: '/account',
     UPDATE_ACCOUNT: '/account',
     UPDATE_PASSWORD: '/account/password',
@@ -44,6 +46,10 @@ export const CONST = Object.freeze({
       ACTIVATE_USERS: '/company/users/activate',
       DEACTIVATE_USERS: '/company/users/deactivate',
       LIST: '/company/users'
+    },
+    TEAM: {
+      LIST: '/company/team',
+      CREATE: '/company/team/create'
     },
     ORGANIZATION: {
       LIST: '/company/organizations',

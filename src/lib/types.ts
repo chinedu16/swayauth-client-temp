@@ -3,11 +3,12 @@ export interface LoginProp {
   reference?: string,
   access_token?: string
   refresh_token?: string
-  two_factor_type?: string,
+  two_factor_type?: 'mail-link' | 'mail-token' | 'sms' | 'app' | 'mail',
 }
 
 export interface TwoFactor {
   open: boolean,
   reference?: string,
+  two_factor_type?: 'mail-link' | 'mail-token' | 'sms' | 'app' | 'mail'
   token?: string,
 }

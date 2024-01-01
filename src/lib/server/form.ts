@@ -34,10 +34,11 @@ export const newTeamRegister = async ({ data: { reference, token } }: ResponsePr
     "x-api-key": process.env.SWAYAUTH_IDENTITY
   }
   const data = { password: e.get('password'), reference, token }
+
   return await normalRequest(CONST.AUTH.MANUAL_REGISTER_VERIFY, data, 'post', false, header)
 }
 
-export const auth2faVerify = async (data: { token?: string, reference?: string }, navigate = false): Promise<ResponseProp<LoginProp | null>> => {
+export const auth2faVerify = async (data: { token?: string, two_factor_type?: 'app' | 'sms' | 'mail', reference?: string }, navigate = false): Promise<ResponseProp<LoginProp | null>> => {
   const header = {
     "x-api-key": process.env.SWAYAUTH_IDENTITY
   }

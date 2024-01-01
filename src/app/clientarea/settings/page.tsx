@@ -3,18 +3,24 @@ import AddTeam from "@/components/clientarea/settings/modals/addTeam";
 import App2factorEable from "@/components/clientarea/settings/modals/app2FactorEnable";
 import ConfigureEmail from "@/components/clientarea/settings/modals/configureEmail";
 import Input from "@/components/input";
+import Modal from "@/components/modal";
 import PreloadImage from "@/components/preloadImage";
 import { SpinnerCircle2 } from "@/components/spinner";
+import TableLoader from "@/components/tableLoader";
 import { CONST } from "@/lib/constant";
 import { FormClear, FormData } from "@/lib/form";
 import geoData from '@/lib/geodata-small.json';
 import { fileToBase64 } from "@/lib/media";
-import { normalRequest } from "@/lib/request";
+import { formRequest, normalRequest } from "@/lib/request";
 import { auth2faVerify } from "@/lib/server/form";
+import { dateShort, isScope } from "@/lib/utils";
 import useAccount from "@/store/hooks/account";
 import useSmtp from "@/store/hooks/smtp";
+import useTeam from "@/store/hooks/team";
+import useTwoFa from "@/store/hooks/twoFa";
 import { AccountData } from "@/store/slice/account";
-import { faBan, faCamera, faCheckCircle, faEye, faEyeSlash, faPlus, faTrash, faXmarkCircle } from "@fortawesome/free-solid-svg-icons";
+import { TeamData } from "@/store/slice/team";
+import { faBan, faBolt, faCamera, faCheckCircle, faEye, faEyeSlash, faPlus, faTrash, faXmark, faXmarkCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { ChangeEvent, FormEvent, useEffect, useState, useTransition } from "react";
@@ -24,6 +30,7 @@ import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
 interface TwoFactor {
   open: boolean,
   reference?: string,
+  two_factor_type?: 'app' | 'sms' | 'mail',
   qrcode?: string,
   token?: string,
 }
@@ -31,7 +38,10 @@ interface TwoFactor {
 const Settings = () => {
   const [isPending, startTransition] = useTransition()
   const [isClient, setIsClient] = useState(false)
+  const [twoFaTypeModal, setTwoFaTypeModal] = useState(false);
+  const { data: team, loading: teamLoading } = useTeam()
   const { data: smtp, loading: smtpLoading } = useSmtp()
+  const { data: twoFa } = useTwoFa()
   const { data, loading, updateClientProfile } = useAccount()
   const [visiblePassoword, setVisiblePassoword] = useState(false);
   const [visiblePassoword2, setVisiblePassoword2] = useState(false);
@@ -45,12 +55,14 @@ const Settings = () => {
   const [phone, setPhone] = useState(data?.phone || '');
   const [loaders, setLoaders] = useState({
     twoFactor: false,
+    team: false,
     profile: false,
+    photo: false,
     password: false,
     member: false,
   });
   const [modal, setModal] = useState(false);
-  const [twoFactor, setTwoFactor] = useState<TwoFactor>({ open: false, qrcode: '', reference: '', token: '' });
+  const [twoFactor, setTwoFactor] = useState<TwoFactor>({ open: false, qrcode: '', reference: '', token: '', two_factor_type: 'app' });
   const [message, setMessage] = useState('');
   const [emailModal, setEmailModal] = useState(false);
   const [image, setImage] = useState('');
@@ -65,7 +77,7 @@ const Settings = () => {
     }
   }, [data]);
 
-  const setLoading = (key: 'twoFactor' | 'profile' | 'password' | 'member', value: boolean) => {
+  const setLoading = (key: 'photo' | 'team' | 'twoFactor' | 'profile' | 'password' | 'member', value: boolean) => {
     setLoaders(p => ({ ...p, [key]: value }))
   }
 
@@ -76,6 +88,7 @@ const Settings = () => {
     if (loaders.twoFactor) return
     setMessage('')
     setTwoFactor(p => ({ ...p, open: !p.open }))
+    setTwoFaTypeModal(false)
   }
 
   const handle2AuthChange = (e: string) => {
@@ -86,11 +99,14 @@ const Settings = () => {
     }
   }
 
-  const enable2fa = async () => {
+  const toggle2faTypes = () => setTwoFaTypeModal(!twoFaTypeModal);
+
+  const enable2fa = async (e: FormEvent<HTMLFormElement>) => {
+    const data = FormData(e, ['type'])
     setLoading('twoFactor', true)
-    const res = await normalRequest<{ qrcode: string, reference: string }>(CONST.AUTH.TWO_FACTOR_ENABLE, { type: 'app' });
+    const res = await normalRequest<{ qrcode: string, reference: string, two_factor_type: TwoFactor['two_factor_type'] }>(CONST.AUTH.TWO_FACTOR_ENABLE, { type: data.type });
     if (res.status) {
-      setTwoFactor(p => ({ ...p, open: true, reference: res.data?.reference, qrcode: res.data?.qrcode }))
+      setTwoFactor(p => ({ ...p, open: true, two_factor_type: res.data?.two_factor_type, reference: res.data?.reference, qrcode: res.data?.qrcode }))
     } else {
       toast.error(res.message)
     }
@@ -100,11 +116,16 @@ const Settings = () => {
   const handle2faVerify = async (e?: any) => {
     const value = typeof e === 'string' ? e : twoFactor.token
     if (value?.length === 6 && twoFactor.reference) {
-      const data = { token: value, reference: twoFactor.reference }
+      const obj = { token: value, reference: twoFactor.reference }
       startTransition(() => {
-        auth2faVerify(data).then((res) => {
+        auth2faVerify(obj).then((res) => {
           if (res.status) {
             toggle2Auth()
+            updateClientProfile({
+              ...data,
+              scope: (data?.scope?.indexOf('two_factor') ?? -1) > -1 ? data?.scope : data?.scope?.concat(['two_factor']),
+              two_factor_type: twoFactor.two_factor_type
+            })
             toast.success(res.message);
           } else {
             setMessage(res.message)
@@ -119,6 +140,16 @@ const Settings = () => {
   const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = (e.target as any).files[0];
     setImage(await fileToBase64(file))
+    setLoading('photo', true)
+    const res = await formRequest<{ path: string }>(CONST.ACCOUNT.PHOTO, { file }, null, 'patch');
+    setLoading('photo', false)
+    if (res.status) {
+      updateClientProfile({ ...data, photo: res.data?.path })
+      toast.success(res.message)
+    } else {
+      toast.error(res.message)
+    }
+
   }
 
   const handleAccountForm = async (e: FormEvent<HTMLFormElement>) => {
@@ -166,7 +197,9 @@ const Settings = () => {
     }
   }
 
-  console.log(smtp)
+  const changeTeamStatus = (team: TeamData) => {
+    const status = team.status == 'disabled' ? 'active' : 'disabled'
+  }
 
   return <div>
     <div className="flex flex-wrap justify-between items-end shadow-md rounded-lg bg-white mt-8 p-6">
@@ -332,8 +365,8 @@ const Settings = () => {
         <div className='mt-4 mb-7 flex items-center'>
           <label className="inline-block relative border-2 w-[8rem] h-[8rem] cursor-pointer rounded-3xl overflow-hidden">
             <input onChange={handleImageChange} type="file" name="logo" className="hidden" accept="image/*" />
-            <PreloadImage src={image} alt="" className="object-cover" />
-            <span className="absolute top-[40%] left-[45%] text-blue-700"><FontAwesomeIcon icon={faCamera} /></span>
+            <PreloadImage src={image || data?.photo} alt="" className="object-cover" />
+            <span className={`absolute ${loaders.photo ? 'animate-pulse' : ''} z-10 top-[40%] left-[45%] text-blue-700`}><FontAwesomeIcon icon={faCamera} /></span>
           </label>
         </div>
         <form onSubmit={handlePasswordChange} onChange={() => setMessage('')}>
@@ -446,22 +479,29 @@ const Settings = () => {
           </h4>
           <button
             disabled={loaders.twoFactor}
-            onClick={enable2fa} className="text-white mt-4 sm:mt-0 inline-flex justify-center items-center min-w-[6rem] bg-blue-600 active:[&:not(:disabled)]:bg-blue-700 disabled:bg-blue-500 py-1 rounded-md">
+            onClick={toggle2faTypes} className="text-white mt-4 sm:mt-0 inline-flex justify-center items-center min-w-[6rem] bg-blue-600 active:[&:not(:disabled)]:bg-blue-700 disabled:bg-blue-500 py-1 rounded-md">
             {
               loaders.twoFactor ?
                 <span className='inline-block py-[0.5px]'>
                   <SpinnerCircle2 size="sm" color='white' />
                 </span> :
-                <span className="inline-block">Enable</span>
+                <span className="inline-block">Configure</span>
             }
           </button>
         </div>
       </div>
       <div className="px-6 pt-2 pb-5 text-left w-full">
-        <p>
-          Two-Factor authentication is <b>enabled</b> on this account, which means that upon login, you will be
-          challenge for your 6-digit token generated from your registered TOTP device.
-        </p>
+        {
+          isClient ?
+            <p>
+              Two-Factor authentication is {isScope('two_factor', data) ? <b>enabled</b> : <b>disabled</b>} on this account.
+              {isScope('two_factor', data) ? ` Which means that upon login, you will be
+          challenge for your 6-digit token generated from your ${data?.two_factor_type}.` : `
+          Which means you will not be prompted to complete the 6-digit authentication procedure required to log into your account.
+          `}
+            </p>
+            : <p className="animate-pulse bg-slate-200 h-6 rounded-full"></p>
+        }
         <p className="mt-3">
           Learn more at our <Link className="text-blue-500" href='/helo'>two-factor authentication help page.</Link>
         </p>
@@ -482,125 +522,120 @@ const Settings = () => {
           </button>
         </div>
       </div>
-      <div className="overflow-x-auto show-scrollbar">
-        <table className="w-full text-left font-normal">
-          <thead className="bg-slate-100">
-            <tr>
-              <th scope="col" className="px-6 py-3 w-0">
-                S/N
-              </th>
-              <th scope="col" className="px-6 whitespace-nowrap py-3">
-                First Name
-              </th>
-              <th scope="col" className="px-6 whitespace-nowrap py-3">
-                Last Name
-              </th>
-              <th scope="col" className="px-6 whitespace-nowrap py-3">
-                Email
-              </th>
-              <th scope="col" className="px-6 whitespace-nowrap py-3">
-                Role
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Status
-              </th>
-              <th scope="col" className="px-6 whitespace-nowrap py-3">
-                Created At
-              </th>
-              <th scope="col" className="px-6 py-3 w-0">
-                Actions
-              </th>
-            </tr>
-          </thead>
-          <tbody >
-            <tr >
-              <td scope="row" className="px-6 pt-4 whitespace-nowrap">
-                <div className="whitespace-nowrap">
-                  1.
-                </div>
-              </td>
-              <td scope="row" className="px-6 whitespace-nowrap">
-                John
-              </td>
-              <td scope="row" className="px-6 whitespace-nowrap">
-                Doe
-              </td>
-              <td scope="row" className="px-6 whitespace-nowrap">
-                <div className="whitespace-nowrap">
-                  fashanutosin7@gmail.com
-                </div>
-              </td>
-              <td scope="row" className="px-6 whitespace-nowrap">
-                <div className="whitespace-nowrap">
-                  Admin
-                </div>
-              </td>
-              <td scope="row" className="px-6 whitespace-nowrap">
-                <div className="whitespace-nowrap">
-                  <small className="inline-block bg-green-500 text-white py-[0.15rem] px-3 rounded-md">Active</small>
-                </div>
-              </td>
-              <td scope="row" className="px-6 whitespace-nowrap">
-                <div className="whitespace-nowrap">
-                  Oct 23, 2023
-                </div>
-              </td>
-              <td className="px-6 pt-4 whitespace-nowrap">
-                <div className="flex whitespace-nowrap items-center">
-                  <button className="mr-2 hover:bg-slate-200 px-1 rounded-full" title='edit'>
-                    <FontAwesomeIcon icon={faBan} />
-                  </button>
-                  <button title="copy" className="hover:bg-slate-200 px-1 rounded-full">
-                    <FontAwesomeIcon icon={faTrash} />
-                  </button>
-                </div>
-              </td>
-            </tr>
-            <tr >
-              <td scope="row" className="px-6 pt-4 whitespace-nowrap">
-                <div className="whitespace-nowrap">
-                  2.
-                </div>
-              </td>
-              <td scope="row" className="px-6 whitespace-nowrap">
-                John
-              </td>
-              <td scope="row" className="px-6 whitespace-nowrap">
-                Doe
-              </td>
-              <td scope="row" className="px-6 whitespace-nowrap">
-                <div className="whitespace-nowrap">
-                  fashanutosin7@gmail.com
-                </div>
-              </td>
-              <td scope="row" className="px-6 whitespace-nowrap">
-                <div className="whitespace-nowrap">
-                  Admin
-                </div>
-              </td>
-              <td scope="row" className="px-6 whitespace-nowrap">
-                <div className="whitespace-nowrap">
-                  <small className="inline-block bg-green-500 text-white py-[0.15rem] px-3 rounded-md">Active</small>
-                </div>
-              </td>
-              <td scope="row" className="px-6 whitespace-nowrap">
-                <div className="whitespace-nowrap">
-                  Oct 23, 2023
-                </div>
-              </td>
-              <td className="px-6 pt-2 whitespace-nowrap">
-                <div className="flex whitespace-nowrap items-center">
-                  <button className="mr-2 hover:bg-slate-200 px-1 rounded-full" title='edit'>
-                    <FontAwesomeIcon icon={faBan} />
-                  </button>
-                  <button title="copy" className="hover:bg-slate-200 px-1 rounded-full">
-                    <FontAwesomeIcon icon={faTrash} />
-                  </button>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      <div className="overflow-x-auto pb-3 show-scrollbar">
+        {
+          isClient ?
+            <table className="w-full text-left font-normal min-h-24">
+              <thead className="bg-slate-100">
+                <tr>
+                  <th scope="col" className="px-6 py-3 w-0">
+                    S/N
+                  </th>
+                  <th scope="col" className="px-6 whitespace-nowrap py-3">
+                    First Name
+                  </th>
+                  <th scope="col" className="px-6 whitespace-nowrap py-3">
+                    Last Name
+                  </th>
+                  <th scope="col" className="px-6 whitespace-nowrap py-3">
+                    Email
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Status
+                  </th>
+                  <th scope="col" className="px-6 whitespace-nowrap py-3">
+                    Role
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Verified
+                  </th>
+                  <th scope="col" className="px-6 whitespace-nowrap py-3">
+                    Created At
+                  </th>
+                  <th scope="col" className="px-6 py-3 w-0">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="relative" >
+                {
+                  teamLoading !== 'done' ?
+                    <TableLoader row={9} /> :
+                    team?.length ?
+                      team?.map((item, i) =>
+                        <tr key={i}>
+                          <td scope="row" className="px-6 pt-4 whitespace-nowrap">
+                            <div className="whitespace-nowrap">
+                              {i + 1}.
+                            </div>
+                          </td>
+                          <td scope="row" className="px-6 whitespace-nowrap">
+                            {item.first_name}
+                          </td>
+                          <td scope="row" className="px-6 whitespace-nowrap">
+                            {item.last_name}
+                          </td>
+                          <td scope="row" className="px-6 whitespace-nowrap">
+                            <div className="whitespace-nowrap">
+                              {item.email}
+                            </div>
+                          </td>
+                          <td scope="row" className="px-6 whitespace-nowrap">
+                            <div className="whitespace-nowrap">
+                              <small className={`inline-block ${item.status == 'active' ? 'bg-green-500' : 'bg-red-500'} text-white py-[0.15rem] px-3 rounded-md`}>
+                                {item.status}
+                              </small>
+                            </div>
+                          </td>
+                          <td scope="row" className="px-6 whitespace-nowrap">
+                            <div className="whitespace-nowrap">
+                              {item.association?.access == 'level_2' ? 'Admin' : 'Super Admin'}
+                            </div>
+                          </td>
+                          <td scope="row" className="px-6 whitespace-nowrap">
+                            <div className="whitespace-nowrap">
+                              <small className={`inline-block ${item.verified ? 'bg-green-500' : 'bg-red-500'} text-white py-[0.15rem] px-3 rounded-md`}>
+                                {item.verified?.toString() || 'false'}
+                              </small>
+                            </div>
+                          </td>
+                          <td scope="row" className="px-6 whitespace-nowrap">
+                            <div className="whitespace-nowrap">
+                              {dateShort(item.created_at)}
+                            </div>
+                          </td>
+                          <td className="px-6 pt-4 whitespace-nowrap">
+                            {
+
+                            }
+                            <div className="flex whitespace-nowrap items-center">
+                              <button disabled={loaders.team} onClick={() => changeTeamStatus(item)}
+                                className={`mr-2 hover:bg-slate-200 px-1 rounded-full ${loaders.team ? 'opacity-20 cursor-wait' : ''}`}
+                                title={item.status == 'active' ? 'deactivate' : 'activate'}>
+                                <FontAwesomeIcon icon={item.status == 'active' ? faBan : faBolt} />
+                              </button>
+                              <button disabled={loaders.team} title="remove"
+                                className={`hover:bg-slate-200 px-1 rounded-full ${loaders.team ? 'opacity-20 cursor-wait' : ''}`}>
+                                <FontAwesomeIcon icon={faTrash} />
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ) :
+                      <tr className="relative top-3">
+                        <div className="absolute flex items-center justify-center top-0 left-0 text-center w-full">
+                          <span className="inline-block bg-red-600 text-white px-4 py-1 rounded-lg">No records found!</span>
+                        </div>
+                      </tr>
+                }
+              </tbody>
+            </table> :
+            <table className="w-full text-left font-normal min-h-24">
+              <tbody className="relative">
+                <TableLoader row={9} col={6} />
+              </tbody>
+            </table>
+        }
       </div>
     </div>
     <AddTeam title="Add Team" isOpen={modal} toggle={toggleModal} />
@@ -609,12 +644,55 @@ const Settings = () => {
       handle2faVerify={handle2faVerify}
       loading={isPending}
       length={6}
-      qrcode={twoFactor.qrcode}
+      type={twoFactor.two_factor_type}
+      qrcode={twoFactor?.qrcode}
       onChange={handle2AuthChange}
       isOpen={twoFactor.open}
       toggle={toggle2Auth}
     />
     <ConfigureEmail title="Email Configuration" isOpen={emailModal} toggle={toggleEmailModal} />
+    <Modal isOpen={twoFaTypeModal} toggle={toggle2faTypes} center size="max-w-sm">
+      <div className="mx-auto transition w-full items-center justify-center flex" >
+        <div className="bg-white rounded-md w-full">
+          <div className="flex sticky top-0 bg-white items-center p-4 w-full border-b">
+            <button onClick={() => { if (!loading) toggle2faTypes() }} className="p-1 font-bold text-xl rounded-full hover:bg-slate-100 px-3">
+              <FontAwesomeIcon icon={faXmark} />
+            </button>
+            <h2 className='text-xl pl-3 font-bold'>2FA Authentication</h2>
+          </div>
+          <div className="p-7">
+            <form onSubmit={enable2fa}>
+              <select
+                name='type'
+                required
+                disabled={loaders.twoFactor || loading || !twoFa?.length}
+                className='w-full bg-slate-50 focus:border-blue-700 focus:outline-1 ring-offset-1 focus:ring-1  border focus:border-2 h-[2.65rem]  px-3 rounded-md' >
+                {
+                  twoFa?.length ?
+                    twoFa?.map((val, id) =>
+                      <option key={id} value={val} className="capitalize">{val}</option>
+                    ) : null
+                }
+              </select>
+              <div className="mt-3">
+                <button
+                  disabled={loaders.twoFactor}
+                  type="submit"
+                  className="text-white w-full mt-4 inline-flex justify-center items-center bg-blue-600 active:[&:not(:disabled)]:bg-blue-700 disabled:bg-blue-500 py-2 rounded-md">
+                  {
+                    loaders.twoFactor ?
+                      <span className='inline-block py-[0.5px]'>
+                        <SpinnerCircle2 size="sm" color='white' />
+                      </span> :
+                      <span className="inline-block">Continue</span>
+                  }
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </Modal>
   </div>;
 };
 

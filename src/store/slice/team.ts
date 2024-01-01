@@ -1,8 +1,7 @@
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
 
-export type scope = 'manual' | 'google' | 'facebook' | 'two_factor' | 'sms' | 'mail'
-export interface AccountData {
+export interface TeamData {
   id?: string;
   first_name?: string;
   last_name?: string;
@@ -14,50 +13,57 @@ export interface AccountData {
   status?: 'active' | 'disabled';
   verified?: boolean
   photo?: string;
-  scope?: scope[]
+  scope?: ('manual' | 'google' | 'facebook' | 'two_factor' | 'sms' | 'mail')[]
   two_factor_type?: 'app' | 'sms' | 'mail'
   company_id?: string | null
   created_at?: string
-  updated_at?: string
-  company?: {
-    id?: string;
-    name?: string
-    email?: string
-  },
   association?: {
     permissions: ('read' | 'write' | 'delete')[]
     access: 'level_2' | 'level_3'
   }
+  updated_at?: string
   email?: string;
 }
 
-export interface AccountState extends AnyReduxState {
-  data?: AccountData | null;
+export interface TeamState extends AnyReduxState {
+  data?: TeamData[] | null;
 }
 
-const initialState: AccountState = {
+const initialState: TeamState = {
+  loading: "false",
   status: false,
   message: null,
   data: null,
-  loading: "false",
 };
 
-export const accountSlice = createSlice({
-  name: "account",
+export const teamSlice = createSlice({
+  name: "team",
   initialState,
   reducers: {
-    updateAccount: (
-      state: AccountState,
-      action: PayloadAction<AccountState>
+    updateTeam: (
+      state: TeamState,
+      action: PayloadAction<TeamState>
     ) => {
       state.data = action.payload.data ?? state.data;
       state.loading = action.payload.loading ?? state.loading;
       state.status = action.payload.status ?? state.status;
       state.message = action.payload.message ?? state.message;
     },
+    pushATeamMember: (
+      state: TeamState,
+      action: PayloadAction<TeamData>
+    ) => {
+      if (state.data) {
+        const ref = [...state.data]
+        ref.push(action.payload)
+        state.data = ref
+      } else {
+        state.data = [action.payload]
+      }
+    }
   },
 });
 
-export const { updateAccount } = accountSlice.actions;
+export const { updateTeam, pushATeamMember } = teamSlice.actions;
 
-export default accountSlice.reducer;
+export default teamSlice.reducer;

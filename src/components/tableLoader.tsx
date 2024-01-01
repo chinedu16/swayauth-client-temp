@@ -1,5 +1,5 @@
 "use client"
-const TableLoader = ({ row, col = 6 }: { row: number, col?: number }) => {
+const TableLoader = ({ row, col = 4 }: { row: number, col?: number }) => {
   return <>
     {
       Array(col).fill(0).map((_, i) =>

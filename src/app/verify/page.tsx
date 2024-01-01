@@ -19,6 +19,7 @@ interface SearchParamsProp {
 }
 
 const getVerifyReq = async (query: SearchParamsProp): Promise<ResponseProp<null | { require_password?: boolean, email?: string, purpose?: SearchParamsProp['intent'] }>> => {
+  console.log(query)
   if (query.token && query.reference && Number(query.token)) {
     const header = {
       "x-api-key": process.env.SWAYAUTH_IDENTITY

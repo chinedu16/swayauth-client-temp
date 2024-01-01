@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { Method } from "axios";
 import { AppDispatch } from "../store";
 import { getAccessToken, saveAccessToken } from "./token";
 import { CONST } from "./constant";
@@ -68,14 +68,14 @@ export const reduxRequest = <T>(
   }
 }
 
-export const formRequest = async <T>(url: string, data: { [key: string]: any }, progressFunc?: (v: number) => void) => {
+export const formRequest = async <T>(url: string, data: { [key: string]: any }, progressFunc: ((v: number) => void) | null = null, method: Method = 'post') => {
   try {
     const formData = new FormData();
     for (const key in data) {
       formData.append(key, data[key]);
     }
     const res = await axios({
-      method: "post",
+      method,
       url: CONST.BASE_URL + url,
       data: formData,
       headers: {

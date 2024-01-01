@@ -2,36 +2,40 @@ import { CONST } from '@/lib/constant';
 import { removeAccessToken } from '@/lib/token';
 import { AsyncThunk, PayloadAction, combineReducers, configureStore, createAsyncThunk } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
-import { PersistConfig, persistReducer, persistStore } from 'redux-persist';
+import { FLUSH, PAUSE, PERSIST, PURGE, PersistConfig, REGISTER, REHYDRATE, persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import account from './slice/account';
+import appKey from './slice/appKey';
 import association from './slice/association';
 import customerStats from './slice/customerStats';
 import graph from './slice/graph';
 import organization from './slice/organization';
-import statistics from './slice/statistics';
-import wallet from './slice/wallet';
-import users from './slice/users';
-import appKey from './slice/appKey';
 import smtp from './slice/smtp';
+import statistics from './slice/statistics';
+import team from './slice/team';
+import twoFa from './slice/twoFa';
+import users from './slice/users';
+import wallet from './slice/wallet';
 
 const persistConfig: PersistConfig<any> = {
   key: 'root',
   storage,
-  whitelist: ['association', 'wallet', 'account', 'appKey', 'smtp', 'organization']
+  whitelist: ['account', 'appKey', 'smtp', 'twoFa'],
 };
 
 const reducers = combineReducers({
   association,
   wallet,
-  users,
-  statistics,
+  account,
+  appKey,
   smtp,
   organization,
-  appKey,
+  team,
+  users,
+  twoFa,
+  statistics,
   customerStats,
   graph,
-  account,
 })
 
 const reducerProxy = (state: any, action: PayloadAction<ReturnType<typeof reducers>>) => {
@@ -67,6 +71,12 @@ export const logOut = createAsyncThunk(
 
 const store = configureStore({
   reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
 })
 
 export const makeStore = () => store

@@ -15,13 +15,13 @@ const Login = () => {
   const [isPending, startTransition] = useTransition()
   const [message, setMessage] = useState('');
   const [state, formAction] = useFormState(handleLoginform, { status: false, message: '', data: null })
-  const [twoFactor, setTwoFactor] = useState<TwoFactor>({ open: false, reference: '', token: '' });
+  const [twoFactor, setTwoFactor] = useState<TwoFactor>({ open: false, reference: '', token: '', two_factor_type: 'app' });
   const [visiblePassoword, setVisiblePassoword] = useState(false);
 
   useEffect(() => {
     if (state.status) {
       if (state?.data?.two_factor_enabled) {
-        setTwoFactor(p => ({ ...p, open: true, reference: state?.data?.reference }))
+        setTwoFactor(p => ({ ...p, open: true, reference: state?.data?.reference, two_factor_type: state?.data?.two_factor_type }))
       }
     } else {
       setMessage(state.message || '')
@@ -80,7 +80,7 @@ const Login = () => {
                 required
                 invalid={message}
                 name='email'
-                placeholder='e.g johndoe@mail.com'
+                placeholder='e.g johndoe@email.com'
                 autoComplete="email"
               />
             </div>
@@ -142,6 +142,7 @@ const Login = () => {
         handle2faVerify={handle2faVerify}
         loading={isPending}
         length={6}
+        type={twoFactor.two_factor_type}
         onChange={handle2AuthChange}
         isOpen={twoFactor.open}
         toggle={toggle2Auth} />
