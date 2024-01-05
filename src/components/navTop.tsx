@@ -17,7 +17,6 @@ import Modal from "./modal";
 import { SpinnerCircle2 } from "./spinner";
 
 const NavTop = () => {
-
   const { data, loading } = useAccount();
   const { data: walletData, loading: walletLoading } = useWallet();
   const { data: assocData, loading: assocLoading } = useAssociation();
