@@ -55,6 +55,13 @@ export const CONST = Object.freeze({
       LIST: '/company/organizations',
       DELETE: '/company/organizations',
     },
+    TRANSACTION: {
+      LIST: '/company/transactions'
+    },
+    CARD: {
+      LIST: '/company/cards',
+      DELETE: '/company/cards/delete'
+    },
     CREDENTIALS: {
       GET_APP_KEY: '/company/credentials/appkey',
       ROTATE_APP_KEY: '/company/credentials/appkey/rotate'

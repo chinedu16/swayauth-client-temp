@@ -7,12 +7,14 @@ import storage from 'redux-persist/lib/storage';
 import account from './slice/account';
 import appKey from './slice/appKey';
 import association from './slice/association';
+import cards from './slice/cards';
 import customerStats from './slice/customerStats';
 import graph from './slice/graph';
 import organization from './slice/organization';
 import smtp from './slice/smtp';
 import statistics from './slice/statistics';
 import team from './slice/team';
+import transactions from './slice/transactions';
 import twoFa from './slice/twoFa';
 import users from './slice/users';
 import wallet from './slice/wallet';
@@ -20,7 +22,7 @@ import wallet from './slice/wallet';
 const persistConfig: PersistConfig<any> = {
   key: 'root',
   storage,
-  whitelist: ['account', 'appKey', 'smtp', 'twoFa'],
+  whitelist: ['account', 'appKey', 'smtp', 'twoFa', 'cards'],
 };
 
 const reducers = combineReducers({
@@ -28,8 +30,10 @@ const reducers = combineReducers({
   wallet,
   account,
   appKey,
+  cards,
   smtp,
   organization,
+  transactions,
   team,
   users,
   twoFa,

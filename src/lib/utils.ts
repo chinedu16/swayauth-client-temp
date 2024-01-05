@@ -23,7 +23,7 @@ const monthLong = ['January', 'February', 'March', 'April', 'May', 'June', 'July
 
 export const dateShort = (dateString?: string, fullMonth = false) => {
   const date = dateString ? new Date(dateString) : new Date();
-  return `${date.getDate()} ${(fullMonth ? monthLong : month)[date.getMonth()]} ${date.getFullYear()}`;
+  return `${(fullMonth ? monthLong : month)[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
 };
 
 export const dateLong = (dateString?: string, hour: boolean = true) => {
