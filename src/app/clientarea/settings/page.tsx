@@ -122,7 +122,6 @@ const Settings = () => {
           if (res.status) {
             toggle2Auth()
             updateClientProfile({
-              ...data,
               scope: (data?.scope?.indexOf('two_factor') ?? -1) > -1 ? data?.scope : data?.scope?.concat(['two_factor']),
               two_factor_type: twoFactor.two_factor_type
             })
@@ -144,7 +143,7 @@ const Settings = () => {
     const res = await formRequest<{ path: string }>(CONST.ACCOUNT.PHOTO, { file }, null, 'patch');
     setLoading('photo', false)
     if (res.status) {
-      updateClientProfile({ ...data, photo: res.data?.path })
+      updateClientProfile({ photo: res.data?.path })
       toast.success(res.message)
     } else {
       toast.error(res.message)
@@ -166,9 +165,10 @@ const Settings = () => {
     if (phone && isValidPhoneNumber(phone)) {
       data.phone = phone
     } else {
-      setPhoneFocus(true)
+      return setPhoneFocus(true)
     }
     setLoading('profile', true)
+    setPhoneFocus(false)
     const res = await normalRequest<AccountData>(CONST.ACCOUNT.UPDATE_ACCOUNT, data, 'patch');
     setLoading('profile', false)
     if (res.status) {
@@ -452,7 +452,7 @@ const Settings = () => {
             smtpLoading || !isClient ?
               <span className="h-5 w-6/12 rounded-lg inline-block animate-pulse bg-slate-200"></span>
               :
-              smtp?.email
+              smtp?.email ?? 'N/A'
           }
         </div>
         <div className={`w-3/12 ${smtpLoading || !isClient ? '' : smtp?.verified ? 'text-green-600' : 'text-red-600'} `}>

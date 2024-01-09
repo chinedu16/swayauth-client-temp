@@ -1,29 +1,39 @@
 "use client"
+import Input from "@/components/input";
+import Modal from "@/components/modal";
 import { SpinnerCircle2 } from "@/components/spinner";
 import TableLoader from "@/components/tableLoader";
+import { CONST } from "@/lib/constant";
+import { FormData } from "@/lib/form";
+import { normalRequest } from "@/lib/request";
 import { dateShort, money } from "@/lib/utils";
+import useAccount from "@/store/hooks/account";
 import useCards from "@/store/hooks/cards";
 import useTransactions from "@/store/hooks/transactions";
 import useWallet from "@/store/hooks/wallet";
 import { faChevronLeft, faChevronRight, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { ChangeEvent, useEffect } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 let pageTimer: any;
 const Wallet = () => {
   const router = useRouter()
   const pathname = usePathname()
-  const { data: walletData, loading: walletLoading } = useWallet();
+  const [fundModal, setFundModal] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const { data: account, updateClientProfile } = useAccount(false)
+  const { data: walletData, loading: walletLoading, fetchWallet } = useWallet();
   const { data: cards, loading: cardsLoading } = useCards();
   const searchParams = useSearchParams()
-
-  const { data: transactions, loading, fetchTransactions } = useTransactions()
+  const { data: transactions, loading: transationLoading, fetchTransactions } = useTransactions()
 
   useEffect(() => {
     fetchTransactions(changeRouteQuery())
   }, [searchParams]);
 
+  const toggleFundModal = () => setFundModal(!fundModal)
 
   const changeRouteQuery = (...args: string[]) => {
     const params = new URLSearchParams(searchParams)
@@ -62,6 +72,41 @@ const Wallet = () => {
     }
   }
 
+  const changeSaveCardStatus = async (e: ChangeEvent<HTMLInputElement>) => {
+    const checked = e.target.checked
+    updateClientProfile({ company: { save_cards: checked } })
+    setLoading(true)
+    const res = await normalRequest(CONST.COMPANY.CARD.SAVE_CARDS + String(checked), {}, 'put')
+    setLoading(false)
+    if (!res.status) {
+      toast.error(res.message)
+      updateClientProfile({ company: { save_cards: !checked } })
+    } else {
+      toast.success(res.message)
+    }
+  }
+
+  const initPayment = async (e: FormEvent<HTMLFormElement>) => {
+    const data = FormData(e, ['amount'])
+    setLoading(true)
+    const res = await normalRequest<{ authorization_url?: string }>(CONST.COMPANY.WALLET.FUND_WALLET, data);
+    toggleFundModal()
+    if (res.status && res.data?.authorization_url) {
+      const newTab = window?.open(res.data.authorization_url, '_blank');
+      newTab?.addEventListener('unload', () => handleCloseEvent(newTab));
+    } else {
+      toast.error(res.message)
+    }
+    setLoading(false);
+  }
+
+  const handleCloseEvent = (e: Window | null) => {
+    setTimeout(() => {
+      fetchWallet();
+    }, 10000)
+    e?.removeEventListener('unload', () => null);
+  }
+
   return <div>
     <div className="mt-8 flex flex-wrap items-stretch">
       <div className="w-full mb-8 xl:mb-0 xl:w-[40%] h-full shadow-md bg-blue-700 text-white p-6 rounded-md">
@@ -76,7 +121,7 @@ const Wallet = () => {
         </h1>
         <div className="flex flex-wrap justify-between">
           <span className="inline-block mr-4">{dateShort()}</span>
-          <button className="py-1 px-6 text-sm rounded-full text-blue-700 bg-white">Add Funds</button>
+          <button onClick={toggleFundModal} className="py-1 px-6 text-sm rounded-full text-blue-700 bg-white">Add Funds</button>
         </div>
       </div>
       {
@@ -113,6 +158,26 @@ const Wallet = () => {
       }
     </div>
 
+    <div className="relative shadow-md rounded-lg bg-white mt-8">
+      <div className="px-6 py-5  w-full">
+        <h4 className="text-lg sm:text-xl font-semibold">
+          Wallet Setup
+        </h4>
+      </div>
+      <div className="px-6 pt-2 pb-5 justify-between w-full flex items-center">
+        <div className="pr-10">
+          Allow credit card detail to be saved and used for subsequent transactions on this account?
+        </div>
+        <label className="relative whitespace-nowrap inline-flex items-center cursor-pointer">
+          <input onChange={changeSaveCardStatus}
+            disabled={loading}
+            checked={account?.company?.save_cards}
+            type="checkbox" className="sr-only peer" />
+          <div className={`w-11 h-6 bg-gray-200 ${loading ? 'opacity-40' : ''} peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600`}></div>
+        </label>
+      </div>
+    </div>
+
     <div className="relative shadow-md pb-2 rounded-lg bg-white mt-8">
       <div className="p-5 text-lg font-semibold text-left w-full">
         <div className="w-full flex justify-between flex-wrap items-center">
@@ -144,7 +209,7 @@ const Wallet = () => {
           </thead>
           <tbody >
             {
-              loading != 'done' ?
+              transationLoading != 'done' ?
                 <TableLoader row={10} /> :
                 transactions?.length ?
                   transactions?.map((item, i) =>
@@ -204,6 +269,45 @@ const Wallet = () => {
         </button>
       </div>
     </div>
+    <Modal isOpen={fundModal} toggle={toggleFundModal} center size="max-w-sm">
+      <div className="mx-auto transition w-full items-center justify-center flex" >
+        <div className="bg-white rounded-md w-full">
+          <div className="flex sticky top-0 bg-white items-center p-4 w-full border-b">
+            <button onClick={() => { if (!loading) toggleFundModal() }} className="p-1 font-bold text-xl rounded-full hover:bg-slate-100 px-3">
+              <FontAwesomeIcon icon={faXmark} />
+            </button>
+            <h2 className='text-xl pl-3 font-bold'>Top Up</h2>
+          </div>
+          <div className="p-7">
+            <form onSubmit={initPayment}>
+              <input
+                type="number"
+                required
+                disabled={loading}
+                min={100}
+                autoFocus
+                name='amount'
+                className='w-full bg-slate-50 focus:border-blue-700 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
+                placeholder='₦1000' />
+              <div className="mt-3">
+                <button
+                  disabled={loading}
+                  type="submit"
+                  className="text-white w-full mt-4 inline-flex justify-center items-center bg-blue-600 active:[&:not(:disabled)]:bg-blue-700 disabled:bg-blue-500 py-2 rounded-md">
+                  {
+                    loading ?
+                      <span className='inline-block py-[0.5px]'>
+                        <SpinnerCircle2 size="sm" color='white' />
+                      </span> :
+                      <span className="inline-block">Continue</span>
+                  }
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </Modal>
   </div>;
 };
 

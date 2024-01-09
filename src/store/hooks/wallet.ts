@@ -11,12 +11,16 @@ const useWallet = (auto = true) => {
     useEffect(() => {
         if (auto) {
             if (loading === 'false' && data === null) {
-                http(reduxRequest(CONST.COMPANY.WALLET.GET_WALLET, {}, updateWallet, 'get'))
+                fetchWallet()
             }
         }
     }, []);
 
-    return { loading: loading == 'true', data, message, status }
+    const fetchWallet = () => {
+        http(reduxRequest(CONST.COMPANY.WALLET.GET_WALLET, {}, updateWallet, 'get'))
+    }
+
+    return { loading: loading == 'true', data, message, status , fetchWallet}
 }
 
 export default useWallet;

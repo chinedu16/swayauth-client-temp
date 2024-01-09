@@ -29,18 +29,19 @@ const NavTop = () => {
     setSwitchAccoutModal(!switchAccoutModal)
   }
 
-  const logMeOut = () => {
-    dispatch(logOut())
+  const logMeOut = (link?: any) => {
+    dispatch(logOut(typeof link == 'string' ? link : undefined)())
   }
 
   const switchAccount = async (e: FormEvent<HTMLFormElement>) => {
     const sData = FormData(e, ['company_id'])
-    if (data?.company_id === data?.company?.id) return toast.error('Account is already active!')
+    if (sData?.company_id === data?.company?.id) return toast.error('Account is already active!')
     setSwitchLoading(true)
     const res = await normalRequest(CONST.ACCOUNT.SWITCH_ACCOUNT + `/${sData.company_id}`, {}, 'put')
     setSwitchLoading(false)
     toggleSwitchAccount()
     toast[res.status ? 'success' : 'error'](res.message)
+    if (res.status) logMeOut(CONST.LOCATION.LOGIN + `?email=${data?.email}`)
   }
 
   return <nav className="sticky max-h-[4rem] z-40 bg-white top-0 shadow-sm w-full p-2 border-b flex items-center">

@@ -1,5 +1,7 @@
 export const CONST = Object.freeze({
   BASE_URL: process.env.NODE_ENV == 'development' ? `http://${typeof window !== "undefined" ? window?.location?.hostname : '172.20.10.4'}:8000/v1` : 'https://api.swayauth.com/v1',
+  ACCESS_TOKEN: '__s_c_UUtk_at',
+  REFRESH_TOKEN: '__s_c_UUtk_tr',
   LOCATION: {
     CLIENT_AREA: '/clientarea',
     LOGIN: '/login',
@@ -7,8 +9,6 @@ export const CONST = Object.freeze({
     FORGOT_PASSWORD: '/forgot-password',
     REGISTER: '/register'
   },
-  ACCESS_TOKEN: '__s_c_UUtk_at',
-  REFRESH_TOKEN: '__s_c_UUtk_tr',
   AUTH: {
     MANUAL_LOGIN: '/auth/login/client',
     GET_TWO_FA: '/auth/2fa',
@@ -28,46 +28,48 @@ export const CONST = Object.freeze({
   },
   COMPANY: {
     STATISTICS: {
-      GET_STATISTIC_PERFORMANCE: '/company/statistics/count',
-      GET_ALL_STATISTIC_PERFORMANCE: '/company/statistics/count?users&sms&mail&google&facebook&manual&duration=7_days',
-      GET_REGISTER_GRAPH: '/company/statistics/registered',
-      GET_LOGIN_GRAPH: '/company/statistics/login',
+      GET_STATISTIC_PERFORMANCE: '/client/statistics/count',
+      GET_ALL_STATISTIC_PERFORMANCE: '/client/statistics/count?users&sms&mail&google&facebook&manual&duration=7_days',
+      GET_REGISTER_GRAPH: '/client/statistics/registered',
+      GET_LOGIN_GRAPH: '/client/statistics/login',
     },
     SMTP: {
-      DETAIL: '/company/mail',
-      LOGO: '/company/mail/photo',
-      SETUP: '/company/mail/setup',
-      UPDATE: '/company/mail/update',
-      VERIFY: '/company/mail/verify',
+      DETAIL: '/client/mail',
+      LOGO: '/client/mail/photo',
+      SETUP: '/client/mail/setup',
+      UPDATE: '/client/mail/update',
+      VERIFY: '/client/mail/verify',
     },
     USERS: {
-      STATISTICS: '/company/users/statistics?users&organizations&active&disabled',
-      DELETE_USERS: '/company/users/delete',
-      ACTIVATE_USERS: '/company/users/activate',
-      DEACTIVATE_USERS: '/company/users/deactivate',
-      LIST: '/company/users'
+      STATISTICS: '/client/users/statistics?users&organizations&active&disabled',
+      DELETE_USERS: '/client/users/delete',
+      ACTIVATE_USERS: '/client/users/activate',
+      DEACTIVATE_USERS: '/client/users/deactivate',
+      LIST: '/client/users'
     },
     TEAM: {
-      LIST: '/company/team',
-      CREATE: '/company/team/create'
+      LIST: '/client/team',
+      CREATE: '/client/team/create'
     },
     ORGANIZATION: {
-      LIST: '/company/organizations',
-      DELETE: '/company/organizations',
+      LIST: '/client/organizations',
+      DELETE: '/client/organizations',
     },
     TRANSACTION: {
-      LIST: '/company/transactions'
+      LIST: '/client/transactions'
     },
     CARD: {
-      LIST: '/company/cards',
-      DELETE: '/company/cards/delete'
+      LIST: '/client/cards',
+      DELETE: '/client/cards/delete',
+      SAVE_CARDS: '/client/cards/save-cards?status='
     },
     CREDENTIALS: {
-      GET_APP_KEY: '/company/credentials/appkey',
-      ROTATE_APP_KEY: '/company/credentials/appkey/rotate'
+      GET_APP_KEY: '/client/credentials/app-key',
+      ROTATE_APP_KEY: '/client/credentials/app-key/rotate'
     },
     WALLET: {
-      GET_WALLET: '/company/wallet/balance',
+      GET_WALLET: '/client/wallet/balance',
+      FUND_WALLET: '/client/wallet/init-payment',
     }
   }
 })

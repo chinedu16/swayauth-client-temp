@@ -64,12 +64,13 @@ export const setStore: AsyncThunk<void, AppState, any> = createAsyncThunk(
   }
 );
 
-export const logOut = createAsyncThunk(
+export const logOut = (link?: string) => createAsyncThunk(
   "auth/logout",
   async function (_payload, thunkAPI) {
+    console.log('nice oh')
     thunkAPI.dispatch({ type: 'auth/LOGOUT' });
     removeAccessToken()
-    window.location.href = CONST.LOCATION.LOGIN
+    window.location.href = link || CONST.LOCATION.LOGIN
   }
 );
 

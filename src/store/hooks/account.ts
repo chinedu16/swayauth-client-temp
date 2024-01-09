@@ -16,9 +16,9 @@ const useAccount = (auto = true) => {
         }
     }, []);
 
-    const updateClientProfile = (data: AccountData | null) => {
-        if (data)
-            http(updateAccount({ data }))
+    const updateClientProfile = (value: AccountData | null) => {
+        if (value)
+            http(updateAccount({ data: { ...data, ...value, company: { ...data?.company, ...value?.company } } }))
     }
 
     return { loading: loading == 'true', data, message, status, updateClientProfile }

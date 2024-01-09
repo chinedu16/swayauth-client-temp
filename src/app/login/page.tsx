@@ -8,15 +8,18 @@ import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { useEffect, useState, useTransition } from 'react';
 import { useFormState } from 'react-dom';
 
 const Login = () => {
   const [isPending, startTransition] = useTransition()
   const [message, setMessage] = useState('');
+  const searchParams = useSearchParams()
   const [state, formAction] = useFormState(handleLoginform, { status: false, message: '', data: null })
   const [twoFactor, setTwoFactor] = useState<TwoFactor>({ open: false, reference: '', token: '', two_factor_type: 'app' });
   const [visiblePassoword, setVisiblePassoword] = useState(false);
+  const defaultEmail = searchParams.get('email') || ''
 
   useEffect(() => {
     if (state.status) {
@@ -75,9 +78,10 @@ const Login = () => {
             <label>Email</label>
             <div className='mt-1'>
               <Input
-                autoFocus
+                autoFocus={!defaultEmail}
                 type="email"
                 required
+                defaultValue={defaultEmail}
                 invalid={message}
                 name='email'
                 placeholder='e.g johndoe@email.com'
@@ -93,6 +97,7 @@ const Login = () => {
             <div className='mt-1 flex items-center relative'>
               <Input
                 required
+                autoFocus={!!defaultEmail}
                 invalid={message}
                 type={visiblePassoword ? 'text' : 'password'}
                 name='password'

@@ -8,6 +8,7 @@ const Input = ({
   required,
   name,
   autoComplete,
+  min,
   invalid,
   pattern,
   title,
@@ -20,6 +21,7 @@ const Input = ({
   disabled?: boolean
   autoFocus?: boolean
   required?: boolean
+  min?: number
   name?: string,
   className?: string
   defaultValue?: string
@@ -43,6 +45,7 @@ const Input = ({
     value={value}
     title={title}
     pattern={pattern}
+    min={min}
     autoComplete={autoComplete}
     className={`
     ${className ? className : ''}
