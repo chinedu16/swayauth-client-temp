@@ -2,15 +2,16 @@
 import Input from '@/components/input';
 import FormButton from '@/components/onboarding/button';
 import Success from '@/components/onboarding/success';
-import { handleRegisterForm } from '@/lib/server/form';
+import { googleAuth, handleRegisterForm } from '@/lib/server/form';
 import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useTransition } from 'react';
 import { useFormState } from 'react-dom';
 
 const SignUp = () => {
+  const [isPending, startTransition] = useTransition()
   const [successMessage, setSuccessMessage] = useState(false);
   const [message, setMessage] = useState('');
   const [visiblePassoword, setVisiblePassoword] = useState(false);
@@ -28,6 +29,14 @@ const SignUp = () => {
     setMessage('')
   }
 
+
+  const handleGoogleRegister = () => {
+    startTransition(() => {
+      googleAuth()
+    })
+  }
+
+
   return (
     <main className="flex justify-center items-center p-2 py-24 md:p-12" style={{ height: '100svh' }}>
       <div className="max-w-xl w-full">
@@ -41,14 +50,14 @@ const SignUp = () => {
           <h1 className='text-2xl mb-6 font-bold'>Create an account</h1>
           <div className='mb-6 flex items-center justify-between'>
             <button type='button' className='inline-flex w-[48%] shadow-sm hover:bg-slate-50 active:bg-slate-100 rounded-md py-2 px-3 border items-center active:scale-105'>
-              <Image src='/google.png' className='max-w-[2rem] p-[0.2rem] max-h-[2rem]'
-                alt="" width={480} height={480} />
+              <Image src='/facebook.png' className='max-w-[2rem] p-[0.1rem] max-h-[2rem]'
+                alt="" width={300} height={300} />
               <span className='inline-block ml-2'><span className='hidden md:inline-block mr-1'>Create with</span>facebook</span>
             </button>
-            <button type='button' className='inline-flex w-[48%] shadow-sm hover:bg-slate-50 active:bg-slate-100 rounded-md py-2 px-3 border items-center active:scale-105'>
+            <button onClick={handleGoogleRegister} type='button' className='inline-flex w-[48%] shadow-sm hover:bg-slate-50 active:bg-slate-100 rounded-md py-2 px-3 border items-center active:scale-105'>
               <span className='inline-block'>
-                <Image src='/facebook.png' className='max-w-[2rem] p-[0.1rem] max-h-[2rem]'
-                  alt="" width={300} height={300} />
+                <Image src='/google.png' className='max-w-[2rem] p-[0.2rem] max-h-[2rem]'
+                  alt="" width={480} height={480} />
               </span>
               <span className='inline-block ml-2'><span className='hidden md:inline-block mr-1'>Create with</span>google</span>
             </button>
