@@ -2,7 +2,7 @@
 import Input from '@/components/input';
 import App2factor from '@/components/onboarding/app2factor';
 import FormButton from '@/components/onboarding/button';
-import { handleLoginform, auth2faVerify } from '@/lib/server/form';
+import { auth2faVerify, googleAuth, handleLoginform } from '@/lib/server/form';
 import { TwoFactor } from '@/lib/types';
 import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -61,6 +61,12 @@ const Login = () => {
     } else {
       toggle2Auth()
     }
+  }
+
+  const handleGoogleLogin = () => {
+    startTransition(() => {
+      googleAuth()
+    })
   }
 
   return (
@@ -131,7 +137,7 @@ const Login = () => {
             <span className='inline-block h-[0.1rem] bg-slate-400 w-4/12'></span>
           </div>
           <div className='mt-4 flex justify-center items-center'>
-            <button type='button' className='inline-block mr-2 active:scale-105'>
+            <button onClick={handleGoogleLogin} className='inline-block mr-2 active:scale-105'>
               <Image src='/google.png' className='max-w-[2rem] max-h-[2rem] p-[0.05rem]'
                 alt="" width={480} height={480} />
             </button>

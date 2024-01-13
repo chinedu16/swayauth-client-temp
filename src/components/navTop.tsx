@@ -15,6 +15,7 @@ import toast from "react-hot-toast";
 import DropDown from "./dropDown";
 import Modal from "./modal";
 import { SpinnerCircle2 } from "./spinner";
+import PreloadImage from "./preloadImage";
 
 const NavTop = () => {
   const { data, loading } = useAccount();
@@ -44,6 +45,8 @@ const NavTop = () => {
     if (res.status) logMeOut(CONST.LOCATION.LOGIN + `?email=${data?.email}`)
   }
 
+  console.log(data);
+
   return <nav className="sticky max-h-[4rem] z-40 bg-white top-0 shadow-sm w-full p-2 border-b flex items-center">
     <div className="md:min-w-[220px] select-none md:px-4 flex items-center">
       <label htmlFor="hambugger2" className="md:hidden inline-block px-2 mr-2 text-2xl py-1 cursor-pointer">
@@ -67,7 +70,7 @@ const NavTop = () => {
       </h3>
       <DropDown.Container>
         <DropDown.Toggle className={`w-[2.5rem] ${loading ? 'opacity-50' : ''} border max-w-[2.5rem] h-[2.5rem] inline-flex items-center justify-center overflow-hidden rounded-full`}>
-          <Image src={data?.photo ? data.photo : '/avatar-2.png'} alt="" width={400} height={400} className="object-cover" />
+          <PreloadImage src={data?.photo || '/avatar-2.png'} className="object-cover" />
         </DropDown.Toggle>
         <DropDown.Body className="inline-block right-0 top-[calc(100%+0.5rem)] min-w-[10rem]">
           <ul className="py-2 dark:text-gray-200 bg-black rounded-md">

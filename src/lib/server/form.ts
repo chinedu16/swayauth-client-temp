@@ -1,9 +1,10 @@
 "use server";
+import { createCipheriv, createHash } from "crypto";
+import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 import { CONST } from "../constant";
 import { formRequest, normalRequest } from "../request";
 import { LoginProp } from "../types";
-import { cookies } from 'next/headers'
-import { redirect } from 'next/navigation'
 
 export const handleLoginform = async (_: any, e: FormData): Promise<ResponseProp<LoginProp | null>> => {
   const data = { email: e.get('email'), password: e.get('password') }
@@ -50,6 +51,24 @@ export const auth2faVerify = async (data: { token?: string, two_factor_type?: 'a
     }
   }
   return res
+}
+
+export const Encrypt = (str: string): string => {
+  try {
+    const algorithm = 'aes-256-cbc';
+    const key = createHash('sha512').update(process.env.SWAYAUTH_IDENTITY as string, 'utf-8').digest('hex').substring(0, 32);
+    const iv = createHash('sha512').update(process.env.SWAYAUTH_IDENTITY as string, 'utf-8').digest('hex').substring(0, 16);
+    var encryptor = createCipheriv(algorithm, key, iv);
+    var aes_encrypted = encryptor.update(str, 'utf8', 'base64') + encryptor.final('base64');
+    return Buffer.from(aes_encrypted).toString('base64').replaceAll('=', '_');
+  } catch (error: any) {
+    return ''
+  }
+}
+
+export const googleAuth = async () => {
+  const client_id = Encrypt(JSON.stringify({ url: CONST.CLIENT_BASE_URL, duration: Date.now() + (1000 * 60 * 5) }));
+  redirect(CONST.AUTH.GOOGLE + client_id);
 }
 
 export const uploadServerImage = async (base64String: string): Promise<ResponseProp<{ path: string } | null>> => {

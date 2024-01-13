@@ -1,5 +1,6 @@
 export const CONST = Object.freeze({
   BASE_URL: process.env.NODE_ENV == 'development' ? `http://${typeof window !== "undefined" ? window?.location?.hostname : '172.20.10.4'}:8000/v1` : 'https://api.swayauth.com/v1',
+  CLIENT_BASE_URL: process.env.NODE_ENV == 'development' ? `http://${typeof window !== "undefined" ? window?.location?.hostname : '172.20.10.4'}:3000` : 'https://swayauth.com',
   ACCESS_TOKEN: '__s_c_UUtk_at',
   REFRESH_TOKEN: '__s_c_UUtk_tr',
   LOCATION: {
@@ -20,6 +21,7 @@ export const CONST = Object.freeze({
     TWO_FACTOR_VERIFY: '/auth/2fa/verify',
     TOKEN_VERIFY: '/auth/token/verify',
     TWO_FACTOR_ENABLE: '/auth/2fa/enable',
+    GOOGLE: process.env.NODE_ENV == 'development' ? 'http://localhost:8000/v1/google?client_id=' : 'https://api.swayauth.com/v1/google?client_id='
   },
   ACCOUNT: {
     PHOTO: '/account/photo',
