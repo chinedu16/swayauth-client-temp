@@ -137,7 +137,7 @@ const Login = () => {
             <span className='inline-block h-[0.1rem] bg-slate-400 w-4/12'></span>
           </div>
           <div className='mt-4 flex justify-center items-center'>
-            <button onClick={handleGoogleLogin} className='inline-block mr-2 active:scale-105'>
+            <button type='button' onClick={handleGoogleLogin} className='inline-block mr-2 active:scale-105'>
               <Image src='/google.png' className='max-w-[2rem] max-h-[2rem] p-[0.05rem]'
                 alt="" width={480} height={480} />
             </button>
