@@ -2,7 +2,7 @@ import { CONST } from "@/lib/constant";
 import { reduxRequest } from "@/lib/request";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "..";
-import { updateOrganization } from "../slice/organization";
+import { OrganizationData, addAnOrganization, deleteOrg, updateOrganization } from "../slice/organization";
 
 const useOrganization = (auto = true) => {
     const { loading, data, message, status } = useAppSelector(state => state.organization)
@@ -10,13 +10,21 @@ const useOrganization = (auto = true) => {
 
     useEffect(() => {
         if (auto) {
-            if (loading === 'false' && data === null) {
+            if (loading === 'false') {
                 http(reduxRequest(CONST.COMPANY.ORGANIZATION.LIST + `?page=-1`, {}, updateOrganization, 'get'))
             }
         }
     }, []);
 
-    return { loading, data, message, status }
+    const addOrganization = (organization: OrganizationData) => {
+        http(addAnOrganization(organization))
+    }
+
+    const removeOrg = (id: string) => {
+        http(deleteOrg(id))
+    }
+
+    return { loading, data, message, status, addOrganization, removeOrg }
 }
 
 export default useOrganization;

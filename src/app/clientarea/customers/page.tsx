@@ -22,11 +22,13 @@ const Customer = () => {
   const { data, loading } = useCustomerStats()
   const [checkedUsers, setCheckedUsers] = useState<string[]>([]);
   const { data: orgData, loading: orgLoading } = useOrganization()
-  const { data: users, loading: usersLoading, fetchUsers } = useUsers()
+  const { data: users, loading: usersLoading, fetchUsers } = useUsers(false)
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const sort = searchParams.get('sort') || 'id'
+  const currPage = Number(searchParams.get('page') || 1)
+  const size = Number(searchParams.get('size') || 10)
   const direction = searchParams.get('direction') || 'asc'
 
   useEffect(() => {
@@ -48,8 +50,6 @@ const Customer = () => {
   }
 
   const changeDirection = (dir: 'prev' | 'next') => {
-    const currPage = Number(searchParams.get('page') || 1)
-    const size = Number(searchParams.get('size') || 10)
     if (currPage > 0) {
       if (dir == 'prev' && currPage == 1) return
       if (dir === 'next' && users?.length !== size) return
@@ -69,8 +69,6 @@ const Customer = () => {
   }
 
   const pageChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const currPage = Number(searchParams.get('page') || 1)
-    const size = Number(searchParams.get('size') || 10)
     const newPage = Number(e.target.value)
     if (newPage < 1) return
     if ((newPage > currPage) && users?.length !== size) return
@@ -339,7 +337,7 @@ const Customer = () => {
                       </td>
                       <td scope="row" className="px-4 pt-2 whitespace-nowrap">
                         <div className="whitespace-nowrap">
-                          {i + 1}.
+                          {((currPage * size) - size) + i + 1}.
                         </div>
                       </td>
                       <td scope="row" className="px-4 pt-2 whitespace-nowrap">

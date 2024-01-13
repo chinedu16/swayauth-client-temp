@@ -1,6 +1,6 @@
 "use server";
 import { CONST } from "../constant";
-import { normalRequest } from "../request";
+import { formRequest, normalRequest } from "../request";
 import { LoginProp } from "../types";
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
@@ -50,4 +50,13 @@ export const auth2faVerify = async (data: { token?: string, two_factor_type?: 'a
     }
   }
   return res
+}
+
+export const uploadServerImage = async (base64String: string): Promise<ResponseProp<{ path: string } | null>> => {
+  const header = {
+    "x-api-key": process.env.SWAYAUTH_IDENTITY
+  }
+  const base64Res = await fetch(base64String);
+  const file = await base64Res.blob();
+  return await formRequest(CONST.UPLOAD.IMAGE, { file }, null, 'post', header);
 }

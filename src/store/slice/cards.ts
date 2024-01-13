@@ -31,6 +31,13 @@ export const cardsSlice = createSlice({
   name: "cards",
   initialState,
   reducers: {
+    removeCard: (
+      state: CardsState,
+      action: PayloadAction<string>
+    ) => {
+      const oldData = state.data ? [...state.data].map(v => ({ ...v })).filter(v => v.id != action.payload) : []
+      state.data = oldData
+    },
     updateCards: (
       state: CardsState,
       action: PayloadAction<CardsState>
@@ -43,6 +50,6 @@ export const cardsSlice = createSlice({
   },
 });
 
-export const { updateCards } = cardsSlice.actions;
+export const { updateCards, removeCard } = cardsSlice.actions;
 
 export default cardsSlice.reducer;

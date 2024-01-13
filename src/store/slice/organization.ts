@@ -7,8 +7,8 @@ export interface OrganizationData {
   name?: string;
   website?: string;
   bio?: string;
-  organization_token?: {
-    _count?: number;
+  _count?: {
+    organization_token?: number
   }
   company_id?: string;
   created_at?: string
@@ -30,6 +30,30 @@ export const organizationSlice = createSlice({
   name: "organization",
   initialState,
   reducers: {
+    deleteOrg: (
+      state: OrganizationState,
+      action: PayloadAction<string>
+    ) => {
+      const oldData = state.data ? [...state.data].map(v => ({ ...v })).filter(v => v.id != action.payload) : []
+      state.data = oldData
+    },
+    addAnOrganization: (
+      state: OrganizationState,
+      action: PayloadAction<OrganizationData>
+    ) => {
+      if (state.data) {
+        const ref = [...state.data]
+        const index = ref.findIndex(r => r.id == action.payload.id)
+        if (index > -1) {
+          ref[index] = action.payload
+        } else {
+          ref.push(action.payload)
+        }
+        state.data = ref
+      } else {
+        state.data = [action.payload]
+      }
+    },
     updateOrganization: (
       state: OrganizationState,
       action: PayloadAction<OrganizationState>
@@ -42,6 +66,6 @@ export const organizationSlice = createSlice({
   },
 });
 
-export const { updateOrganization } = organizationSlice.actions;
+export const { updateOrganization, deleteOrg, addAnOrganization } = organizationSlice.actions;
 
 export default organizationSlice.reducer;

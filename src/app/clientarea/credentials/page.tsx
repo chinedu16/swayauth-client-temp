@@ -1,4 +1,5 @@
 "use client"
+import AlertAction from "@/components/alert";
 import EditOrg from "@/components/clientarea/credentials/modals/editOrg";
 import TableLoader from "@/components/tableLoader";
 import { CONST } from "@/lib/constant";
@@ -17,9 +18,11 @@ import toast from "react-hot-toast";
 const Credentials = () => {
   const [orgModal, setOrgModal] = useState(false);
   const [isClient, setIsClient] = useState(false)
+  const [loading, setLoading] = useState(false);
+  const [deleteOrgModal, setDeleteOrgModal] = useState({ open: false, id: '' });
   const [orgSelected, setOrgSelected] = useState<OrganizationData | null>(null);
   const { data: appKeyData, loading: appKetLoading, rotateAppKey } = useAppKey()
-  const { data: orgData, loading: orgLoading } = useOrganization()
+  const { data: orgData, loading: orgLoading, removeOrg } = useOrganization()
   const toggleOrg = () => {
     setOrgSelected(null)
     setOrgModal(!orgModal)
@@ -29,17 +32,20 @@ const Credentials = () => {
     setIsClient(true)
   }, [])
 
+  const toggleDeleteOrg = (id: string) => setDeleteOrgModal(p => ({ id, open: !p.open }))
+
   const editOrg = (obj: OrganizationData | null = null) => {
     setOrgSelected(obj)
     setOrgModal(true)
   }
 
   const deleteOrg = async (id: string) => {
+    setLoading(true)
     const res = await normalRequest(CONST.COMPANY.ORGANIZATION.DELETE + `/${id}`, {}, 'delete')
+    setLoading(false)
     toast[res.status ? 'success' : 'error'](res.message)
-    if (res.status) {
-      //update redux
-    }
+    if (res.status) removeOrg(id)
+    toggleDeleteOrg('')
   }
 
   return <div className="py-3 md:py-6 px-4 md:px-8">
@@ -153,7 +159,7 @@ const Credentials = () => {
                           </td>
                           <td scope="row" className="px-4 pt-2 whitespace-nowrap">
                             <div className="whitespace-nowrap">
-                              {item.organization_token?._count || '0'}
+                              {item._count?.organization_token || '0'}
                             </div>
                           </td>
                           <td scope="row" className="px-4 pt-2 whitespace-nowrap">
@@ -171,7 +177,7 @@ const Credentials = () => {
                               }
                               {
                                 isPermission('delete') &&
-                                <button onClick={() => deleteOrg(item.id)} title="copy" className="hover:bg-slate-200 px-1 rounded-full">
+                                <button onClick={() => toggleDeleteOrg(item.id)} title="copy" className="hover:bg-slate-200 px-1 rounded-full">
                                   <FontAwesomeIcon icon={faTrash} />
                                 </button>
                               }
@@ -189,13 +195,20 @@ const Credentials = () => {
             </table> :
             <table className="w-full text-left font-normal min-h-24">
               <tbody className="relative">
-                <TableLoader row={7} col={6} />
+                <TableLoader row={7} col={5} />
               </tbody>
             </table>
         }
       </div>
     </div>
     <EditOrg org={orgSelected} toggle={toggleOrg} isOpen={orgModal} />
+    <AlertAction
+      toggle={() => toggleDeleteOrg('')}
+      loading={loading}
+      title="Delete Organization"
+      message={<span>Are you sure you want to <b className="text-red-500">delete</b> this organization? <br /> This action cannot be undone!!!</span>}
+      action={() => deleteOrg(deleteOrgModal.id)}
+      isOpen={deleteOrgModal.open} />
   </div>;
 };
 

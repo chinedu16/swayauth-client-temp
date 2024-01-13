@@ -151,14 +151,24 @@ export const FormData = <U = string | number | boolean, T extends string = strin
         ? e?.target[k]?.checked
         : NodeList.prototype.isPrototypeOf(e?.target[k]) ?
           [...e?.target[k]].map((node: any) => node?.value)
-          : isNaN(e?.target[k]?.value)
-            ? e?.target[k]?.value
+          : (isNaN(e?.target[k]?.value) || e?.target[k]?.value == '')
+            ? (e?.target[k]?.type == 'hidden' ? (e?.target[k]?.value ? [e?.target[k]?.value] : []) : e?.target[k]?.value)
             : Number(e?.target[k]?.value);
     if (res[k] == undefined) delete res[k];
     return res;
   }, Object.create(null));
 };
 
+
+export const isValidUrl = (urlString: string) => {
+  var urlPattern = new RegExp('^(https?:\\/\\/)?' + // validate protocol
+    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // validate domain name
+    '((\\d{1,3}\\.){3}\\d{1,3}))' + // validate OR ip (v4) address
+    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // validate port and path
+    '(\\?[;&a-z\\d%_.~+=-]*)?' + // validate query string
+    '(\\#[-a-z\\d_]*)?$', 'i'); // validate fragment locator
+  return !!urlPattern.test(urlString);
+}
 
 export function FormHandler<T extends { [key: string]: (v?: any) => string | boolean | any[] | ObjectType }>(e: any, schema: T): {
   data: { [K in keyof T]: ReturnType<T[K]> }

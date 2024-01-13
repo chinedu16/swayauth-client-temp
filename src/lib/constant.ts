@@ -9,6 +9,9 @@ export const CONST = Object.freeze({
     FORGOT_PASSWORD: '/forgot-password',
     REGISTER: '/register'
   },
+  UPLOAD: {
+    IMAGE: '/upload/image'
+  },
   AUTH: {
     MANUAL_LOGIN: '/auth/login/client',
     GET_TWO_FA: '/auth/2fa',
@@ -53,6 +56,11 @@ export const CONST = Object.freeze({
     },
     ORGANIZATION: {
       LIST: '/client/organizations',
+      TOKEN: {
+        LIST: '/client/organizations',
+        DELETE: '/client/organizations/tokens',
+      },
+      CREATE: '/client/organizations/create',
       DELETE: '/client/organizations',
     },
     TRANSACTION: {

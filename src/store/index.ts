@@ -22,7 +22,7 @@ import wallet from './slice/wallet';
 const persistConfig: PersistConfig<any> = {
   key: 'root',
   storage,
-  whitelist: ['account', 'appKey', 'smtp', 'twoFa', 'cards'],
+  whitelist: ['account', 'appKey', 'smtp', 'twoFa'],
 };
 
 const reducers = combineReducers({

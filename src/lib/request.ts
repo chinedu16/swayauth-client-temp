@@ -68,21 +68,33 @@ export const reduxRequest = <T>(
   }
 }
 
-export const formRequest = async <T>(url: string, data: { [key: string]: any }, progressFunc: ((v: number) => void) | null = null, method: Method = 'post') => {
+export const formRequest = async <T>(
+  url: string,
+  data: { [key: string]: any },
+  progressFunc: ((v: number) => void) | null = null,
+  method: Method = 'post',
+  head: { [key: string]: any } | null = null
+) => {
   try {
     const formData = new FormData();
     for (const key in data) {
       formData.append(key, data[key]);
     }
+    let headers = {}
+    if (head) {
+      headers = { ...head }
+    } else {
+      headers = {
+        Authorization: "Bearer " + getAccessToken(),
+      }
+    }
     const res = await axios({
       method,
       url: CONST.BASE_URL + url,
       data: formData,
-      headers: {
-        Authorization: "Bearer " + getAccessToken(),
-      },
+      headers,
       onUploadProgress: (e: any) => {
-        if (progressFunc) {
+        if (progressFunc && !head) {
           const percent = Math.round((e.loaded / e.total) * 100);
           progressFunc(percent);
         }

@@ -19,8 +19,8 @@ const useWallet = (auto = true) => {
     const fetchWallet = () => {
         http(reduxRequest(CONST.COMPANY.WALLET.GET_WALLET, {}, updateWallet, 'get'))
     }
-
-    return { loading: loading == 'true', data, message, status , fetchWallet}
+    
+    return { loading: loading == 'true', data, message, status, fetchWallet }
 }
 
 export default useWallet;

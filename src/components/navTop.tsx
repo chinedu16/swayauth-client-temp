@@ -79,7 +79,7 @@ const NavTop = () => {
               <span>
                 {
                   assocLoading ?
-                    <SpinnerCircle2 /> :
+                    <SpinnerCircle2 color="white" /> :
                     <FontAwesomeIcon icon={faChevronDown} className="w-[1rem] text-slate-500" />
                 }
               </span>

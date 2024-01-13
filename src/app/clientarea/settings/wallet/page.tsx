@@ -1,4 +1,5 @@
 "use client"
+import AlertAction from "@/components/alert";
 import Input from "@/components/input";
 import Modal from "@/components/modal";
 import { SpinnerCircle2 } from "@/components/spinner";
@@ -6,7 +7,7 @@ import TableLoader from "@/components/tableLoader";
 import { CONST } from "@/lib/constant";
 import { FormData } from "@/lib/form";
 import { normalRequest } from "@/lib/request";
-import { dateShort, money } from "@/lib/utils";
+import { dateLong, dateShort, money } from "@/lib/utils";
 import useAccount from "@/store/hooks/account";
 import useCards from "@/store/hooks/cards";
 import useTransactions from "@/store/hooks/transactions";
@@ -23,18 +24,21 @@ const Wallet = () => {
   const pathname = usePathname()
   const [fundModal, setFundModal] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [deleteCardModal, setDeleteCardModal] = useState({ open: false, id: '' });
   const { data: account, updateClientProfile } = useAccount(false)
   const { data: walletData, loading: walletLoading, fetchWallet } = useWallet();
-  const { data: cards, loading: cardsLoading } = useCards();
+  const { data: cards, loading: cardsLoading, deleteCard, fetchCards } = useCards();
   const searchParams = useSearchParams()
-  const { data: transactions, loading: transationLoading, fetchTransactions } = useTransactions()
+  const currPage = Number(searchParams.get('page') || 1)
+  const size = Number(searchParams.get('size') || 10)
+  const { data: transactions, loading: transationLoading, fetchTransactions } = useTransactions(false)
 
   useEffect(() => {
     fetchTransactions(changeRouteQuery())
   }, [searchParams]);
 
   const toggleFundModal = () => setFundModal(!fundModal)
-
+  const toggleDeleteCard = (id: string) => setDeleteCardModal(p => ({ id, open: !p.open }))
   const changeRouteQuery = (...args: string[]) => {
     const params = new URLSearchParams(searchParams)
     args.forEach((key, idx, arr) => {
@@ -50,8 +54,6 @@ const Wallet = () => {
   }
 
   const pageChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const currPage = Number(searchParams.get('page') || 1)
-    const size = Number(searchParams.get('size') || 10)
     const newPage = Number(e.target.value)
     if (newPage < 1) return
     if ((newPage > currPage) && transactions?.length !== size) return
@@ -62,8 +64,6 @@ const Wallet = () => {
   }
 
   const changeDirection = (dir: 'prev' | 'next') => {
-    const currPage = Number(searchParams.get('page') || 1)
-    const size = Number(searchParams.get('size') || 10)
     if (currPage > 0) {
       if (dir == 'prev' && currPage == 1) return
       if (dir === 'next' && transactions?.length !== size) return
@@ -103,8 +103,21 @@ const Wallet = () => {
   const handleCloseEvent = (e: Window | null) => {
     setTimeout(() => {
       fetchWallet();
+      fetchTransactions('');
+      fetchCards();
     }, 10000)
     e?.removeEventListener('unload', () => null);
+  }
+
+  const removeCard = async (id: string) => {
+    if (id) {
+      setLoading(true)
+      const res = await normalRequest(CONST.COMPANY.CARD.DELETE + `/${id}`, {}, 'delete')
+      setLoading(false)
+      if (res.status) deleteCard(id)
+      toast[res.status ? 'success' : 'error'](res.message)
+      toggleDeleteCard('')
+    }
   }
 
   return <div>
@@ -144,8 +157,8 @@ const Wallet = () => {
               <div key={i} className="w-full mb-8 sm:mb-0 sm:w-[48%] xl:w-[30%] xl:pl-6">
                 <div className="shadow-md bg-white h-full p-6 rounded-md">
                   <h4 className="font-bold mb-10 flex justify-between">
-                    <span>{item.account_name}</span>
-                    <button className="text-red-700"><FontAwesomeIcon icon={faXmark} /></button>
+                    <span>{item.account_name ?? 'N/A'}</span>
+                    <button onClick={() => toggleDeleteCard(item.id)} className="text-red-700"><FontAwesomeIcon icon={faXmark} /></button>
                   </h4>
                   <h4>{item.first_6digit} XXXX {item.last_4digit}</h4>
                   <div className="flex justify-between">
@@ -197,26 +210,29 @@ const Wallet = () => {
                 Description
               </th>
               <th scope="col" className="px-6 py-3">
+                Reference
+              </th>
+              <th scope="col" className="px-6 py-3">
                 Status
               </th>
               <th scope="col" className="px-6 py-3">
-                Created At
+                Amount
               </th>
               <th scope="col" className="px-6 py-3">
-                Amount
+                Created At
               </th>
             </tr>
           </thead>
           <tbody >
             {
               transationLoading != 'done' ?
-                <TableLoader row={10} /> :
+                <TableLoader row={6} /> :
                 transactions?.length ?
                   transactions?.map((item, i) =>
                     <tr key={i} >
                       <td scope="row" className="px-6 pt-4 whitespace-nowrap">
                         <div className="whitespace-nowrap">
-                          {i + 1}.
+                          {((currPage * size) - size) + i + 1}.
                         </div>
                       </td>
                       <td scope="row" className="px-6 pt-4 whitespace-nowrap">
@@ -225,15 +241,20 @@ const Wallet = () => {
                         </div>
                       </td>
                       <td scope="row" className="px-6 pt-4 whitespace-nowrap">
-                        <small className="bg-green-600 text-white px-3 py-1 rounded-md">{item.status}</small>
+                        <div className="whitespace-nowrap">
+                          {item?.reference}
+                        </div>
                       </td>
                       <td scope="row" className="px-6 pt-4 whitespace-nowrap">
-                        <div className="whitespace-nowrap">
-                          {dateShort(item.created_at)}
-                        </div>
+                        <small className="bg-green-600 text-white px-3 py-1 rounded-md">{item.status}</small>
                       </td>
                       <td className="px-6 pt-4 whitespace-nowrap">
                         {money(item.amount)}
+                      </td>
+                      <td scope="row" className="px-6 pt-4 whitespace-nowrap">
+                        <div className="whitespace-nowrap">
+                          {dateLong(item.created_at)}
+                        </div>
                       </td>
                     </tr>
                   ) :
@@ -308,6 +329,13 @@ const Wallet = () => {
         </div>
       </div>
     </Modal>
+    <AlertAction
+      title="Delete Card"
+      loading={loading}
+      message={<span>Are you sure you want to <b className="text-red-500">delete</b> this card? <br />This action cannot be undone!!!</span>}
+      action={() => removeCard(deleteCardModal.id)}
+      isOpen={deleteCardModal.open}
+      toggle={() => toggleDeleteCard('')} />
   </div>;
 };
 
