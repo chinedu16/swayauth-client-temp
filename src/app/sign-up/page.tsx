@@ -2,7 +2,8 @@
 import Input from '@/components/input';
 import FormButton from '@/components/onboarding/button';
 import Success from '@/components/onboarding/success';
-import { googleAuth, handleRegisterForm } from '@/lib/server/form';
+import { CONST } from '@/lib/constant';
+import { socialAuth, handleRegisterForm } from '@/lib/server/form';
 import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
@@ -32,10 +33,15 @@ const SignUp = () => {
 
   const handleGoogleRegister = () => {
     startTransition(() => {
-      googleAuth()
+      socialAuth(CONST.AUTH.GOOGLE)
     })
   }
 
+  const handleFacebookRegister = () => {
+    startTransition(() => {
+      socialAuth(CONST.AUTH.FACEBOOK)
+    })
+  }
 
   return (
     <main className="flex justify-center items-center p-2 py-24 md:p-12" style={{ height: '100svh' }}>
@@ -49,7 +55,7 @@ const SignUp = () => {
         <form onChange={handleChange} action={formAction} className='p-6 md:p-10 shadow-lg border rounded-md'>
           <h1 className='text-2xl mb-6 font-bold'>Create an account</h1>
           <div className='mb-6 flex items-center justify-between'>
-            <button type='button' className='inline-flex w-[48%] shadow-sm hover:bg-slate-50 active:bg-slate-100 rounded-md py-2 px-3 border items-center active:scale-105'>
+            <button onClick={handleFacebookRegister} type='button' className='inline-flex w-[48%] shadow-sm hover:bg-slate-50 active:bg-slate-100 rounded-md py-2 px-3 border items-center active:scale-105'>
               <Image src='/facebook.png' className='max-w-[2rem] p-[0.1rem] max-h-[2rem]'
                 alt="" width={300} height={300} />
               <span className='inline-block ml-2'><span className='hidden md:inline-block mr-1'>Create with</span>facebook</span>

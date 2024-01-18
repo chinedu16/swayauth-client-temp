@@ -66,9 +66,9 @@ export const Encrypt = (str: string): string => {
   }
 }
 
-export const googleAuth = async () => {
+export const socialAuth = async (base_url: string) => {
   const client_id = Encrypt(JSON.stringify({ url: CONST.CLIENT_BASE_URL, duration: Date.now() + (1000 * 60 * 5) }));
-  redirect(CONST.AUTH.GOOGLE + client_id);
+  redirect(base_url + client_id);
 }
 
 export const uploadServerImage = async (base64String: string): Promise<ResponseProp<{ path: string } | null>> => {

@@ -21,7 +21,8 @@ export const CONST = Object.freeze({
     TWO_FACTOR_VERIFY: '/auth/2fa/verify',
     TOKEN_VERIFY: '/auth/token/verify',
     TWO_FACTOR_ENABLE: '/auth/2fa/enable',
-    GOOGLE: process.env.NODE_ENV == 'development' ? 'http://localhost:8000/v1/google?client_id=' : 'https://api.swayauth.com/v1/google?client_id='
+    GOOGLE: process.env.NODE_ENV == 'development' ? 'http://localhost:8000/v1/google?client_id=' : 'https://api.swayauth.com/v1/google?client_id=',
+    FACEBOOK: process.env.NODE_ENV == 'development' ? 'http://localhost:8000/v1/facebook?client_id=' : 'https://api.swayauth.com/v1/facebook?client_id='
   },
   ACCOUNT: {
     PHOTO: '/account/photo',

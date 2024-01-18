@@ -2,7 +2,8 @@
 import Input from '@/components/input';
 import App2factor from '@/components/onboarding/app2factor';
 import FormButton from '@/components/onboarding/button';
-import { auth2faVerify, googleAuth, handleLoginform } from '@/lib/server/form';
+import { CONST } from '@/lib/constant';
+import { auth2faVerify, socialAuth, handleLoginform } from '@/lib/server/form';
 import { TwoFactor } from '@/lib/types';
 import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -65,7 +66,13 @@ const Login = () => {
 
   const handleGoogleLogin = () => {
     startTransition(() => {
-      googleAuth()
+      socialAuth(CONST.AUTH.GOOGLE)
+    })
+  }
+
+  const handleFacebookLogin = () => {
+    startTransition(() => {
+      socialAuth(CONST.AUTH.FACEBOOK)
     })
   }
 
@@ -141,7 +148,7 @@ const Login = () => {
               <Image src='/google.png' className='max-w-[2rem] max-h-[2rem] p-[0.05rem]'
                 alt="" width={480} height={480} />
             </button>
-            <button type='button' className='inline-block ml-2 active:scale-105 '>
+            <button type='button' onClick={handleFacebookLogin} className='inline-block ml-2 active:scale-105 '>
               <Image src='/facebook.png' className='max-w-[2rem] max-h-[2rem]'
                 alt="" width={300} height={300} />
             </button>

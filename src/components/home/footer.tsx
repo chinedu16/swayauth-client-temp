@@ -38,6 +38,11 @@ const Footer = () => {
           <h4 className="text-lg font-bold mb-4">Pages</h4>
           <div className="text-gray-600">
             <div className="mb-2">
+              <Link className="" href="/about">
+                About
+              </Link>
+            </div>
+            <div className="mb-2">
               <Link className="" href="/doc">
                 Doc
               </Link>
@@ -52,19 +57,26 @@ const Footer = () => {
                 Pricing
               </Link>
             </div>
+
           </div>
         </div>
         <div className="w-6/12 md:w-2/12 mt-10 md:mt-0">
           <h4 className="text-lg font-bold mb-4">Others</h4>
           <div className="text-gray-600">
-            <div className="mb-2">
-              <Link className="" href="/about">
-                About
-              </Link>
-            </div>
+
             <div className="mb-2">
               <Link className="" href="/#videos">
                 Videos
+              </Link>
+            </div>
+            <div className="mb-2">
+              <Link className="" href="/terms-and-conditions">
+                Terms
+              </Link>
+            </div>
+            <div className="mb-2">
+              <Link className="" href="/privacy-policy">
+                Privacy
               </Link>
             </div>
           </div>
