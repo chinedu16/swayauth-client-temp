@@ -102,7 +102,7 @@ const Login = () => {
               />
             </div>
           </div>
-          <div className='mb-2'>
+          <div className='mb-6'>
             <div className='flex justify-between items-center'>
               <label>Password</label>
               <button type='button' className='text-blue-700'>Forgot your password</button>
@@ -128,10 +128,6 @@ const Login = () => {
               }
             </div>
           </div>
-          <label className='flex items-center mb-6'>
-            <input type="checkbox" className="checked:ring-1 w-4 h-4 border-none outline-none" />
-            <span className='inline-block ml-2 text-slate-600'>Stay signed in</span>
-          </label>
           <div className='mb-4'>
             <FormButton title='Login' />
           </div>
