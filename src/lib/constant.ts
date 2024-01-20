@@ -15,14 +15,18 @@ export const CONST = Object.freeze({
   },
   AUTH: {
     MANUAL_LOGIN: '/auth/login/client',
-    GET_TWO_FA: '/auth/2fa',
+    GET_TWO_FA: '/auth/2fa/list',
     MANUAL_REGISTER: '/auth/register/client',
     MANUAL_REGISTER_VERIFY: '/auth/register/verify',
     TWO_FACTOR_VERIFY: '/auth/2fa/verify',
     TOKEN_VERIFY: '/auth/token/verify',
     TWO_FACTOR_ENABLE: '/auth/2fa/enable',
-    GOOGLE: process.env.NODE_ENV == 'development' ? 'http://localhost:8000/v1/google?client_id=' : 'https://api.swayauth.com/v1/google?client_id=',
-    FACEBOOK: process.env.NODE_ENV == 'development' ? 'http://localhost:8000/v1/facebook?client_id=' : 'https://api.swayauth.com/v1/facebook?client_id='
+    GOOGLE: process.env.NODE_ENV == 'development' ?
+      'http://localhost:8000/v1/auth/google?client_id=' :
+      'https://api.swayauth.com/v1/auth/google?client_id=',
+    FACEBOOK: process.env.NODE_ENV == 'development' ?
+      'http://localhost:8000/v1/auth/facebook?client_id=' :
+      'https://api.swayauth.com/v1/auth/facebook?client_id='
   },
   ACCOUNT: {
     PHOTO: '/account/photo',

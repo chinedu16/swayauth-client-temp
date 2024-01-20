@@ -104,7 +104,7 @@ const CreateCredModal = ({ isOpen, addToken, editToken, toggle, token, organizat
               </div>
             </div>
             <div className='mb-4'>
-              <label data-tooltip2={`Facebook & Google scope ONLY!`} >Redirect Url
+              <label data-tooltip2={`For Facebook, Google or Registration`} >Redirect Url
                 <span className="inline-block ml-1">
                   <FontAwesomeIcon icon={faInfoCircle} />
                 </span>

@@ -9,7 +9,7 @@ import { LoginProp } from "../types";
 export const handleLoginform = async (_: any, e: FormData): Promise<ResponseProp<LoginProp | null>> => {
   const data = { email: e.get('email'), password: e.get('password') }
   const header = {
-    "x-api-key": process.env.SWAYAUTH_IDENTITY
+    "Swayauth-Identifier": process.env.SWAYAUTH_IDENTITY
   }
   const res = await normalRequest<LoginProp>(CONST.AUTH.MANUAL_LOGIN, data, 'post', false, header)
   if (res.status && res.data?.access_token && !res.data.two_factor_enabled) {
@@ -21,7 +21,7 @@ export const handleLoginform = async (_: any, e: FormData): Promise<ResponseProp
 
 export const handleRegisterForm = async (_: any, e: FormData): Promise<ResponseProp<LoginProp | null>> => {
   const header = {
-    "x-api-key": process.env.SWAYAUTH_IDENTITY
+    "Swayauth-Identifier": process.env.SWAYAUTH_IDENTITY
   }
   const data = { first_name: e.get('first_name'), last_name: e.get('last_name'), email: e.get('email'), password: e.get('password') }
   return await normalRequest(CONST.AUTH.MANUAL_REGISTER, data, 'post', false, header)
@@ -32,7 +32,7 @@ export const newTeamRegister = async ({ data: { reference, token } }: ResponsePr
   token: string
 }>, e: FormData): Promise<ResponseProp> => {
   const header = {
-    "x-api-key": process.env.SWAYAUTH_IDENTITY
+    "Swayauth-Identifier": process.env.SWAYAUTH_IDENTITY
   }
   const data = { password: e.get('password'), reference, token }
 
@@ -41,7 +41,7 @@ export const newTeamRegister = async ({ data: { reference, token } }: ResponsePr
 
 export const auth2faVerify = async (data: { token?: string, two_factor_type?: 'app' | 'sms' | 'mail', reference?: string }, navigate = false): Promise<ResponseProp<LoginProp | null>> => {
   const header = {
-    "x-api-key": process.env.SWAYAUTH_IDENTITY
+    "Swayauth-Identifier": process.env.SWAYAUTH_IDENTITY
   }
   const res = await normalRequest<LoginProp>(CONST.AUTH.TWO_FACTOR_VERIFY, data, 'post', false, header)
   if (navigate) {
@@ -73,7 +73,7 @@ export const socialAuth = async (base_url: string) => {
 
 export const uploadServerImage = async (base64String: string): Promise<ResponseProp<{ path: string } | null>> => {
   const header = {
-    "x-api-key": process.env.SWAYAUTH_IDENTITY
+    "Swayauth-Identifier": process.env.SWAYAUTH_IDENTITY
   }
   const base64Res = await fetch(base64String);
   const file = await base64Res.blob();

@@ -583,7 +583,7 @@ const Settings = () => {
                           <td scope="row" className="px-6 whitespace-nowrap">
                             <div className="whitespace-nowrap">
                               <small className={`inline-block ${item.status == 'active' ? 'bg-green-500' : 'bg-red-500'} text-white py-[0.15rem] px-3 rounded-md`}>
-                                {item.status}
+                                {item.status || 'pending'}
                               </small>
                             </div>
                           </td>

@@ -56,10 +56,10 @@ const FourthSection = () => {
         }
       </div>
       <button onClick={() => slide('back')} className="min-h-[3rem] relative top-[-10rem] border rounded-full   left-0 min-w-[3rem] text-gray-600 hover:text-black text-2xl transition-all">
-        <FontAwesomeIcon icon={faArrowLeft} />
+        <FontAwesomeIcon icon={faArrowLeft} className="opacity-30 hover:opacity-100" />
       </button>
       <button onClick={() => slide()} className="min-h-[3rem] relative top-[-10rem] border rounded-full  left-[calc(100%-6.5rem)] min-w-[3rem] text-gray-600 hover:text-black text-2xl transition-all">
-        <FontAwesomeIcon icon={faArrowRight} />
+        <FontAwesomeIcon icon={faArrowRight} className="opacity-30 hover:opacity-100"/>
       </button>
     </div>
   );

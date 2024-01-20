@@ -167,7 +167,7 @@ export const isValidUrl = (urlString: string) => {
     '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // validate port and path
     '(\\?[;&a-z\\d%_.~+=-]*)?' + // validate query string
     '(\\#[-a-z\\d_]*)?$', 'i'); // validate fragment locator
-  return !!urlPattern.test(urlString);
+  return urlString.startsWith('http://localhost') ? true : !!urlPattern.test(urlString);
 }
 
 export function FormHandler<T extends { [key: string]: (v?: any) => string | boolean | any[] | ObjectType }>(e: any, schema: T): {
