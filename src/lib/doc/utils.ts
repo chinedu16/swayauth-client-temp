@@ -15,7 +15,7 @@ export const copyText = async (data?: string) => {
 
 export const idMaker = (str?: string) => {
   if (str) {
-    return str.replaceAll(/[{/}]/gi, '_')
+    return str.replaceAll(/[{/}]/gi, '__')
   }
   return "";
 };
