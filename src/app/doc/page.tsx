@@ -34,7 +34,7 @@ const Doc = () => {
             }) => (
               <div {...getNodeProps()} style={{ paddingLeft: 30 * (level - 1), marginBottom: '5px' }}>
                 {isBranch ? (
-                  <><FolderIcon isOpen={isExpanded} />  {element.name}</>
+                  <div className="text-[1.1rem] font-extrabold"><FolderIcon isOpen={isExpanded} />  {element.name}</div>
                 ) : (
                   <div className="flex items-center border-b border-slate-600">
                     <span className={`text-[0.5rem] min-w-[37px] pb-1 uppercase pr-2 ${element.metadata?.method}`}>{element.metadata?.method || 'GET'}</span>

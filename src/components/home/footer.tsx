@@ -1,10 +1,8 @@
 import {
   faGithub,
-  faGoogle,
   faInstagram,
   faLinkedinIn,
-  faStackOverflow,
-  faTwitter,
+  faStackOverflow
 } from "@fortawesome/free-brands-svg-icons";
 import {
   faEnvelope,

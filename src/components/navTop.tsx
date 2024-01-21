@@ -16,6 +16,7 @@ import DropDown from "./dropDown";
 import Modal from "./modal";
 import { SpinnerCircle2 } from "./spinner";
 import PreloadImage from "./preloadImage";
+import NavLink from "@/lib/navLink";
 
 const NavTop = () => {
   const { data, loading } = useAccount();
@@ -45,17 +46,15 @@ const NavTop = () => {
     if (res.status) logMeOut(CONST.LOCATION.LOGIN + `?email=${data?.email}`)
   }
 
-  console.log(data);
-
   return <nav className="sticky max-h-[4rem] z-40 bg-white top-0 shadow-sm w-full p-2 border-b flex items-center">
     <div className="md:min-w-[220px] select-none md:px-4 flex items-center">
       <label htmlFor="hambugger2" className="md:hidden inline-block px-2 mr-2 text-2xl py-1 cursor-pointer">
         <FontAwesomeIcon icon={faBars} />
       </label>
-      <div className='md:inline-flex items-center hidden'>
+      <NavLink href='/' className='md:inline-flex items-center hidden'>
         <Image src='/logo-circle.png' alt="" className='w-[2rem] h-[2rem] max-w-[2.5rem]' width={400} height={400} />
         <span className="inline-block ml-2 text-xl">swayauth</span>
-      </div>
+      </NavLink>
     </div>
     <div className="w-full md:px-6 pr-2 flex justify-end items-center">
       <h3 className="mr-4 flex items-center money whitespace-nowrap bg-slate-200 font-bold 0 py-1 md:my-2 px-2 md:px-4 rounded-md text-xl md:text-2xl">
