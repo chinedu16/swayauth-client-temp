@@ -297,7 +297,7 @@ const Settings = () => {
         </div>
         <div className='mb-8 flex w-full flex-wrap justify-between'>
           <div className="w-full sm:w-[32%]">
-            <label >City</label>
+            <label >LGA</label>
             <div className='mt-1'>
               <input type="text"
                 autoComplete="city"

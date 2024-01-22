@@ -120,7 +120,7 @@ const NavTop = () => {
                 {
                   assocData?.length ?
                     assocData.map((item, idx) =>
-                      <option key={idx} value={item.company_id}>{item.company?.name} {item.creator ? '(owner)' : null}</option>
+                      <option key={idx} value={item.company_id}>{item.company?.name} {item.creator ? '(owner)' : null} {item.company_id == data?.company?.id ? ' - current' : null}</option>
                     ) :
                     <option value="Lagos">--Select aaccount--</option>
                 }

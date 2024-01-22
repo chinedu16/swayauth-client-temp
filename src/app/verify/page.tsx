@@ -29,7 +29,7 @@ const getVerifyReq = async (query: SearchParamsProp): Promise<ResponseProp<null 
   }
   if (query.token && query.reference && Number(query.token)) {
     const header = {
-      "x-api-key": process.env.SWAYAUTH_IDENTITY
+      "Swayauth-Identifier": process.env.SWAYAUTH_IDENTITY
     }
     let url = CONST.AUTH.MANUAL_REGISTER_VERIFY
     if (query?.intent === 'team' && query?.account === 'new') {

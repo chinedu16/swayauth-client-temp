@@ -11,7 +11,7 @@ const AuthButtons = () => {
   }, []);
   return <div className="relative hambugger-close overflow-hidden">
     {
-      auth === null ? <div className="min-w-32"></div> : auth ?
+      auth === null ? <div className="min-w-32 animate-pulse bg-slate-200 h-12 rounded-full"></div> : auth ?
         <NavLink
           href="/clientarea"
           prefetch
