@@ -3,7 +3,7 @@ import Input from '@/components/input';
 import App2factor from '@/components/onboarding/app2factor';
 import FormButton from '@/components/onboarding/button';
 import { CONST } from '@/lib/constant';
-import { auth2faVerify, socialAuth, handleLoginform } from '@/lib/server/form';
+import { auth2faVerify, handleLoginform, socialAuth } from '@/lib/server/form';
 import { TwoFactor } from '@/lib/types';
 import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -33,7 +33,7 @@ const Login = () => {
   }, [state]);
 
   const toggle2Auth = () => {
-    if (isPending) return
+    if (isPending) return 
     setMessage('')
     setTwoFactor(p => ({ ...p, open: !p.open }))
   }

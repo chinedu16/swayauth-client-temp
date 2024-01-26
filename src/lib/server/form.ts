@@ -35,7 +35,6 @@ export const newTeamRegister = async ({ data: { reference, token } }: ResponsePr
     "Swayauth-Identifier": process.env.SWAYAUTH_IDENTITY
   }
   const data = { password: e.get('password'), reference, token }
-
   return await normalRequest(CONST.AUTH.MANUAL_REGISTER_VERIFY, data, 'post', false, header)
 }
 
