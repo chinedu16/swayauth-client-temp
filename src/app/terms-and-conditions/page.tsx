@@ -1,6 +1,5 @@
 import Footer from "@/components/home/footer";
 import Nav from "@/components/home/nav";
-import NavLink from "@/lib/navLink";
 
 const Terms = () => {
   return <main>

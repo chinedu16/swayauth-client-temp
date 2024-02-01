@@ -38,11 +38,11 @@ const Learn = () => {
           <div>
             <p className="mb-2">
               <span className="inline-block mr-4 text-blue-700"><FontAwesomeIcon icon={faCheck} /></span>
-              <span className="text-slate-700">Google login</span>
+              <span className="text-slate-700">Google authentication</span>
             </p>
             <p className="mb-2">
               <span className="inline-block mr-4 text-blue-700"><FontAwesomeIcon icon={faCheck} /></span>
-              <span className="text-slate-700">Facebook login</span>
+              <span className="text-slate-700">Facebook authentication</span>
             </p>
           </div>
         </div>

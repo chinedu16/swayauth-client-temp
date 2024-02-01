@@ -1,6 +1,5 @@
 "use client"
 import AlertAction from "@/components/alert";
-import Input from "@/components/input";
 import Modal from "@/components/modal";
 import { SpinnerCircle2 } from "@/components/spinner";
 import TableLoader from "@/components/tableLoader";
@@ -19,6 +18,7 @@ import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 let pageTimer: any;
+let newTab: Window | null;
 const Wallet = () => {
   const router = useRouter()
   const pathname = usePathname()
@@ -92,21 +92,23 @@ const Wallet = () => {
     const res = await normalRequest<{ authorization_url?: string }>(CONST.COMPANY.WALLET.FUND_WALLET, data);
     toggleFundModal()
     if (res.status && res.data?.authorization_url) {
-      const newTab = window?.open(res.data.authorization_url, '_blank');
-      newTab?.addEventListener('unload', () => handleCloseEvent(newTab));
+      window?.open(res.data.authorization_url, '_blank')?.addEventListener('unload', (e) => {
+        console.log('tab closed')
+        handleCloseEvent(e)
+      });
     } else {
       toast.error(res.message)
     }
     setLoading(false);
   }
 
-  const handleCloseEvent = (e: Window | null) => {
+  const handleCloseEvent = (e: Event) => {
     setTimeout(() => {
       fetchWallet();
       fetchTransactions('');
       fetchCards();
     }, 10000)
-    e?.removeEventListener('unload', () => null);
+    e?.target?.removeEventListener('unload', () => null);
   }
 
   const removeCard = async (id: string) => {

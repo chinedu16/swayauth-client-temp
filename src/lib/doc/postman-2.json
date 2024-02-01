@@ -48,7 +48,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"fashanutosin7@gmail.com\",\n    \"password\": \"qwerty12345\"\n}",
+							"raw": "{\n    \"email\": \"example@gmail.com\",\n    \"password\": \"password12345\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -76,7 +76,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"email\": \"fashanutosin7@gmail.com\",\n    \"password\": \"qwerty12345\"\n}",
+									"raw": "{\n    \"email\": \"example@gmail.com\",\n    \"password\": \"password12345\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -187,7 +187,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"fashanutosin7@gmail.com\",\n    \"password\": \"qwerty12345\"\n}",
+							"raw": "{\n    \"email\": \"example@gmail.com\",\n    \"password\": \"password12345\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -215,7 +215,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"email\": \"fashanutosin7@gmail.com\",\n    \"password\": \"qwerty12345\"\n}",
+									"raw": "{\n    \"email\": \"example@gmail.com\",\n    \"password\": \"password12345\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -301,7 +301,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"fashanutosin7@gmail.com\",\n    \"password\": \"qwerty12345\"\n}",
+							"raw": "{\n    \"email\": \"example@gmail.com\",\n    \"password\": \"password12345\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -324,7 +324,7 @@
 								}
 							]
 						},
-						"description": "Swayauth provides facebook login & registration using one api in your application.\n\nTo login or register using facebook:\n\n1. Add the client id of a generated token as a query parameter of your request.\n2. Ensure facebook integration is also activated on the token."
+						"description": "Swayauth provides facebook login & registration using one api in your application.\n\nTo login or register using facebook:\n\n1. Add the client id of a generated organization token as a query parameter of your request.\n2. Ensure facebook integration is also activated on the token."
 					},
 					"response": []
 				},
@@ -341,7 +341,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"fashanutosin7@gmail.com\",\n    \"password\": \"qwerty12345\"\n}",
+							"raw": "{\n    \"email\": \"example@gmail.com\",\n    \"password\": \"password12345\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -364,7 +364,7 @@
 								}
 							]
 						},
-						"description": "Login or register a user with google oauth using one api.\n\nTo login or register with google:\n\n1. Add the client id of a generated token as a query parameter of your request.\n2. Ensure google integration is also activated on the token."
+						"description": "Login or register a user with google oauth using one api.\n\nTo login or register with google:\n\n1. Add the client id of a generated organization token as a query parameter of your request.\n2. Ensure google integration is also activated on the token."
 					},
 					"response": []
 				},
@@ -406,7 +406,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"first_name\": \"Tosin\",\n    \"last_name\": \"Fashanu\",\n    \"phone\": \"+2349036723177\",\n    \"address\": \"No 4, Jubilee Estate, Ikorodu, Lagos\",\n    \"city\": \"Lagos\",\n    \"state\": \"Lagos\",\n    \"country\": \"Nigeria\",\n    \"photo\": \"https://api.swayauth.com/logo.png\",\n    \"email\": \"leeroy7johnson@gmail.com\",\n    \"password\": \"qwerty12345\"\n}",
+							"raw": "{\n    \"first_name\": \"Doe\",\n    \"last_name\": \"John\",\n    \"phone\": \"+2349012345688\",\n    \"address\": \"No 4, Jubilee Estate, Ikorodu, Lagos\",\n    \"city\": \"Lagos\",\n    \"state\": \"Lagos\",\n    \"country\": \"Nigeria\",\n    \"photo\": \"https://api.swayauth.com/logo.png\",\n    \"email\": \"leeroy7johnson@gmail.com\",\n    \"password\": \"password12345\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -434,7 +434,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"first_name\": \"Tosin\",\n    \"last_name\": \"Fashanu\",\n    \"phone\": \"+2349036723177\",\n    \"address\": \"No 4, Jubilee Estate, Ikorodu, Lagos\",\n    \"city\": \"Lagos\",\n    \"state\": \"Lagos\",\n    \"country\": \"Nigeria\",\n    \"photo\": \"https://api.swayauth.com/logo.png\",\n    \"email\": \"leeroy7johnson@gmail.com\",\n    \"password\": \"qwerty12345\"\n}",
+									"raw": "{\n    \"first_name\": \"Doe\",\n    \"last_name\": \"John\",\n    \"phone\": \"+2349012345688\",\n    \"address\": \"No 4, Jubilee Estate, Ikorodu, Lagos\",\n    \"city\": \"Lagos\",\n    \"state\": \"Lagos\",\n    \"country\": \"Nigeria\",\n    \"photo\": \"https://api.swayauth.com/logo.png\",\n    \"email\": \"leeroy7johnson@gmail.com\",\n    \"password\": \"password12345\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -848,7 +848,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"fashanutosin7@gmail.com\"\n}",
+							"raw": "{\n    \"email\": \"example@gmail.com\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -876,7 +876,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"email\": \"fashanutosin7@gmail.com\"\n}",
+									"raw": "{\n    \"email\": \"example@gmail.com\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -987,7 +987,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"password\": \"qwerty12345\",\n    \"token\": \"992311\",\n    \"reference\": \"YmczVDlHYXNRaVBQNUQvajd6RXpSRmN2NmhXdVZyelVOd0ppTW1VMnB2N2FZOSs0dEhPZndQSnY5Tk5FRlR3NVJmZmc1dC9Cd0pROEJ0RVpFekUxdC8xdHVOaHZzbEpNMlVjOHdwVjZuK0FVSk9ZRjVLcUYySFEwMVJiekYzZXZQaGFkMUt5N1Q0YitONVZKRmJWeG1RPT0_\"\n}",
+							"raw": "{\n    \"password\": \"password12345\",\n    \"token\": \"992311\",\n    \"reference\": \"YmczVDlHYXNRaVBQNUQvajd6RXpSRmN2NmhXdVZyelVOd0ppTW1VMnB2N2FZOSs0dEhPZndQSnY5Tk5FRlR3NVJmZmc1dC9Cd0pROEJ0RVpFekUxdC8xdHVOaHZzbEpNMlVjOHdwVjZuK0FVSk9ZRjVLcUYySFEwMVJiekYzZXZQaGFkMUt5N1Q0YitONVZKRmJWeG1RPT0_\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1015,7 +1015,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"password\": \"qwerty12345\",\n    \"token\": \"992311\",\n    \"reference\": \"YmczVDlHYXNRaVBQNUQvajd6RXpSRmN2NmhXdVZyelVOd0ppTW1VMnB2N2FZOSs0dEhPZndQSnY5Tk5FRlR3NVJmZmc1dC9Cd0pROEJ0RVpFekUxdC8xdHVOaHZzbEpNMlVjOHdwVjZuK0FVSk9ZRjVLcUYySFEwMVJiekYzZXZQaGFkMUt5N1Q0YitONVZKRmJWeG1RPT0_\"\n}",
+									"raw": "{\n    \"password\": \"password12345\",\n    \"token\": \"992311\",\n    \"reference\": \"YmczVDlHYXNRaVBQNUQvajd6RXpSRmN2NmhXdVZyelVOd0ppTW1VMnB2N2FZOSs0dEhPZndQSnY5Tk5FRlR3NVJmZmc1dC9Cd0pROEJ0RVpFekUxdC8xdHVOaHZzbEpNMlVjOHdwVjZuK0FVSk9ZRjVLcUYySFEwMVJiekYzZXZQaGFkMUt5N1Q0YitONVZKRmJWeG1RPT0_\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1564,7 +1564,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"data\": {\n        \"id\": \"65ab4e3dcf0725fe6ebf4c3d\",\n        \"first_name\": \"Tosin\",\n        \"last_name\": \"Fashanu\",\n        \"phone\": \"+2349036723177\",\n        \"address\": \"No 4, Jubilee Estate, Ikorodu, Lagos\",\n        \"city\": \"Lagos\",\n        \"state\": \"Lagos\",\n        \"country\": \"Nigeria\",\n        \"ip_address\": \"::1\",\n        \"email\": \"fashanutosin7@gmail.com\",\n        \"status\": \"active\",\n        \"verified\": true,\n        \"photo\": \"https://api.swayauth.com/logo.png\",\n        \"scope\": [\n            \"manual\"\n        ],\n        \"permissions\": [\n            \"read\",\n            \"write\",\n            \"delete\"\n        ],\n        \"access\": \"level_1\",\n        \"two_factor_type\": null,\n        \"company_id\": \"65a2f888684add2bc7aa612d\",\n        \"organization_id\": \"65ab48e8e7e73bf1fbeb6152\",\n        \"organization_token_id\": \"65ab4a31e7e73bf1fbeb6153\",\n        \"created_at\": \"2024-01-20T04:38:20.674Z\",\n        \"updated_at\": \"2024-01-20T05:23:49.258Z\"\n    },\n    \"status\": true,\n    \"message\": \"Ok\"\n}"
+							"body": "{\n    \"data\": {\n        \"id\": \"65ab4e3dcf0725fe6ebf4c3d\",\n        \"first_name\": \"Doe\",\n        \"last_name\": \"John\",\n        \"phone\": \"+2349012345688\",\n        \"address\": \"No 4, Jubilee Estate, Ikorodu, Lagos\",\n        \"city\": \"Lagos\",\n        \"state\": \"Lagos\",\n        \"country\": \"Nigeria\",\n        \"ip_address\": \"::1\",\n        \"email\": \"example@gmail.com\",\n        \"status\": \"active\",\n        \"verified\": true,\n        \"photo\": \"https://api.swayauth.com/logo.png\",\n        \"scope\": [\n            \"manual\"\n        ],\n        \"permissions\": [\n            \"read\",\n            \"write\",\n            \"delete\"\n        ],\n        \"access\": \"level_1\",\n        \"two_factor_type\": null,\n        \"company_id\": \"65a2f888684add2bc7aa612d\",\n        \"organization_id\": \"65ab48e8e7e73bf1fbeb6152\",\n        \"organization_token_id\": \"65ab4a31e7e73bf1fbeb6153\",\n        \"created_at\": \"2024-01-20T04:38:20.674Z\",\n        \"updated_at\": \"2024-01-20T05:23:49.258Z\"\n    },\n    \"status\": true,\n    \"message\": \"Ok\"\n}"
 						}
 					]
 				},
@@ -1596,7 +1596,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"first_name\": \"Tosin\",\n    \"last_name\": \"Fashanu\",\n    \"phone\": \"+2349036723177\",\n    \"address\": \"No 4, Jubilee Estate, Ikorodu, Lagos\",\n    \"city\": \"Lagos\",\n    \"state\": \"Lagos\",\n    \"country\": \"Nigeria\",\n    \"photo\": \"https://api.swayauth.com/logo.png\"\n}",
+							"raw": "{\n    \"first_name\": \"Doe\",\n    \"last_name\": \"John\",\n    \"phone\": \"+2349012345688\",\n    \"address\": \"No 4, Jubilee Estate, Ikorodu, Lagos\",\n    \"city\": \"Lagos\",\n    \"state\": \"Lagos\",\n    \"country\": \"Nigeria\",\n    \"photo\": \"https://api.swayauth.com/logo.png\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1622,7 +1622,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"first_name\": \"Tosin\",\n    \"last_name\": \"Fashanu\",\n    \"phone\": \"+2349036723177\",\n    \"address\": \"No 4, Jubilee Estate, Ikorodu, Lagos\",\n    \"city\": \"Lagos\",\n    \"state\": \"Lagos\",\n    \"country\": \"Nigeria\",\n    \"photo\": \"https://api.swayauth.com/logo.png\"\n}",
+									"raw": "{\n    \"first_name\": \"Doe\",\n    \"last_name\": \"John\",\n    \"phone\": \"+2349012345688\",\n    \"address\": \"No 4, Jubilee Estate, Ikorodu, Lagos\",\n    \"city\": \"Lagos\",\n    \"state\": \"Lagos\",\n    \"country\": \"Nigeria\",\n    \"photo\": \"https://api.swayauth.com/logo.png\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1677,7 +1677,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"data\": {\n        \"id\": \"65ab4e3dcf0725fe6ebf4c3d\",\n        \"first_name\": \"Tosin\",\n        \"last_name\": \"Fashanu\",\n        \"phone\": \"+2349036723177\",\n        \"address\": \"No 4, Jubilee Estate, Ikorodu, Lagos\",\n        \"city\": \"Lagos\",\n        \"state\": \"Lagos\",\n        \"country\": \"Nigeria\",\n        \"ip_address\": \"::1\",\n        \"email\": \"fashanutosin7@gmail.com\",\n        \"status\": \"active\",\n        \"verified\": true,\n        \"photo\": \"https://api.swayauth.com/logo.png\",\n        \"scope\": [\n            \"manual\"\n        ],\n        \"permissions\": [\n            \"read\",\n            \"write\",\n            \"delete\"\n        ],\n        \"access\": \"level_1\",\n        \"two_factor_type\": null,\n        \"company_id\": \"65a2f888684add2bc7aa612d\",\n        \"organization_id\": \"65ab48e8e7e73bf1fbeb6152\",\n        \"organization_token_id\": \"65ab4a31e7e73bf1fbeb6153\",\n        \"created_at\": \"2024-01-20T04:38:20.674Z\",\n        \"updated_at\": \"2024-01-20T05:28:39.722Z\"\n    },\n    \"status\": true,\n    \"message\": \"Ok\"\n}"
+							"body": "{\n    \"data\": {\n        \"id\": \"65ab4e3dcf0725fe6ebf4c3d\",\n        \"first_name\": \"Doe\",\n        \"last_name\": \"John\",\n        \"phone\": \"+2349012345688\",\n        \"address\": \"No 4, Jubilee Estate, Ikorodu, Lagos\",\n        \"city\": \"Lagos\",\n        \"state\": \"Lagos\",\n        \"country\": \"Nigeria\",\n        \"ip_address\": \"::1\",\n        \"email\": \"example@gmail.com\",\n        \"status\": \"active\",\n        \"verified\": true,\n        \"photo\": \"https://api.swayauth.com/logo.png\",\n        \"scope\": [\n            \"manual\"\n        ],\n        \"permissions\": [\n            \"read\",\n            \"write\",\n            \"delete\"\n        ],\n        \"access\": \"level_1\",\n        \"two_factor_type\": null,\n        \"company_id\": \"65a2f888684add2bc7aa612d\",\n        \"organization_id\": \"65ab48e8e7e73bf1fbeb6152\",\n        \"organization_token_id\": \"65ab4a31e7e73bf1fbeb6153\",\n        \"created_at\": \"2024-01-20T04:38:20.674Z\",\n        \"updated_at\": \"2024-01-20T05:28:39.722Z\"\n    },\n    \"status\": true,\n    \"message\": \"Ok\"\n}"
 						}
 					]
 				},
@@ -1826,7 +1826,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"old_password\": \"qwerty12345\",\n    \"new_password\": \"qwerty12345\"\n}",
+							"raw": "{\n    \"old_password\": \"password12345\",\n    \"new_password\": \"password12345\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1853,7 +1853,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"old_password\": \"qwerty12345\",\n    \"new_password\": \"qwerty12345\"\n}",
+									"raw": "{\n    \"old_password\": \"password12345\",\n    \"new_password\": \"password12345\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2016,7 +2016,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"data\": {\n        \"id\": \"65a2f888684add2bc7aa612d\",\n        \"default_card_id\": null,\n        \"name\": \"Swayauth\",\n        \"email\": \"fashanutosin7@gmail.com\",\n        \"status\": \"active\",\n        \"address\": null,\n        \"city\": null,\n        \"state\": null,\n        \"country\": null,\n        \"verified\": false,\n        \"save_cards\": false,\n        \"plan\": \"free\",\n        \"app_key_id\": \"65a2f888684add2bc7aa612c\",\n        \"service_email_id\": null,\n        \"wallet_id\": \"65a2f888684add2bc7aa612b\",\n        \"created_at\": \"2024-01-13T20:54:32.989Z\",\n        \"updated_at\": \"2024-01-13T20:56:14.269Z\"\n    },\n    \"status\": true,\n    \"message\": \"Ok\"\n}"
+							"body": "{\n    \"data\": {\n        \"id\": \"65a2f888684add2bc7aa612d\",\n        \"default_card_id\": null,\n        \"name\": \"Swayauth\",\n        \"email\": \"example@gmail.com\",\n        \"status\": \"active\",\n        \"address\": null,\n        \"city\": null,\n        \"state\": null,\n        \"country\": null,\n        \"verified\": false,\n        \"save_cards\": false,\n        \"plan\": \"free\",\n        \"app_key_id\": \"65a2f888684add2bc7aa612c\",\n        \"service_email_id\": null,\n        \"wallet_id\": \"65a2f888684add2bc7aa612b\",\n        \"created_at\": \"2024-01-13T20:54:32.989Z\",\n        \"updated_at\": \"2024-01-13T20:56:14.269Z\"\n    },\n    \"status\": true,\n    \"message\": \"Ok\"\n}"
 						}
 					]
 				},
@@ -2141,7 +2141,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"data\": {\n        \"id\": \"65a2f888684add2bc7aa612d\",\n        \"default_card_id\": null,\n        \"name\": \"Swayauth\",\n        \"email\": \"fashanutosin7@gmail.com\",\n        \"status\": \"active\",\n        \"address\": \"No 5, Jubilee Estate, Ikorodu, Lagos, Nigeria.\",\n        \"city\": \"Lagos\",\n        \"state\": \"Lagos\",\n        \"country\": \"Nigeria\",\n        \"verified\": false,\n        \"save_cards\": false,\n        \"plan\": \"free\",\n        \"app_key_id\": \"65a2f888684add2bc7aa612c\",\n        \"service_email_id\": null,\n        \"wallet_id\": \"65a2f888684add2bc7aa612b\",\n        \"created_at\": \"2024-01-13T20:54:32.989Z\",\n        \"updated_at\": \"2024-01-20T05:45:48.498Z\"\n    },\n    \"status\": true,\n    \"message\": \"Ok\"\n}"
+							"body": "{\n    \"data\": {\n        \"id\": \"65a2f888684add2bc7aa612d\",\n        \"default_card_id\": null,\n        \"name\": \"Swayauth\",\n        \"email\": \"example@gmail.com\",\n        \"status\": \"active\",\n        \"address\": \"No 5, Jubilee Estate, Ikorodu, Lagos, Nigeria.\",\n        \"city\": \"Lagos\",\n        \"state\": \"Lagos\",\n        \"country\": \"Nigeria\",\n        \"verified\": false,\n        \"save_cards\": false,\n        \"plan\": \"free\",\n        \"app_key_id\": \"65a2f888684add2bc7aa612c\",\n        \"service_email_id\": null,\n        \"wallet_id\": \"65a2f888684add2bc7aa612b\",\n        \"created_at\": \"2024-01-13T20:54:32.989Z\",\n        \"updated_at\": \"2024-01-20T05:45:48.498Z\"\n    },\n    \"status\": true,\n    \"message\": \"Ok\"\n}"
 						}
 					]
 				},
@@ -2285,7 +2285,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"data\": [\n        {\n            \"id\": \"6583e64277a391169b2496bf\",\n            \"verified\": true,\n            \"creator\": true,\n            \"permissions\": [\n                \"read\",\n                \"write\",\n                \"delete\"\n            ],\n            \"access\": \"level_3\",\n            \"company_id\": \"6583e64077a391169b2496bd\",\n            \"client_email\": \"fashanutosin7@gmail.com\",\n            \"created_at\": \"2023-12-21T07:16:18.352Z\",\n            \"updated_at\": \"2023-12-21T07:16:46.377Z\",\n            \"company\": {\n                \"id\": \"6583e64077a391169b2496bd\",\n                \"name\": null,\n                \"status\": \"active\"\n            }\n        }\n    ],\n    \"status\": true,\n    \"message\": \"Ok\"\n}"
+							"body": "{\n    \"data\": [\n        {\n            \"id\": \"6583e64277a391169b2496bf\",\n            \"verified\": true,\n            \"creator\": true,\n            \"permissions\": [\n                \"read\",\n                \"write\",\n                \"delete\"\n            ],\n            \"access\": \"level_3\",\n            \"company_id\": \"6583e64077a391169b2496bd\",\n            \"client_email\": \"example@gmail.com\",\n            \"created_at\": \"2023-12-21T07:16:18.352Z\",\n            \"updated_at\": \"2023-12-21T07:16:46.377Z\",\n            \"company\": {\n                \"id\": \"6583e64077a391169b2496bd\",\n                \"name\": null,\n                \"status\": \"active\"\n            }\n        }\n    ],\n    \"status\": true,\n    \"message\": \"Ok\"\n}"
 						}
 					]
 				}
@@ -3200,7 +3200,7 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n    \"data\": [\n        {\n            \"id\": \"65ab4e3dcf0725fe6ebf4c3d\",\n            \"first_name\": \"Tosin\",\n            \"last_name\": \"Fashanu\",\n            \"phone\": \"+2349036723177\",\n            \"address\": \"No 4, Jubilee Estate, Ikorodu, Lagos\",\n            \"city\": \"Lagos\",\n            \"state\": \"Lagos\",\n            \"country\": \"Nigeria\",\n            \"ip_address\": \"::1\",\n            \"email\": \"fashanutosin7@gmail.com\",\n            \"status\": \"active\",\n            \"verified\": true,\n            \"photo\": \"http://localhost:8000/uploads/d89498d1-9199-4a95-a43d-4ac0ff2c5491.png\",\n            \"scope\": [\n                \"manual\"\n            ],\n            \"permissions\": [\n                \"read\",\n                \"write\",\n                \"delete\"\n            ],\n            \"access\": \"level_1\",\n            \"two_factor_type\": null,\n            \"company_id\": \"65a2f888684add2bc7aa612d\",\n            \"organization_id\": \"65ab48e8e7e73bf1fbeb6152\",\n            \"organization_token_id\": \"65ab4a31e7e73bf1fbeb6153\",\n            \"created_at\": \"2024-01-20T04:38:20.674Z\",\n            \"updated_at\": \"2024-01-20T05:40:15.482Z\",\n            \"organization\": {\n                \"name\": \"Swayauth - Example\"\n            }\n        }\n    ],\n    \"status\": true,\n    \"message\": \"Ok\"\n}"
+									"body": "{\n    \"data\": [\n        {\n            \"id\": \"65ab4e3dcf0725fe6ebf4c3d\",\n            \"first_name\": \"Doe\",\n            \"last_name\": \"John\",\n            \"phone\": \"+2349012345688\",\n            \"address\": \"No 4, Jubilee Estate, Ikorodu, Lagos\",\n            \"city\": \"Lagos\",\n            \"state\": \"Lagos\",\n            \"country\": \"Nigeria\",\n            \"ip_address\": \"::1\",\n            \"email\": \"example@gmail.com\",\n            \"status\": \"active\",\n            \"verified\": true,\n            \"photo\": \"http://localhost:8000/uploads/d89498d1-9199-4a95-a43d-4ac0ff2c5491.png\",\n            \"scope\": [\n                \"manual\"\n            ],\n            \"permissions\": [\n                \"read\",\n                \"write\",\n                \"delete\"\n            ],\n            \"access\": \"level_1\",\n            \"two_factor_type\": null,\n            \"company_id\": \"65a2f888684add2bc7aa612d\",\n            \"organization_id\": \"65ab48e8e7e73bf1fbeb6152\",\n            \"organization_token_id\": \"65ab4a31e7e73bf1fbeb6153\",\n            \"created_at\": \"2024-01-20T04:38:20.674Z\",\n            \"updated_at\": \"2024-01-20T05:40:15.482Z\",\n            \"organization\": {\n                \"name\": \"Swayauth - Example\"\n            }\n        }\n    ],\n    \"status\": true,\n    \"message\": \"Ok\"\n}"
 								}
 							]
 						},
@@ -5730,7 +5730,7 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n    \"data\": [\n        {\n            \"id\": \"65a2f889684add2bc7aa612f\",\n            \"first_name\": \"Tosin\",\n            \"last_name\": \"Fashanu\",\n            \"phone\": \"+2349036723177\",\n            \"address\": \"No 5, Lagos Nigeria\",\n            \"city\": \"Lagos\",\n            \"state\": \"Lagos\",\n            \"country\": \"Nigeria\",\n            \"ip_address\": \"::1\",\n            \"email\": \"fashanutosin7@gmail.com\",\n            \"status\": \"active\",\n            \"verified\": true,\n            \"photo\": \"https://lh3.googleusercontent.com/a/ACg8ocIz12jBS66CxCF61LJv8X0FIvsJWuOyLWJs7spoyy1WtC8=s96-c\",\n            \"scope\": [\n                \"manual\"\n            ],\n            \"two_factor_type\": \"app\",\n            \"company_id\": \"65a2f888684add2bc7aa612d\",\n            \"created_at\": \"2024-01-13T20:54:33.549Z\",\n            \"updated_at\": \"2024-01-20T04:58:42.837Z\",\n            \"association\": {\n                \"id\": \"65a2f889684add2bc7aa612e\",\n                \"verified\": false,\n                \"creator\": true,\n                \"permissions\": [\n                    \"read\",\n                    \"write\",\n                    \"delete\"\n                ],\n                \"access\": \"level_3\",\n                \"company_id\": \"65a2f888684add2bc7aa612d\",\n                \"client_email\": \"fashanutosin7@gmail.com\",\n                \"created_at\": \"2024-01-13T20:54:33.269Z\",\n                \"updated_at\": \"2024-01-13T20:54:33.269Z\"\n            }\n        },\n        {\n            \"id\": \"65a8a02645787034a5ca2783\",\n            \"first_name\": \"Drawing\",\n            \"last_name\": \"Strokes\",\n            \"phone\": null,\n            \"address\": null,\n            \"city\": null,\n            \"state\": null,\n            \"country\": null,\n            \"ip_address\": \"\",\n            \"email\": \"leeroy7johnson@gmail.com\",\n            \"status\": \"active\",\n            \"verified\": true,\n            \"photo\": \"https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=1962405684154181&height=200&width=200&ext=1708141849&hash=Afq39EqU2MQI_my1noYg7Ui9suNJrodK1Pxv98_AErZhZw\",\n            \"scope\": [\n                \"manual\"\n            ],\n            \"two_factor_type\": \"app\",\n            \"company_id\": \"65a8a02445787034a5ca2781\",\n            \"created_at\": \"2024-01-18T03:51:02.261Z\",\n            \"updated_at\": \"2024-01-18T03:51:02.261Z\",\n            \"association\": {\n                \"id\": \"65abad9b7a36e245986f45c8\",\n                \"verified\": false,\n                \"creator\": false,\n                \"permissions\": [\n                    \"read\",\n                    \"write\",\n                    \"delete\"\n                ],\n                \"access\": \"level_3\",\n                \"company_id\": \"65a2f888684add2bc7aa612d\",\n                \"client_email\": \"leeroy7johnson@gmail.com\",\n                \"created_at\": \"2024-01-20T11:25:15.998Z\",\n                \"updated_at\": \"2024-01-20T11:25:15.998Z\"\n            }\n        }\n    ],\n    \"status\": true,\n    \"message\": \"Ok\"\n}"
+									"body": "{\n    \"data\": [\n        {\n            \"id\": \"65a2f889684add2bc7aa612f\",\n            \"first_name\": \"Doe\",\n            \"last_name\": \"John\",\n            \"phone\": \"+2349012345688\",\n            \"address\": \"No 5, Lagos Nigeria\",\n            \"city\": \"Lagos\",\n            \"state\": \"Lagos\",\n            \"country\": \"Nigeria\",\n            \"ip_address\": \"::1\",\n            \"email\": \"example@gmail.com\",\n            \"status\": \"active\",\n            \"verified\": true,\n            \"photo\": \"https://lh3.googleusercontent.com/a/ACg8ocIz12jBS66CxCF61LJv8X0FIvsJWuOyLWJs7spoyy1WtC8=s96-c\",\n            \"scope\": [\n                \"manual\"\n            ],\n            \"two_factor_type\": \"app\",\n            \"company_id\": \"65a2f888684add2bc7aa612d\",\n            \"created_at\": \"2024-01-13T20:54:33.549Z\",\n            \"updated_at\": \"2024-01-20T04:58:42.837Z\",\n            \"association\": {\n                \"id\": \"65a2f889684add2bc7aa612e\",\n                \"verified\": false,\n                \"creator\": true,\n                \"permissions\": [\n                    \"read\",\n                    \"write\",\n                    \"delete\"\n                ],\n                \"access\": \"level_3\",\n                \"company_id\": \"65a2f888684add2bc7aa612d\",\n                \"client_email\": \"example@gmail.com\",\n                \"created_at\": \"2024-01-13T20:54:33.269Z\",\n                \"updated_at\": \"2024-01-13T20:54:33.269Z\"\n            }\n        },\n        {\n            \"id\": \"65a8a02645787034a5ca2783\",\n            \"first_name\": \"Drawing\",\n            \"last_name\": \"Strokes\",\n            \"phone\": null,\n            \"address\": null,\n            \"city\": null,\n            \"state\": null,\n            \"country\": null,\n            \"ip_address\": \"\",\n            \"email\": \"leeroy7johnson@gmail.com\",\n            \"status\": \"active\",\n            \"verified\": true,\n            \"photo\": \"https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=1962405684154181&height=200&width=200&ext=1708141849&hash=Afq39EqU2MQI_my1noYg7Ui9suNJrodK1Pxv98_AErZhZw\",\n            \"scope\": [\n                \"manual\"\n            ],\n            \"two_factor_type\": \"app\",\n            \"company_id\": \"65a8a02445787034a5ca2781\",\n            \"created_at\": \"2024-01-18T03:51:02.261Z\",\n            \"updated_at\": \"2024-01-18T03:51:02.261Z\",\n            \"association\": {\n                \"id\": \"65abad9b7a36e245986f45c8\",\n                \"verified\": false,\n                \"creator\": false,\n                \"permissions\": [\n                    \"read\",\n                    \"write\",\n                    \"delete\"\n                ],\n                \"access\": \"level_3\",\n                \"company_id\": \"65a2f888684add2bc7aa612d\",\n                \"client_email\": \"leeroy7johnson@gmail.com\",\n                \"created_at\": \"2024-01-20T11:25:15.998Z\",\n                \"updated_at\": \"2024-01-20T11:25:15.998Z\"\n            }\n        }\n    ],\n    \"status\": true,\n    \"message\": \"Ok\"\n}"
 								}
 							]
 						},
@@ -5761,7 +5761,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"first_name\": \"Leeroy\",\n    \"last_name\": \"Johnson\",\n    \"phone\": \"+2349036723177\",\n    \"address\": \"No 4, Jubilee Estate, Ikorodu, Lagos\",\n    \"city\": \"Lagos\",\n    \"state\": \"Lagos\",\n    \"country\": \"Nigeria\",\n    \"photo\": \"https://api.swayayth.com/logo.png\",\n    \"email\": \"leeroy7johnson@gmail.com\",\n    \"access\": \"level_3\",\n    \"permissions\": [\n        \"read\",\n        \"write\",\n        \"delete\"\n    ]\n}",
+									"raw": "{\n    \"first_name\": \"Leeroy\",\n    \"last_name\": \"Johnson\",\n    \"phone\": \"+2349012345688\",\n    \"address\": \"No 4, Jubilee Estate, Ikorodu, Lagos\",\n    \"city\": \"Lagos\",\n    \"state\": \"Lagos\",\n    \"country\": \"Nigeria\",\n    \"photo\": \"https://api.swayayth.com/logo.png\",\n    \"email\": \"leeroy7johnson@gmail.com\",\n    \"access\": \"level_3\",\n    \"permissions\": [\n        \"read\",\n        \"write\",\n        \"delete\"\n    ]\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -5789,7 +5789,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n    \"first_name\": \"Leeroy\",\n    \"last_name\": \"Johnson\",\n    \"phone\": \"+2349036723177\",\n    \"address\": \"No 4, Jubilee Estate, Ikorodu, Lagos\",\n    \"city\": \"Lagos\",\n    \"state\": \"Lagos\",\n    \"country\": \"Nigeria\",\n    \"photo\": \"https://api.swayayth.com/logo.png\",\n    \"email\": \"leeroy7johnson@gmail.com\",\n    \"access\": \"level_2\",\n    \"permissions\": [\n        \"read\",\n        \"write\",\n        \"delete\"\n    ]\n}",
+											"raw": "{\n    \"first_name\": \"Leeroy\",\n    \"last_name\": \"Johnson\",\n    \"phone\": \"+2349012345688\",\n    \"address\": \"No 4, Jubilee Estate, Ikorodu, Lagos\",\n    \"city\": \"Lagos\",\n    \"state\": \"Lagos\",\n    \"country\": \"Nigeria\",\n    \"photo\": \"https://api.swayayth.com/logo.png\",\n    \"email\": \"leeroy7johnson@gmail.com\",\n    \"access\": \"level_2\",\n    \"permissions\": [\n        \"read\",\n        \"write\",\n        \"delete\"\n    ]\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -5877,7 +5877,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"email\": \"fashanutosin7@gmail.com\",\n    \"password\": \"qwerty12345\"\n}",
+									"raw": "{\n    \"email\": \"example@gmail.com\",\n    \"password\": \"password12345\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -5911,7 +5911,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n    \"email\": \"fashanutosin7@gmail.com\",\n    \"password\": \"qwerty12345\"\n}",
+											"raw": "{\n    \"email\": \"example@gmail.com\",\n    \"password\": \"password12345\"\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -6205,7 +6205,7 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n    \"data\": [\n        {\n            \"id\": \"65aba423672db4d4d78c0670\",\n            \"first_6digit\": \"408408\",\n            \"last_4digit\": \"4081\",\n            \"exp_month\": \"12\",\n            \"exp_year\": \"2030\",\n            \"country_code\": \"NG\",\n            \"card_type\": \"visa \",\n            \"bank\": \"TEST BANK\",\n            \"account_name\": null,\n            \"company_email\": \"fashanutosin7@gmail.com\",\n            \"created_at\": \"2024-01-20T10:44:50.953Z\",\n            \"updated_at\": \"2024-01-20T10:44:50.953Z\"\n        }\n    ],\n    \"status\": true,\n    \"message\": \"Ok\"\n}"
+									"body": "{\n    \"data\": [\n        {\n            \"id\": \"65aba423672db4d4d78c0670\",\n            \"first_6digit\": \"408408\",\n            \"last_4digit\": \"4081\",\n            \"exp_month\": \"12\",\n            \"exp_year\": \"2030\",\n            \"country_code\": \"NG\",\n            \"card_type\": \"visa \",\n            \"bank\": \"TEST BANK\",\n            \"account_name\": null,\n            \"company_email\": \"example@gmail.com\",\n            \"created_at\": \"2024-01-20T10:44:50.953Z\",\n            \"updated_at\": \"2024-01-20T10:44:50.953Z\"\n        }\n    ],\n    \"status\": true,\n    \"message\": \"Ok\"\n}"
 								}
 							]
 						},

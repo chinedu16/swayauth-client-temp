@@ -1,24 +1,34 @@
 import { flattenTree } from "react-accessible-treeview";
 
 export const pricingData = {
-  basic: [
-    "Social login with Facebook and Google",
-    "Manual login and signup",
-    "Password reset",
-    "User data management",
+  free: [
+    "Manual Login",
+    "User onboarding (500)",
+    "Organization (1)",
+    "Organization Token (2)",
   ],
   standard: [
+    "User onboarding (5,000)",
+    "Organization Limit (5)",
+    "Organization Token  Limit (1,000)",
+    "Social Login and Signup (10000)",
+    "Email Integration - Swayauth (5,000)",
+    "Email Integration - Personal (50,000)",
     "Two-factor authentication (2FA)",
-    "Email Integration",
-    "Custom authentication flows",
-    "User role management",
-    "User activity logging",
+    "Team members (5)",
+    "SNS Integration (1000)",
     "Regular support",
   ],
   premium: [
-    "Custom authentication flows",
-    "Single sign-on (SSO)",
-    "API access",
+    "User onboarding (50,000)",
+    "Organization Limit (20)",
+    "Organization Token  Limit (10,000)",
+    "Social Login and Signup (100,000)",
+    "Email Integration - Swayauth (50,000)",
+    "Email Integration - Personal (500,000)",
+    "Two-factor authentication (2FA)",
+    "Team members (20)",
+    "SNS Integration (5000)",
     "Dedicated support",
   ],
 };

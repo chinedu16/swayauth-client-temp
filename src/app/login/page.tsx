@@ -33,7 +33,7 @@ const Login = () => {
   }, [state]);
 
   const toggle2Auth = () => {
-    if (isPending) return 
+    if (isPending) return
     setMessage('')
     setTwoFactor(p => ({ ...p, open: !p.open }))
   }

@@ -2,7 +2,6 @@
 import { FolderIcon } from "@/components/doc/treeview";
 import Inner from "@/components/home/documentation/inner";
 import Nav from "@/components/home/nav";
-import { CONST } from "@/lib/constant";
 import useDocManager from "@/lib/doc/docManager";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,14 +10,14 @@ import TreeView from "react-accessible-treeview";
 import pm from '../../lib/doc/postman-2.json';
 
 const Doc = () => {
-  const { handle, leftPanel, rightPanel, folderData, isClient } = useDocManager()
+  const { handle, leftPanel, rightPanel, folderData } = useDocManager()
 
   return (
     <main className="relative box-border bg-slate-900 text-slate-300">
       <Nav bg="bg-slate-900 text-slate-300 shadow-xl" maxWidth="mx-auto" />
       <div className="mt-[4.5rem] lg:mt-0 flex">
         <input type="checkbox" name="" id="doc-nav" defaultChecked className="hidden" />
-        <div ref={leftPanel} className="no-scrollbar left-0 z-20 fixed rounded-t-sm py-6 px-5 bg-slate-800 treeview break-keep w-[280px] lg:w-[420px] whitespace-nowrap lg:relative overflow-auto h-[calc(100vh-4.5rem)] lg:h-[calc(100vh-5rem)]">
+        <div ref={leftPanel} className="no-scrollbar left-0 z-20 fixed rounded-t-sm py-6 px-5 bg-slate-800 treeview break-keep w-[340px] lg:w-[420px] whitespace-nowrap lg:relative overflow-auto h-[calc(100vh-4.5rem)] lg:h-[calc(100vh-5rem)]">
           <TreeView
             data={folderData}
             onLoadData={async () => console.log('Loading')}
@@ -65,7 +64,7 @@ const Doc = () => {
                 }
                 <h3 className='text-lg mb-4 pr-6'>BASE URL —<span className='text-sm ml-1'>&#123;&#123;base_url&#125;&#125;</span></h3>
                 <div className='bg-slate-800 text-sm mb-10 px-3 mr-6 py-2 rounded-lg'>
-                  {isClient ? CONST.BASE_URL : null}
+                  https://api.swayauth.com/v1
                 </div>
               </div>
             </div>
@@ -88,8 +87,9 @@ const Doc = () => {
             }
           </div>
         </div>
-        <label htmlFor="doc-nav" className="inline-block cursor-pointer lg:hidden fixed bottom-6 right-6 text-3xl rounded-full bg-black px-3 py-[0.5rem]">
-          <FontAwesomeIcon icon={faBars} />
+        <label htmlFor="doc-nav"
+          className="inline-flex items-center rotate-90 justify-center cursor-pointer z-40 lg:hidden fixed bottom-10 right-0 text-sm rounded-full bg-black px-3 py-[0.5rem]">
+          Menu <FontAwesomeIcon icon={faBars} className="ml-2" />
         </label>
       </div>
     </main>
