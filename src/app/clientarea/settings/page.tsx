@@ -205,23 +205,24 @@ const Settings = () => {
     <div className="flex flex-wrap justify-between items-end shadow-md rounded-lg bg-white mt-8 p-6">
       <form onSubmit={handleAccountForm} className="w-full lg:w-6/12 lg:pr-6">
         {
-          data?.email === data?.company?.email ?
-            <div className='mb-4 w-full'>
-              <label>Company Name</label>
-              <div className='mt-1'>
-                <input
-                  autoComplete='company'
-                  required
-                  disabled={loaders.profile || loading}
-                  defaultValue={data?.company?.name}
-                  name='company_name'
-                  className='w-full bg-slate-50 focus:border-blue-700 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
-                  placeholder='e.g John' />
-              </div>
-              <div className="w-[49%]">
-              </div>
-            </div> :
-            null
+          !isClient ? null :
+            data?.email === data?.company?.email ?
+              <div className='mb-4 w-full'>
+                <label>Company Name</label>
+                <div className='mt-1'>
+                  <input
+                    autoComplete='company'
+                    required
+                    disabled={loaders.profile || loading}
+                    defaultValue={data?.company?.name}
+                    name='company_name'
+                    className='w-full bg-slate-50 focus:border-blue-700 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
+                    placeholder='e.g John' />
+                </div>
+                <div className="w-[49%]">
+                </div>
+              </div> :
+              null
         }
         <div className='mb-4 flex w-full justify-between'>
           <div className="w-[49%]">
@@ -295,6 +296,23 @@ const Settings = () => {
               placeholder='e.g 123, Cresent Street.' />
           </div>
         </div>
+        {
+          !isClient ? null :
+            data?.email === data?.company?.email ?
+              <div className='mb-3'>
+                <label >Company Bio</label>
+                <div className='mt-1'>
+                  <textarea autoComplete="address"
+                    required
+                    defaultValue={data?.company?.bio || ''}
+                    name='address'
+                    disabled={loaders.profile || loading}
+                    className='w-full bg-slate-50 focus:border-blue-700 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
+                    placeholder='e.g We build....' />
+                </div>
+              </div> :
+              null
+        }
         <div className='mb-8 flex w-full flex-wrap justify-between'>
           <div className="w-full sm:w-[32%]">
             <label >LGA</label>
@@ -349,6 +367,8 @@ const Settings = () => {
             </div>
           </div>
         </div>
+
+
         <button disabled={loaders.profile || loading} type='submit' className='my-2 disabled:cursor-wait active:bg-blue-700 w-full flex items-center justify-center px-14 bg-blue-600 py-2 rounded-lg text-white'>
           {
             loaders.profile ?

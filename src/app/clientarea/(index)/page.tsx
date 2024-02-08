@@ -11,17 +11,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ChangeEvent, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-
-const thirthyDays = [3, 2, 9, 10, 4, 3, 14]
-const thirthyDays2 = [3, 2, 9, 10, 4, 3, 14, 23, 23, 12, 5, 3,]
-const thirthyDays3 = [3, 2, 9, 10, 4, 3,]
-const thirthyDays4 = [3, 2, 2, 10, 4, 3, 12, 34, 23, 23, 12, 5, 3, 19, 14, 17, 9, 6, 5, 13, 2, 5, 18, 10, 7, 8, 2, 25]
-const pieData = {
-  facebook: 1,
-  google: 4,
-  manual: 8
-}
-
 const Home = () => {
   const { data, status, message, updateOneStatistic } = useStatistics();
   const { data: {

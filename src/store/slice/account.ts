@@ -22,6 +22,7 @@ export interface AccountData {
   company?: {
     id?: string;
     name?: string
+    bio?: string
     save_cards?: boolean
     email?: string
   },

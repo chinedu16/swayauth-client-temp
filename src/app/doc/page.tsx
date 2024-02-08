@@ -6,12 +6,17 @@ import useDocManager from "@/lib/doc/docManager";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import TreeView from "react-accessible-treeview";
+import Markdown from 'react-markdown';
 import pm from '../../lib/doc/postman-2.json';
 
 const Doc = () => {
+  const [isClient, setIsClient] = useState(false);
   const { handle, leftPanel, rightPanel, folderData } = useDocManager()
-
+  useEffect(() => {
+    setIsClient(true)
+  }, []);
   return (
     <main className="relative box-border bg-slate-900 text-slate-300">
       <Nav bg="bg-slate-900 text-slate-300 shadow-xl" maxWidth="mx-auto" />
@@ -52,9 +57,13 @@ const Doc = () => {
             </h1>
             <div>
               <div className='w-full lg:w-6/12'>
-                <p className='text-slate-300 mb-10 pr-6'>
-                  {pm.info.description}
-                </p>
+                <div className='text-slate-300 mb-10 pr-6 markdown'>
+                  {
+                    isClient ?
+                      <Markdown>{pm.info.description}</Markdown>
+                      : null
+                  }
+                </div>
                 {
                   pm.auth ?
                     <div className='flex mb-10 border-b border-slate-500 pb-1'>

@@ -3,8 +3,14 @@ import { faClone } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { nightOwl } from 'react-syntax-highlighter/dist/cjs/styles/hljs';
+import Markdown from 'react-markdown'
+import { useEffect, useState } from 'react';
 
 const DocContent = ({ folder }: { folder: any }) => {
+  const [isClient, setIsClient] = useState(false);
+  useEffect(() => {
+    setIsClient(true)
+  }, []);
   const auth = (Object.values(folder?.request?.auth || {})?.[1] || []) as { key: string, value: string }[]
   const authKey = auth?.find(v => v.key == 'key')
   const authVal = auth?.find(v => v.key == 'value')
@@ -38,13 +44,14 @@ const DocContent = ({ folder }: { folder: any }) => {
       </table>
       {
         (folder.request as any)?.description ?
-          <p className='text-slate-300 mb-10'>
-            {(folder.request as any)?.description?.split('\n\n')?.map((item: string, i: number) =>
-              <span className='break-words' key={i}><br /><br />{item.includes('\n') ? item.split('\n').map((itm, ix) =>
-                <span key={ix} className='break-words'>{itm}<br /></span>
-              ) : item}</span>
-            )}
-          </p> : null
+          <div className='text-slate-300 mb-10 markdown'>
+            {
+              isClient ?
+                <Markdown>{(folder.request as any)?.description}</Markdown>
+                :
+                null
+            }
+          </div> : null
       }
       {
         folder.request?.header?.length ?

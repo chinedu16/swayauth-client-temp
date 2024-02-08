@@ -1,6 +1,8 @@
 {
   "name": "client-app",
-  "cacheDirectories": [".next/cache"],
+  "cacheDirectories": [
+    ".next/cache"
+  ],
   "engines": {
     "node": ">=18.17.1"
   },
@@ -30,6 +32,7 @@
     "react-dom": "^18",
     "react-faq-component": "^1.3.4",
     "react-hot-toast": "^2.4.1",
+    "react-markdown": "^9.0.1",
     "react-phone-number-input": "^3.3.7",
     "react-redux": "^9.0.4",
     "react-select": "^5.8.0",

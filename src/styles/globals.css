@@ -293,3 +293,12 @@ img {
 }
 
 /* nprogress */
+
+.markdown p {
+  margin: 0.5rem 0;
+}
+
+.markdown h3 {
+  font-size: 1.5rem;
+  margin: 2.5rem 0 1rem 0;
+}

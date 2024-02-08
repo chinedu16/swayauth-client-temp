@@ -47,10 +47,10 @@ function Chart({ data, loading, format = '7', height = 'h-[15rem]' }: { loading?
       {
         array.map((v, i) =>
           <div data-tooltip={`${ini[i]}`} key={i} className="d-flex h-full flex-col items-center">
-            <div className={`_${format} h-full cursor-pointer relative rounded-md bg-slate-200 overflow-hidden`}>
-              <div className={`w-full item absolute rounded-md bottom-0 bg-blue-700 h-${v}`}></div>
+            <div className={`_${format} h-full cursor-pointer relative rounded-full bg-slate-200 overflow-hidden`}>
+              <div className={`w-full item absolute rounded-xl bottom-0 bg-blue-700 h-${v}`}></div>
             </div>
-            <div className={`text-slate-500 inline-block text-center title _${format}`}>{format === '7' ? days[i] : format === '30' ? weeks[i] : get6months(currMonth)[i]}</div>
+            <div className={`text-slate-500 inline-block text-center title _${format}`}>{format === '7' ? days[i] : format === '30' ? weeks[i] : format == '180' ? get6months(currMonth)[i] : months[i]}</div>
           </div>
         )
       }

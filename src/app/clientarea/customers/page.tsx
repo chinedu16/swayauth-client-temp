@@ -292,16 +292,7 @@ const Customer = () => {
                 </div>
               </th>
               <th scope="col" className="px-4 py-3">
-                <div className="flex whitespace-nowrap items-center">
-                  <span className="inline-block mr-1">
-                    Organisation
-                  </span>
-                  <button data-tooltip3="sort" onClick={() => sortAction('organization')} className="inline-flex cursor-pointer hover:bg-slate-300 rounded-full justify-center items-center text-sm w-[1.5rem] h-[1.5rem]">
-                    <FontAwesomeIcon icon={direction == 'desc' && sort == 'organization' ?
-                      faArrowUp : faArrowDown} className={sort == 'organization' ? ''
-                        : 'opacity-40'} />
-                  </button>
-                </div>
+                Organisation
               </th>
               <th scope="col" className="px-4 py-3">
                 Status
