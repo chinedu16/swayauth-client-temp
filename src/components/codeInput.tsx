@@ -10,10 +10,6 @@ const CodeInput = ({ length = 6, onChange, loading }: { length?: number, loading
       onChange(values);
     }
   }, [values]);
-  // const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-  //   const data = FormData(e, Array(length).fill(0).map((_, i) => `${i}`))
-  //   console.log(data)
-  // }
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     const buttons = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'] as const

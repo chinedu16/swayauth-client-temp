@@ -1,18 +1,20 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 // const daysNumeric = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28']
 
-const currMonth = 11 || new Date().getMonth();
-const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-const weeks = [<span key={1}>1<sup>st</sup> wk</span>, <span key={2}>2<sup>nd</sup> wk</span>, <span key={3}>3<sup>rd</sup> wk</span>, <span key={4}>4<sup>th</sup> wk</span>,]
+const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+const weeks = [<span key={1}>—3 wk</span>, <span key={2}>—2 wk</span>, <span key={3}>—1 wk</span>, <span key={4}><span className="inline-block rounded-full min-h-2 min-w-2 bg-green-600"></span> wk</span>,]
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-const get6months = (curr: number) => {
-  if (curr > 4) {
-    return months.slice(curr - 5, curr + 1);
-  } else {
-    let arr = months.slice(0, curr + 1);
-    arr = months.slice().reverse().slice(0, 5 - curr).reverse().concat(arr);
-    return arr
-  }
+const getDay = () => {
+  const currDay = new Date().getDay();
+  return days.concat(days).slice(currDay + 1, currDay + 8)
+}
+const get6months = () => {
+  const currMonth = new Date().getMonth();
+  return months.concat(months).slice(currMonth + 7, currMonth + 13)
+}
+const getOneYear = () => {
+  const currMonth = new Date().getMonth();
+  return months.concat(months).slice(currMonth + 1, currMonth + 13)
 }
 
 const valueCalculator = (values: number[] | null | undefined) => {
@@ -50,7 +52,7 @@ function Chart({ data, loading, format = '7', height = 'h-[15rem]' }: { loading?
             <div className={`_${format} h-full cursor-pointer relative rounded-full bg-slate-200 overflow-hidden`}>
               <div className={`w-full item absolute rounded-xl bottom-0 bg-blue-700 h-${v}`}></div>
             </div>
-            <div className={`text-slate-500 inline-block text-center title _${format}`}>{format === '7' ? days[i] : format === '30' ? weeks[i] : format == '180' ? get6months(currMonth)[i] : months[i]}</div>
+            <div className={`text-slate-500 inline-block text-center title _${format}`}>{format === '7' ? getDay()[i] : format === '30' ? weeks[i] : format == '180' ? get6months()[i] : getOneYear()[i]}</div>
           </div>
         )
       }

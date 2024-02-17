@@ -148,7 +148,6 @@ const Settings = () => {
     } else {
       toast.error(res.message)
     }
-
   }
 
   const handleAccountForm = async (e: FormEvent<HTMLFormElement>) => {
@@ -160,6 +159,7 @@ const Settings = () => {
         'address',
         'city',
         'state',
+        'company_bio',
         'country',
       ])
     if (phone && isValidPhoneNumber(phone)) {
@@ -200,6 +200,8 @@ const Settings = () => {
   const changeTeamStatus = (team: TeamData) => {
     const status = team.status == 'disabled' ? 'active' : 'disabled'
   }
+
+  console.log(data)
 
   return <div>
     <div className="flex flex-wrap justify-between items-end shadow-md rounded-lg bg-white mt-8 p-6">
@@ -287,7 +289,8 @@ const Settings = () => {
         <div className='mb-3'>
           <label >Address</label>
           <div className='mt-1'>
-            <textarea autoComplete="address"
+            <textarea
+              autoComplete="address"
               required
               defaultValue={data?.address || ''}
               name='address'
@@ -305,7 +308,7 @@ const Settings = () => {
                   <textarea autoComplete="address"
                     required
                     defaultValue={data?.company?.bio || ''}
-                    name='address'
+                    name='company_bio'
                     disabled={loaders.profile || loading}
                     className='w-full bg-slate-50 focus:border-blue-700 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
                     placeholder='e.g We build....' />

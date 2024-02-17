@@ -13,10 +13,12 @@ import pm from '../../lib/doc/postman-2.json';
 
 const Doc = () => {
   const [isClient, setIsClient] = useState(false);
-  const { handle, leftPanel, rightPanel, folderData } = useDocManager()
+  const { handle, leftPanel, rightPanel, folderData } = useDocManager(pm)
+
   useEffect(() => {
     setIsClient(true)
   }, []);
+
   return (
     <main className="relative box-border bg-slate-900 text-slate-300">
       <Nav bg="bg-slate-900 text-slate-300 shadow-xl" maxWidth="mx-auto" />
@@ -25,7 +27,6 @@ const Doc = () => {
         <div ref={leftPanel} className="no-scrollbar left-0 z-20 fixed rounded-t-sm py-6 px-5 bg-slate-800 treeview break-keep w-[340px] lg:w-[420px] whitespace-nowrap lg:relative overflow-auto h-[calc(100vh-4.5rem)] lg:h-[calc(100vh-5rem)]">
           <TreeView
             data={folderData}
-            onLoadData={async () => console.log('Loading')}
             aria-label="directory tree"
             propagateCollapse
             defaultExpandedIds={folderData?.map((data: any) => data?.id)}

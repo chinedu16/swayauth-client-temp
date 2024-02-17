@@ -23,6 +23,20 @@ export const customerStatsSlice = createSlice({
   name: "customerStats",
   initialState,
   reducers: {
+    updateCustomerStatus: (
+      state: CustomerStatsState,
+      action: PayloadAction<{ count: number, status: 'disabled' | 'active' }>
+    ) => {
+      if (state.data?.active || state.data?.disabled) {
+        if (action.payload.status == 'active') {
+          state.data.active = (state.data.active || 0) + action.payload.count;
+          state.data.disabled = (state.data.disabled || 0) - action.payload.count
+        } else {
+          state.data.active = (state.data.active || 0) - action.payload.count
+          state.data.disabled = (state.data.disabled || 0) + action.payload.count
+        }
+      }
+    },
     updateCustomerStats: (
       state: CustomerStatsState,
       action: PayloadAction<CustomerStatsState>
@@ -35,6 +49,6 @@ export const customerStatsSlice = createSlice({
   }
 });
 
-export const { updateCustomerStats } = customerStatsSlice.actions;
+export const { updateCustomerStats, updateCustomerStatus } = customerStatsSlice.actions;
 
 export default customerStatsSlice.reducer;

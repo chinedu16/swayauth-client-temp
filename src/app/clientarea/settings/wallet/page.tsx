@@ -93,7 +93,6 @@ const Wallet = () => {
     toggleFundModal()
     if (res.status && res.data?.authorization_url) {
       window?.open(res.data.authorization_url, '_blank')?.addEventListener('unload', (e) => {
-        console.log('tab closed')
         handleCloseEvent(e)
       });
     } else {

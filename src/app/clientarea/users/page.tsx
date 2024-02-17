@@ -1,4 +1,6 @@
 "use client"
+import AlertAction from "@/components/alert";
+import ViewUserModal from "@/components/clientarea/users/viewUserModal";
 import DropDown from "@/components/dropDown";
 import { SpinnerCircle2 } from "@/components/spinner";
 import TableLoader from "@/components/tableLoader";
@@ -8,6 +10,7 @@ import { dateShort, money } from "@/lib/utils";
 import useCustomerStats from "@/store/hooks/customerStats";
 import useOrganization from "@/store/hooks/organization";
 import useUsers from "@/store/hooks/users";
+import { UsersData } from "@/store/slice/users";
 import { faArrowDown, faArrowUp, faBan, faBolt, faChevronLeft, faChevronRight, faEllipsisV, faEye, faSearch, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
@@ -18,11 +21,14 @@ import toast from "react-hot-toast";
 let timer: any;
 let pageTimer: any;
 const Customer = () => {
+  const [viewUser, setViewUser] = useState<{ open: boolean, data: UsersData | null | undefined }>({ open: false, data: null });
   const [searchLoading, setSearchLoading] = useState(false);
-  const { data, loading } = useCustomerStats()
+  const [deleteUserModal, setDeleteUserModal] = useState({ open: false, id: '' });
+  const [actionLoading, setActionLoading] = useState(false);
+  const { data, loading, changeCount } = useCustomerStats()
   const [checkedUsers, setCheckedUsers] = useState<string[]>([]);
   const { data: orgData, loading: orgLoading } = useOrganization()
-  const { data: users, loading: usersLoading, fetchUsers } = useUsers(false)
+  const { data: users, loading: usersLoading, fetchUsers, updateStatus, removeUser } = useUsers(false)
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -30,16 +36,25 @@ const Customer = () => {
   const currPage = Number(searchParams.get('page') || 1)
   const size = Number(searchParams.get('size') || 10)
   const direction = searchParams.get('direction') || 'asc'
+  const organization_id = searchParams.get('organization_id') || ''
 
   useEffect(() => {
     fetchUsers(changeRouteQuery())
   }, [searchParams]);
 
+  const toggleDeleteUser = (id?: string) => setDeleteUserModal(p => ({ open: !p.open, id: id || p.id }))
+
+  const toggleUser = (data?: null | UsersData) => setViewUser(p => ({ open: !p.open, data }))
+
   const changeRouteQuery = (...args: string[]) => {
     const params = new URLSearchParams(searchParams)
     args.forEach((key, idx, arr) => {
       if (idx % 2 == 0) {
-        if (key) params.set(key, arr[idx + 1] || '')
+        if (key && arr[idx + 1]) {
+          params.set(key, arr[idx + 1] || '')
+        } else if (key) {
+          params.delete(key)
+        }
       }
     })
     return params.toString()
@@ -63,7 +78,7 @@ const Customer = () => {
     clearTimeout(timer)
     setSearchLoading(true)
     timer = setTimeout(() => {
-      navigate('size', value)
+      navigate('search', value)
       setSearchLoading(false)
     }, 1500)
   }
@@ -100,31 +115,44 @@ const Customer = () => {
     })
   }
 
-  const activateUsers = async (ids?: string[]) => {
-    ids = ids || checkedUsers
-    if (!ids.length) return toast.error('Please select a user')
-    const res = await normalRequest(CONST.COMPANY.USERS.ACTIVATE_USERS, ids, 'put')
+  const activateUsers = async (user_ids?: string[]) => {
+    user_ids = user_ids || checkedUsers
+    if (!user_ids.length) return toast.error('Please select a user')
+    setActionLoading(true)
+    const res = await normalRequest(CONST.COMPANY.USERS.ACTIVATE_USERS, { user_ids }, 'put')
+    setActionLoading(false)
     toast[res.status ? 'success' : 'error'](res.message)
-    if (res.status) {
-      //update redux
+    if (res.status && users) {
+      const strIds = user_ids.join(',')
+      changeCount(users?.filter((u) => strIds.includes(u.id) && u.status == 'disabled').map((u) => u.id), 'active')
+      updateStatus(user_ids, 'active')
     }
   }
 
-  const deactivateUsers = async (ids?: string[]) => {
-    ids = ids || checkedUsers
-    if (!ids.length) return toast.error('Please select a user')
-    const res = await normalRequest(CONST.COMPANY.USERS.ACTIVATE_USERS, ids, 'put')
+  const deactivateUsers = async (user_ids?: string[]) => {
+    user_ids = user_ids || checkedUsers
+    if (!user_ids.length) return toast.error('Please select a user')
+    setActionLoading(true)
+    const res = await normalRequest(CONST.COMPANY.USERS.DEACTIVATE_USERS, { user_ids }, 'put')
+    setActionLoading(false)
     toast[res.status ? 'success' : 'error'](res.message)
-    if (res.status) {
-      //update redux
+    if (res.status && users) {
+      const strIds = user_ids.join(',')
+      changeCount(users?.filter((u) => strIds.includes(u.id) && u.status == 'active').map((u) => u.id), 'disabled')
+      updateStatus(user_ids, 'disabled')
     }
   }
 
-  const deleteUser = async (id: string) => {
-    const res = await normalRequest(CONST.COMPANY.USERS.DELETE_USERS + `/${id}`, {}, 'delete')
+  const deleteUser = async () => {
+    if (!deleteUserModal.id) return toast.error('Please try again later')
+    if (actionLoading) return
+    setActionLoading(true)
+    const res = await normalRequest(CONST.COMPANY.USERS.DELETE_USERS + `/${deleteUserModal.id}`, {}, 'delete')
+    setActionLoading(false)
     toast[res.status ? 'success' : 'error'](res.message)
     if (res.status) {
-      //update redux
+      removeUser(deleteUserModal.id)
+      toggleDeleteUser()
     }
   }
 
@@ -138,7 +166,7 @@ const Customer = () => {
   }
 
   return <div className="py-3 md:py-6 px-4 md:px-8">
-    <h3 className="text-2xl font-bold">Customers</h3>
+    <h3 className="text-2xl font-bold">Users</h3>
     <div className="flex w-full mt-7 lg:w-auto flex-wrap justify-between">
       <div className="mb-6 w-6/12 md:w-3/12 md:pr-3 pr-2">
         <div className="px-4 pt-3 pb-2 border rounded-lg bg-white shadow-md">
@@ -206,13 +234,13 @@ const Customer = () => {
           </div>
           <div className="w-10/12 flex items-center relative md:w-3/12 mt-4 md:mt-0 lg:w-3/12">
             <select
-              onChange={(e) => navigate('organization', e.target.value)}
+              onChange={(e) => navigate('organization_id', e.target.value)}
               className='bg-white w-full focus:border-blue-700 focus:border-2 focus:outline-1 focus:ring-1 ring-offset-1 border h-[2.65rem]  px-3 rounded-md' >
-              <option value="" hidden>--Select organization--</option>
+              <option selected={organization_id == ''} value="">All Organization</option>
               {
                 orgData?.length ?
                   orgData.map((org, i) =>
-                    <option key={i} value={org.id}>{org.name}</option>
+                    <option selected={organization_id == org.id} key={i} value={org.id}>{org.name}</option>
                   ) : null
               }
             </select>
@@ -332,7 +360,7 @@ const Customer = () => {
                         </div>
                       </td>
                       <td scope="row" className="px-4 pt-2 whitespace-nowrap">
-                        <div className="w-[2rem] h-[2rem] rounded-full overflow-hidden inline-block object-cover">
+                        <div className="w-[2rem] h-[2rem] rounded-full overflow-hidden inline-block object-cover border">
                           <Image alt="" width={400} height={400} src={item.photo || '/avatar-2.png'} className="object-cover" />
                         </div>
                       </td>
@@ -358,7 +386,9 @@ const Customer = () => {
                       </td>
                       <td scope="row" className="px-4 pt-2 whitespace-nowrap">
                         <div className="whitespace-nowrap">
-                          <small className="inline-block px-3 bg-red-600 text-white rounded-md">Disabled</small>
+                          <small className={`inline-block capitalize px-3 ${item.status == 'active' ? 'bg-green-600' : 'bg-red-600'} text-white rounded-md`}>
+                            {item.status}
+                          </small>
                         </div>
                       </td>
                       <td scope="row" className="px-4 pt-2 whitespace-nowrap">
@@ -368,19 +398,13 @@ const Customer = () => {
                       </td>
                       <td className="px-4 pt-2 whitespace-nowrap">
                         <div className="flex whitespace-nowrap items-center">
-                          <button className="mr-2 hover:bg-slate-200 px-1 rounded-full" title='view'>
+                          <button disabled={actionLoading} onClick={() => toggleUser(item)} className="mr-2 disabled:animate-pulse hover:bg-slate-200 px-1 disabled:cursor-not-allowed rounded-full" title='view'>
                             <FontAwesomeIcon icon={faEye} />
                           </button>
-                          {
-                            item.status === 'active' ?
-                              <button onClick={() => deactivateUsers([item.id])} className="mr-2 hover:bg-slate-200 px-1 rounded-full" title='deactivate'>
-                                <FontAwesomeIcon icon={faBan} />
-                              </button> :
-                              <button onClick={() => activateUsers([item.id])} className="mr-2 hover:bg-slate-200 px-1 rounded-full" title='activate'>
-                                <FontAwesomeIcon icon={faBolt} />
-                              </button>
-                          }
-                          <button onClick={() => deleteUser(item.id)} title="delete" className="hover:bg-slate-200 px-1 rounded-full">
+                          <button disabled={actionLoading} onClick={() => item.status === 'active' ? deactivateUsers([item.id]) : activateUsers([item.id])} className="mr-2 disabled:cursor-not-allowed disabled:animate-pulse hover:bg-slate-200 px-1 rounded-full" title='deactivate'>
+                            <FontAwesomeIcon icon={item.status === 'active' ? faBan : faBolt} />
+                          </button>
+                          <button disabled={actionLoading} onClick={() => toggleDeleteUser(item.id)} title="delete" className="hover:bg-slate-200 px-1 disabled:animate-pulse disabled:cursor-not-allowed rounded-full">
                             <FontAwesomeIcon icon={faTrash} />
                           </button>
                         </div>
@@ -419,6 +443,16 @@ const Customer = () => {
         </button>
       </div>
     </div>
+
+    <AlertAction
+      isOpen={deleteUserModal.open}
+      loading={actionLoading}
+      title="Delete User"
+      toggle={toggleDeleteUser}
+      message={<span>Are you sure you want to <b className="text-red-500">delete</b> this user? <br /> This action cannot be undone!!!</span>}
+      action={deleteUser}
+    />
+    <ViewUserModal toggle={toggleUser} data={viewUser.data} isOpen={viewUser.open} />
   </div>;
 };
 

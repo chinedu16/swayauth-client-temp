@@ -8,733 +8,20 @@
 	},
 	"item": [
 		{
-			"name": "Authentication (Client & User)",
+			"name": "Client Authentication",
 			"item": [
 				{
-					"name": "Login (User)",
-					"event": [
+					"name": "Social Authentication",
+					"item": [
 						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "apikey",
-							"apikey": [
-								{
-									"key": "value",
-									"value": "{{organization_secret}}",
-									"type": "string"
-								},
-								{
-									"key": "key",
-									"value": "Organization-Secret",
-									"type": "string"
-								},
-								{
-									"key": "in",
-									"value": "header",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"email\": \"example@gmail.com\",\n    \"password\": \"qwerty12345\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{base_url}}/auth/login/user",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"auth",
-								"login",
-								"user"
-							]
-						},
-						"description": "This endpoint is used to authenticate a user and generate a login session. The HTTP POST request should be sent to {{base_url}}/auth/login/user with the user's email and password provided in the request body.\n\n### Request Body\n\n- email (string, required): The email address of the user.\n- password (string, required): The password for the user's account.\n    \n\n### Response\n\nThe response will include the user's authentication token and other relevant information upon successful authentication."
-					},
-					"response": [
-						{
-							"name": "Example",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"email\": \"example@gmail.com\",\n    \"password\": \"qwerty12345\"\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://localhost:8000/v1/auth/login/user",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8000",
-									"path": [
-										"v1",
-										"auth",
-										"login",
-										"user"
-									]
-								}
+							"name": "Facebook Login or Register",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
 							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "X-Powered-By",
-									"value": "Express"
+							"request": {
+								"auth": {
+									"type": "noauth"
 								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								},
-								{
-									"key": "X-RateLimit-Limit",
-									"value": "50"
-								},
-								{
-									"key": "X-RateLimit-Remaining",
-									"value": "49"
-								},
-								{
-									"key": "X-RateLimit-Reset",
-									"value": "1"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Content-Length",
-									"value": "1240"
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"4d8-n7Qu5f85ue2zsAJRTxu+1xYLedc\""
-								},
-								{
-									"key": "Date",
-									"value": "Sat, 20 Jan 2024 04:47:49 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=5"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"data\": {\n        \"access_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWFiNGUzZGNmMDcyNWZlNmViZjRjM2QiLCJlbWFpbCI6ImZhc2hhbnV0b3NpbjdAZ21haWwuY29tIiwic2NvcGUiOlsibWFudWFsIl0sInR3b19mYWN0b3JfdHlwZSI6bnVsbCwicGVybWlzc2lvbnMiOlsicmVhZCIsIndyaXRlIiwiZGVsZXRlIl0sInN0YXR1cyI6ImFjdGl2ZSIsImNvbXBhbnlfaWQiOiI2NWEyZjg4ODY4NGFkZDJiYzdhYTYxMmQiLCJvcmdhbml6YXRpb25fdG9rZW5faWQiOiI2NWFiNGEzMWU3ZTczYmYxZmJlYjYxNTMiLCJvcmdhbml6YXRpb25faWQiOiI2NWFiNDhlOGU3ZTczYmYxZmJlYjYxNTIiLCJhY2Nlc3MiOiJsZXZlbF8xIiwiaWF0IjoxNzA1NzI2MDY5LCJleHAiOjE3MDU4MTI0Njl9.5TG4ogDWVI2pkRRbYt1w0mHo1JP9SzDb6_RNvULoECg\",\n        \"refresh_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWFiNGUzZGNmMDcyNWZlNmViZjRjM2QiLCJlbWFpbCI6ImZhc2hhbnV0b3NpbjdAZ21haWwuY29tIiwic2NvcGUiOlsibWFudWFsIl0sInR3b19mYWN0b3JfdHlwZSI6bnVsbCwicGVybWlzc2lvbnMiOlsicmVhZCIsIndyaXRlIiwiZGVsZXRlIl0sInN0YXR1cyI6ImFjdGl2ZSIsImNvbXBhbnlfaWQiOiI2NWEyZjg4ODY4NGFkZDJiYzdhYTYxMmQiLCJvcmdhbml6YXRpb25fdG9rZW5faWQiOiI2NWFiNGEzMWU3ZTczYmYxZmJlYjYxNTMiLCJvcmdhbml6YXRpb25faWQiOiI2NWFiNDhlOGU3ZTczYmYxZmJlYjYxNTIiLCJhY2Nlc3MiOiJsZXZlbF8xIiwiaWF0IjoxNzA1NzI2MDY5LCJleHAiOjE3MTM1MDIwNjl9.wqvLzDJLnXcwFkUvWQfq-XaDVfUERBDDCVP0_OVGdsk\",\n        \"two_factor_enabled\": false,\n        \"two_factor_type\": null\n    },\n    \"status\": true,\n    \"message\": \"Ok\"\n}"
-						}
-					]
-				},
-				{
-					"name": "Login (Client)",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "apikey",
-							"apikey": [
-								{
-									"key": "value",
-									"value": "{{application_key}}",
-									"type": "string"
-								},
-								{
-									"key": "key",
-									"value": "Application-Key",
-									"type": "string"
-								},
-								{
-									"key": "in",
-									"value": "header",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"email\": \"example@gmail.com\",\n    \"password\": \"qwerty12345\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{base_url}}/auth/login/client",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"auth",
-								"login",
-								"client"
-							]
-						},
-						"description": "This endpoint is used to authenticate a client by sending a POST request to the specified URL. The request should include the client's email and password in the raw request body. Upon successful execution, the response will include a status code of 403 along with a JSON object containing a status indicator, a message, and metadata.\n\n### Request Body\n\n- email (string): The client's email\n- password (string): The client's password\n    \n\nThe response status code 403 indicates that the request was understood, but the server refuses to authorize it."
-					},
-					"response": [
-						{
-							"name": "Example",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"email\": \"example@gmail.com\",\n    \"password\": \"qwerty12345\"\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://localhost:8000/v1/auth/login/client",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8000",
-									"path": [
-										"v1",
-										"auth",
-										"login",
-										"client"
-									]
-								}
-							},
-							"status": "Forbidden",
-							"code": 403,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "X-Powered-By",
-									"value": "Express"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								},
-								{
-									"key": "X-RateLimit-Limit",
-									"value": "50"
-								},
-								{
-									"key": "X-RateLimit-Remaining",
-									"value": "49"
-								},
-								{
-									"key": "X-RateLimit-Reset",
-									"value": "1"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Content-Length",
-									"value": "186"
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"ba-trigTncRwKAPFqDzK8OndOoLzp8\""
-								},
-								{
-									"key": "Date",
-									"value": "Sat, 20 Jan 2024 04:58:45 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=5"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"status\": false,\n    \"message\": \"Manual login is unavailable for this account\",\n    \"data\": null,\n    \"$metadata\": {\n        \"statusCode\": 403,\n        \"timestamp\": \"2024-01-20T04:58:45.170Z\",\n        \"path\": \"/v1/auth/login/client\"\n    }\n}"
-						}
-					]
-				},
-				{
-					"name": "Facebook Login or Register",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{base_url}}/auth/facebook?client_id={{client_id}}",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"auth",
-								"facebook"
-							],
-							"query": [
-								{
-									"key": "client_id",
-									"value": "{{client_id}}"
-								}
-							]
-						},
-						"description": "Swayauth provides facebook login & registration using one api in your application.\n\nTo login or register using facebook:\n\n1. Add the client id of a generated organization token as a query parameter of your request.\n    \n2. Ensure facebook integration is also activated on the token."
-					},
-					"response": []
-				},
-				{
-					"name": "Google Login or Register",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{base_url}}/auth/google?client_id={{client_id}}",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"auth",
-								"google"
-							],
-							"query": [
-								{
-									"key": "client_id",
-									"value": "{{client_id}}"
-								}
-							]
-						},
-						"description": "Login or register a user with google oauth using one api.\n\nTo login or register with google:\n\n1. Add the client id of a generated organization token as a query parameter of your request.\n    \n2. Ensure google integration is also activated on the token."
-					},
-					"response": []
-				},
-				{
-					"name": "Register (User)",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "apikey",
-							"apikey": [
-								{
-									"key": "value",
-									"value": "{{organization_secret}}",
-									"type": "string"
-								},
-								{
-									"key": "key",
-									"value": "Organization-Secret",
-									"type": "string"
-								},
-								{
-									"key": "in",
-									"value": "header",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"first_name\": \"John\",\n    \"last_name\": \"Doe\",\n    \"phone\": \"+234907879773\",\n    \"address\": \"No 4, Cresent Estate, Lagos.\",\n    \"city\": \"Lagos\",\n    \"state\": \"Lagos\",\n    \"country\": \"Nigeria\",\n    \"photo\": \"https://api.swayauth.com/logo.png\",\n    \"email\": \"example@gmail.com\",\n    \"password\": \"qwerty12345\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{base_url}}/auth/register/user",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"auth",
-								"register",
-								"user"
-							]
-						},
-						"description": "This endpoint allows you to register a new user by sending a POST request to {{base_url}}/auth/register/user. The request should include the user's first name, last name, phone number, address, city, state, country, photo, email, and password in the raw request body.\n\nUpon successful registration, the API will respond with a status indicating the success, along with a message confirming the successful registration. Additionally, the response will contain a data object with a reference, verification status, and verification type for the registration."
-					},
-					"response": [
-						{
-							"name": "Example",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"first_name\": \"John\",\n    \"last_name\": \"Doe\",\n    \"phone\": \"+2349039398939\",\n    \"address\": \"No 4, Cresent Estate, Lagos\",\n    \"city\": \"Lagos\",\n    \"state\": \"Lagos\",\n    \"country\": \"Nigeria\",\n    \"photo\": \"https://api.swayauth.com/logo.png\",\n    \"email\": \"example@gmail.com\",\n    \"password\": \"qwerty12345\"\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://localhost:8000/v1/auth/register/user",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8000",
-									"path": [
-										"v1",
-										"auth",
-										"register",
-										"user"
-									]
-								}
-							},
-							"status": "Created",
-							"code": 201,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "X-Powered-By",
-									"value": "Express"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								},
-								{
-									"key": "X-RateLimit-Limit",
-									"value": "50"
-								},
-								{
-									"key": "X-RateLimit-Remaining",
-									"value": "49"
-								},
-								{
-									"key": "X-RateLimit-Reset",
-									"value": "1"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Content-Length",
-									"value": "350"
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"15e-S/3BVJD/jhqIlS1tdzzwh9XicnY\""
-								},
-								{
-									"key": "Date",
-									"value": "Sat, 20 Jan 2024 04:44:15 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=5"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"data\": {\n        \"reference\": \"OHlyUlFPZ0tuUTdwVkJ3QkRTTlRiQkh4ZWIwYmVvQmxXRVF6OUEyK2Zvb1BiSW5vVWs3UTRSRitsS2gyTVhnZ0c1Wi83bzFiSDhUZGlaTnJMd3RqZTRqTU1EcUtBeVV6TEIzbU5tTVcvK0o4c1hneVk1RTMzeXE5RXl0aDVEVVdEV1c5TVNoS2tQck9jUDFjdzhQK3BnPT0_\",\n        \"verify_registration\": true,\n        \"verify_registration_type\": \"mail_token\"\n    },\n    \"status\": true,\n    \"message\": \"Registration was successful\"\n}"
-						}
-					]
-				},
-				{
-					"name": "Verify Registration",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "apikey",
-							"apikey": [
-								{
-									"key": "value",
-									"value": "{{organization_secret}}",
-									"type": "string"
-								},
-								{
-									"key": "key",
-									"value": "Organization-Secret",
-									"type": "string"
-								},
-								{
-									"key": "in",
-									"value": "header",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"token\": \"864916\",\n    \"reference\": \"YmczVDlHYXNRaVBQNUQvajd6RXpSRmN2NmhXdVZyelVOd0ppTW1VMnB2NDR2NkFiNmpVcGNtdkxwVVA3WkhlUCs4dGlWMndzNEpFRmc0bm9DVTZDRW1mN1B4cEZ2eDRNTXlkY0tJSWZnUTg0OGhxRmIrTHR6Ym53clRvN3dCMWRGODQ4T0xHQWQwd3NYZE9GdGZ1ZWRRPT0_\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{base_url}}/auth/register/verify",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"auth",
-								"register",
-								"verify"
-							]
-						},
-						"description": "This endpoint is used to verify the registration by sending a POST request to {{base_url}}/auth/register/verify. The request should include a JSON payload in the raw request body type with \"token\" and \"reference\" as the keys.\n\n### Request Body\n\n- token (string, required): The token for verification.\n- reference (string, required): The reference for verification.\n    \n\nThe response will include the status of the request and a message confirming the success of the registration."
-					},
-					"response": [
-						{
-							"name": "Example",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"token\": \"864916\",\n    \"reference\": \"YmczVDlHYXNRaVBQNUQvajd6RXpSRmN2NmhXdVZyelVOd0ppTW1VMnB2NDR2NkFiNmpVcGNtdkxwVVA3WkhlUCs4dGlWMndzNEpFRmc0bm9DVTZDRW1mN1B4cEZ2eDRNTXlkY0tJSWZnUTg0OGhxRmIrTHR6Ym53clRvN3dCMWRGODQ4T0xHQWQwd3NYZE9GdGZ1ZWRRPT0_\"\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://localhost:8000/v1/auth/register/verify",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8000",
-									"path": [
-										"v1",
-										"auth",
-										"register",
-										"verify"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "X-Powered-By",
-									"value": "Express"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								},
-								{
-									"key": "X-RateLimit-Limit",
-									"value": "50"
-								},
-								{
-									"key": "X-RateLimit-Remaining",
-									"value": "49"
-								},
-								{
-									"key": "X-RateLimit-Reset",
-									"value": "1"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Content-Length",
-									"value": "68"
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"44-sPhFRXTqGaXTTcelPYIPos9ZahY\""
-								},
-								{
-									"key": "Date",
-									"value": "Sat, 20 Jan 2024 05:02:29 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=5"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"data\": null,\n    \"status\": true,\n    \"message\": \"Registeration was successful\"\n}"
-						}
-					]
-				},
-				{
-					"name": "Decode Reference & Token",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "apikey",
-							"apikey": [
-								{
-									"key": "value",
-									"value": "{{organization_secret}}",
-									"type": "string"
-								},
-								{
-									"key": "key",
-									"value": "Organization-Secret",
-									"type": "string"
-								},
-								{
-									"key": "in",
-									"value": "header",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{base_url}}/auth/token/verify?token=864916&reference=YmczVDlHYXNRaVBQNUQvajd6RXpSRmN2NmhXdVZyelVOd0ppTW1VMnB2NDR2NkFiNmpVcGNtdkxwVVA3WkhlUCs4dGlWMndzNEpFRmc0bm9DVTZDRW1mN1B4cEZ2eDRNTXlkY0tJSWZnUTg0OGhxRmIrTHR6Ym53clRvN3dCMWRGODQ4T0xHQWQwd3NYZE9GdGZ1ZWRRPT0_",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"auth",
-								"token",
-								"verify"
-							],
-							"query": [
-								{
-									"key": "token",
-									"value": "864916",
-									"description": "[YOUR-6-DIGIT-NUMBER]"
-								},
-								{
-									"key": "reference",
-									"value": "YmczVDlHYXNRaVBQNUQvajd6RXpSRmN2NmhXdVZyelVOd0ppTW1VMnB2NDR2NkFiNmpVcGNtdkxwVVA3WkhlUCs4dGlWMndzNEpFRmc0bm9DVTZDRW1mN1B4cEZ2eDRNTXlkY0tJSWZnUTg0OGhxRmIrTHR6Ym53clRvN3dCMWRGODQ4T0xHQWQwd3NYZE9GdGZ1ZWRRPT0_",
-									"description": "[YOUR-REFERENCE]"
-								}
-							]
-						},
-						"description": "Swayauth provides an api to test the authenticity of a reference and token generated, in the following steps:\n\n1. Pass the reference and token as a query parameter to the request to get a response.\n2. Add token secret as a Bearer token in the authorization header of your request.\n    \n\nThis endpoint makes an HTTP GET request to verify the provided token and reference. The token and reference are included as query parameters in the request URL. The response contains the data object with the purpose and require_password fields, along with the status and message fields.\n\nThe purpose field indicates the purpose of the token verification, and the require_password field specifies whether a password is required for the verification process.\n\n### Request Parameters\n\n- token: (string) The token to be verified.\n- reference: (string) The reference for the token verification.\n    \n\n### Response\n\n- data (object)\n    - purpose: (string) The purpose of the token verification.\n    - require_password: (boolean) Indicates if a password is required for the verification.\n- status: (boolean) Indicates the status of the verification process.\n- message: (string) A message indicating the outcome of the verification process."
-					},
-					"response": [
-						{
-							"name": "Example",
-							"originalRequest": {
 								"method": "GET",
 								"header": [],
 								"body": {
@@ -747,146 +34,769 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8000/v1/auth/token/verify?token=731503&reference=aUk1MmJLUG5wdndTNW1pelNUNStFNG1CbTlwWVdOYTlDV3YrMzhtc1Z1MWJLSVp1d2FTMDRwenQycHlYRzVHbFMvNnVQZk1acld5K1N1TTRTbjlSQlk2WGljSHp3Mm1LZk9hVGwxaHAxNW9sangzcHkxbWIxZFlzRnllc1RIc2k0SkxYMVp3UkhCZDc3dkdqd1Z0U3VlNUViMjRwOGhSdEpHZTM4Qzk5NTB5YmFMV1Nxb0ZCa2FXczhRMlhGTGRN",
-									"protocol": "http",
+									"raw": "{{base_url}}/auth/facebook?client_id={{client_id}}",
 									"host": [
-										"localhost"
+										"{{base_url}}"
 									],
-									"port": "8000",
 									"path": [
-										"v1",
 										"auth",
-										"token",
-										"verify"
+										"facebook"
 									],
 									"query": [
 										{
-											"key": "token",
-											"value": "731503"
-										},
-										{
-											"key": "reference",
-											"value": "aUk1MmJLUG5wdndTNW1pelNUNStFNG1CbTlwWVdOYTlDV3YrMzhtc1Z1MWJLSVp1d2FTMDRwenQycHlYRzVHbFMvNnVQZk1acld5K1N1TTRTbjlSQlk2WGljSHp3Mm1LZk9hVGwxaHAxNW9sangzcHkxbWIxZFlzRnllc1RIc2k0SkxYMVp3UkhCZDc3dkdqd1Z0U3VlNUViMjRwOGhSdEpHZTM4Qzk5NTB5YmFMV1Nxb0ZCa2FXczhRMlhGTGRN"
+											"key": "client_id",
+											"value": "{{client_id}}"
 										}
 									]
-								}
+								},
+								"description": "Swayauth provides facebook login & registration using one api in your application.\n\nTo login or register using facebook:\n\n1. Add the client id of a generated organization token as a query parameter of your request.\n    \n2. Ensure facebook integration is also activated on the token."
 							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "X-Powered-By",
-									"value": "Express"
+							"response": []
+						},
+						{
+							"name": "Google Login or Register",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
 								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
 								},
-								{
-									"key": "X-RateLimit-Limit",
-									"value": "50"
+								"url": {
+									"raw": "{{base_url}}/auth/google?client_id={{client_id}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"auth",
+										"google"
+									],
+									"query": [
+										{
+											"key": "client_id",
+											"value": "{{client_id}}"
+										}
+									]
 								},
-								{
-									"key": "X-RateLimit-Remaining",
-									"value": "49"
-								},
-								{
-									"key": "X-RateLimit-Reset",
-									"value": "1"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Content-Length",
-									"value": "84"
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"54-QO92EDHC/5sHArSH2pugUOyUYZo\""
-								},
-								{
-									"key": "Date",
-									"value": "Sun, 17 Dec 2023 04:00:27 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=5"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"data\": {\n        \"purpose\": \"register\",\n        \"require_password\": true\n    },\n    \"status\": true,\n    \"message\": \"Ok\"\n}"
+								"description": "Login or register a user with google oauth using one api.\n\nTo login or register with google:\n\n1. Add the client id of a generated organization token as a query parameter of your request.\n    \n2. Ensure google integration is also activated on the token."
+							},
+							"response": []
 						}
 					]
 				},
 				{
-					"name": "Forgot Password (User)",
-					"event": [
+					"name": "Manual Authentication",
+					"item": [
 						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "apikey",
-							"apikey": [
+							"name": "Login",
+							"event": [
 								{
-									"key": "key",
-									"value": "Organization-Secret",
-									"type": "string"
-								},
-								{
-									"key": "value",
-									"value": "{{organization_secret}}",
-									"type": "string"
-								},
-								{
-									"key": "in",
-									"value": "header",
-									"type": "string"
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
 								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"email\": \"example@gmail.com\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{base_url}}/auth/forgot-password/user",
-							"host": [
-								"{{base_url}}"
 							],
-							"path": [
-								"auth",
-								"forgot-password",
-								"user"
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{application_key}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Application-Key",
+											"type": "string"
+										},
+										{
+											"key": "in",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"example@gmail.com\",\n    \"password\": \"qwerty12345\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/auth/login/client",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"auth",
+										"login",
+										"client"
+									]
+								},
+								"description": "This endpoint is used to authenticate a client by sending a POST request to the specified URL. The request should include the client's email and password in the raw request body. Upon successful execution, the response will include a status code of 403 along with a JSON object containing a status indicator, a message, and metadata.\n\n### Request Body\n\n- email (string): The client's email\n- password (string): The client's password\n    \n\nThe response status code 403 indicates that the request was understood, but the server refuses to authorize it."
+							},
+							"response": [
+								{
+									"name": "Example",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"email\": \"example@gmail.com\",\n    \"password\": \"qwerty12345\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8000/v1/auth/login/client",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8000",
+											"path": [
+												"v1",
+												"auth",
+												"login",
+												"client"
+											]
+										}
+									},
+									"status": "Forbidden",
+									"code": 403,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "50"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "49"
+										},
+										{
+											"key": "X-RateLimit-Reset",
+											"value": "1"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "186"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"ba-trigTncRwKAPFqDzK8OndOoLzp8\""
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 20 Jan 2024 04:58:45 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": false,\n    \"message\": \"Manual login is unavailable for this account\",\n    \"data\": null,\n    \"$metadata\": {\n        \"statusCode\": 403,\n        \"timestamp\": \"2024-01-20T04:58:45.170Z\",\n        \"path\": \"/v1/auth/login/client\"\n    }\n}"
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "User Authentication",
+			"item": [
+				{
+					"name": "Social Authentication",
+					"item": [
+						{
+							"name": "Facebook Login or Register",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/auth/facebook?client_id={{client_id}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"auth",
+										"facebook"
+									],
+									"query": [
+										{
+											"key": "client_id",
+											"value": "{{client_id}}"
+										}
+									]
+								},
+								"description": "Swayauth provides facebook login & registration using one api in your application.\n\nTo login or register using facebook:\n\n1. Add the client id of a generated organization token as a query parameter of your request.\n    \n2. Ensure facebook integration is also activated on the token."
+							},
+							"response": []
+						},
+						{
+							"name": "Google Login or Register",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/auth/google?client_id={{client_id}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"auth",
+										"google"
+									],
+									"query": [
+										{
+											"key": "client_id",
+											"value": "{{client_id}}"
+										}
+									]
+								},
+								"description": "Login or register a user with google oauth using one api.\n\nTo login or register with google:\n\n1. Add the client id of a generated organization token as a query parameter of your request.\n    \n2. Ensure google integration is also activated on the token."
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Manual Authentication",
+					"item": [
+						{
+							"name": "Login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{organization_secret}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Organization-Secret",
+											"type": "string"
+										},
+										{
+											"key": "in",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"example@gmail.com\",\n    \"password\": \"qwerty12345\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/auth/login/user",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"auth",
+										"login",
+										"user"
+									]
+								},
+								"description": "This endpoint is used to authenticate a user and generate a login session. The HTTP POST request should be sent to {{base_url}}/auth/login/user with the user's email and password provided in the request body.\n\n### Request Body\n\n- email (string, required): The email address of the user.\n- password (string, required): The password for the user's account.\n    \n\n### Response\n\nThe response will include the user's authentication token and other relevant information upon successful authentication."
+							},
+							"response": [
+								{
+									"name": "Example",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"email\": \"example@gmail.com\",\n    \"password\": \"qwerty12345\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8000/v1/auth/login/user",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8000",
+											"path": [
+												"v1",
+												"auth",
+												"login",
+												"user"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "50"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "49"
+										},
+										{
+											"key": "X-RateLimit-Reset",
+											"value": "1"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "1240"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"4d8-n7Qu5f85ue2zsAJRTxu+1xYLedc\""
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 20 Jan 2024 04:47:49 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"access_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWFiNGUzZGNmMDcyNWZlNmViZjRjM2QiLCJlbWFpbCI6ImZhc2hhbnV0b3NpbjdAZ21haWwuY29tIiwic2NvcGUiOlsibWFudWFsIl0sInR3b19mYWN0b3JfdHlwZSI6bnVsbCwicGVybWlzc2lvbnMiOlsicmVhZCIsIndyaXRlIiwiZGVsZXRlIl0sInN0YXR1cyI6ImFjdGl2ZSIsImNvbXBhbnlfaWQiOiI2NWEyZjg4ODY4NGFkZDJiYzdhYTYxMmQiLCJvcmdhbml6YXRpb25fdG9rZW5faWQiOiI2NWFiNGEzMWU3ZTczYmYxZmJlYjYxNTMiLCJvcmdhbml6YXRpb25faWQiOiI2NWFiNDhlOGU3ZTczYmYxZmJlYjYxNTIiLCJhY2Nlc3MiOiJsZXZlbF8xIiwiaWF0IjoxNzA1NzI2MDY5LCJleHAiOjE3MDU4MTI0Njl9.5TG4ogDWVI2pkRRbYt1w0mHo1JP9SzDb6_RNvULoECg\",\n        \"refresh_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWFiNGUzZGNmMDcyNWZlNmViZjRjM2QiLCJlbWFpbCI6ImZhc2hhbnV0b3NpbjdAZ21haWwuY29tIiwic2NvcGUiOlsibWFudWFsIl0sInR3b19mYWN0b3JfdHlwZSI6bnVsbCwicGVybWlzc2lvbnMiOlsicmVhZCIsIndyaXRlIiwiZGVsZXRlIl0sInN0YXR1cyI6ImFjdGl2ZSIsImNvbXBhbnlfaWQiOiI2NWEyZjg4ODY4NGFkZDJiYzdhYTYxMmQiLCJvcmdhbml6YXRpb25fdG9rZW5faWQiOiI2NWFiNGEzMWU3ZTczYmYxZmJlYjYxNTMiLCJvcmdhbml6YXRpb25faWQiOiI2NWFiNDhlOGU3ZTczYmYxZmJlYjYxNTIiLCJhY2Nlc3MiOiJsZXZlbF8xIiwiaWF0IjoxNzA1NzI2MDY5LCJleHAiOjE3MTM1MDIwNjl9.wqvLzDJLnXcwFkUvWQfq-XaDVfUERBDDCVP0_OVGdsk\",\n        \"two_factor_enabled\": false,\n        \"two_factor_type\": null\n    },\n    \"status\": true,\n    \"message\": \"Ok\"\n}"
+								}
 							]
 						},
-						"description": "### Auth Forgot Password User\n\nThis endpoint is used to initiate the process of resetting a user's password by sending a verification link to the user's email.\n\n#### Request Body\n\n- email (string, required): The email address of the user for whom the password reset is requested.\n    \n\n#### Response\n\n- data (object):\n    - verification_method (string): The method used for verification, in this case, it is \"mail_link\".\n    - reference (string): A reference code or link that is sent to the user for verification.\n- status (boolean): Indicates the status of the request, where true means the request was successful.\n- message (string): A message confirming the successful sending of the request."
-					},
-					"response": [
 						{
-							"name": "Example",
-							"originalRequest": {
+							"name": "Register",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{organization_secret}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Organization-Secret",
+											"type": "string"
+										},
+										{
+											"key": "in",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"first_name\": \"John\",\n    \"last_name\": \"Doe\",\n    \"phone\": \"+234907879773\",\n    \"address\": \"No 4, Cresent Estate, Lagos.\",\n    \"city\": \"Lagos\",\n    \"state\": \"Lagos\",\n    \"country\": \"Nigeria\",\n    \"photo\": \"https://api.swayauth.com/logo.png\",\n    \"email\": \"example@gmail.com\",\n    \"password\": \"qwerty12345\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/auth/register/user",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"auth",
+										"register",
+										"user"
+									]
+								},
+								"description": "This endpoint allows you to register a new user by sending a POST request to {{base_url}}/auth/register/user. The request should include the user's first name, last name, phone number, address, city, state, country, photo, email, and password in the raw request body.\n\nUpon successful registration, the API will respond with a status indicating the success, along with a message confirming the successful registration. Additionally, the response will contain a data object with a reference, verification status, and verification type for the registration."
+							},
+							"response": [
+								{
+									"name": "Example",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"first_name\": \"John\",\n    \"last_name\": \"Doe\",\n    \"phone\": \"+2349039398939\",\n    \"address\": \"No 4, Cresent Estate, Lagos\",\n    \"city\": \"Lagos\",\n    \"state\": \"Lagos\",\n    \"country\": \"Nigeria\",\n    \"photo\": \"https://api.swayauth.com/logo.png\",\n    \"email\": \"example@gmail.com\",\n    \"password\": \"qwerty12345\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8000/v1/auth/register/user",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8000",
+											"path": [
+												"v1",
+												"auth",
+												"register",
+												"user"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "50"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "49"
+										},
+										{
+											"key": "X-RateLimit-Reset",
+											"value": "1"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "350"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"15e-S/3BVJD/jhqIlS1tdzzwh9XicnY\""
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 20 Jan 2024 04:44:15 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"reference\": \"OHlyUlFPZ0tuUTdwVkJ3QkRTTlRiQkh4ZWIwYmVvQmxXRVF6OUEyK2Zvb1BiSW5vVWs3UTRSRitsS2gyTVhnZ0c1Wi83bzFiSDhUZGlaTnJMd3RqZTRqTU1EcUtBeVV6TEIzbU5tTVcvK0o4c1hneVk1RTMzeXE5RXl0aDVEVVdEV1c5TVNoS2tQck9jUDFjdzhQK3BnPT0_\",\n        \"verify_registration\": true,\n        \"verify_registration_type\": \"mail_token\"\n    },\n    \"status\": true,\n    \"message\": \"Registration was successful\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Verify Registration",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{organization_secret}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Organization-Secret",
+											"type": "string"
+										},
+										{
+											"key": "in",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"token\": \"864916\",\n    \"reference\": \"YmczVDlHYXNRaVBQNUQvajd6RXpSRmN2NmhXdVZyelVOd0ppTW1VMnB2NDR2NkFiNmpVcGNtdkxwVVA3WkhlUCs4dGlWMndzNEpFRmc0bm9DVTZDRW1mN1B4cEZ2eDRNTXlkY0tJSWZnUTg0OGhxRmIrTHR6Ym53clRvN3dCMWRGODQ4T0xHQWQwd3NYZE9GdGZ1ZWRRPT0_\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/auth/register/verify",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"auth",
+										"register",
+										"verify"
+									]
+								},
+								"description": "This endpoint is used to verify the registration by sending a POST request to {{base_url}}/auth/register/verify. The request should include a JSON payload in the raw request body type with \"token\" and \"reference\" as the keys.\n\n### Request Body\n\n- token (string, required): The token for verification.\n- reference (string, required): The reference for verification.\n    \n\nThe response will include the status of the request and a message confirming the success of the registration."
+							},
+							"response": [
+								{
+									"name": "Example",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"token\": \"864916\",\n    \"reference\": \"YmczVDlHYXNRaVBQNUQvajd6RXpSRmN2NmhXdVZyelVOd0ppTW1VMnB2NDR2NkFiNmpVcGNtdkxwVVA3WkhlUCs4dGlWMndzNEpFRmc0bm9DVTZDRW1mN1B4cEZ2eDRNTXlkY0tJSWZnUTg0OGhxRmIrTHR6Ym53clRvN3dCMWRGODQ4T0xHQWQwd3NYZE9GdGZ1ZWRRPT0_\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/auth/register/verify",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"auth",
+												"register",
+												"verify"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "50"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "49"
+										},
+										{
+											"key": "X-RateLimit-Reset",
+											"value": "1"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "68"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"44-sPhFRXTqGaXTTcelPYIPos9ZahY\""
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 20 Jan 2024 05:02:29 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": null,\n    \"status\": true,\n    \"message\": \"Registeration was successful\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Forgot Password",
+					"item": [
+						{
+							"name": "Forgot Password",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "key",
+											"value": "Organization-Secret",
+											"type": "string"
+										},
+										{
+											"key": "value",
+											"value": "{{organization_secret}}",
+											"type": "string"
+										},
+										{
+											"key": "in",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
 								"method": "POST",
 								"header": [],
 								"body": {
@@ -899,136 +809,136 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8000/v1/auth/forgot-password/user",
-									"protocol": "http",
+									"raw": "{{base_url}}/auth/forgot-password/user",
 									"host": [
-										"localhost"
+										"{{base_url}}"
 									],
-									"port": "8000",
 									"path": [
-										"v1",
 										"auth",
 										"forgot-password",
 										"user"
 									]
-								}
+								},
+								"description": "### Auth Forgot Password User\n\nThis endpoint is used to initiate the process of resetting a user's password by sending a verification link to the user's email.\n\n#### Request Body\n\n- email (string, required): The email address of the user for whom the password reset is requested.\n    \n\n#### Response\n\n- data (object):\n    - verification_method (string): The method used for verification, in this case, it is \"mail_link\".\n    - reference (string): A reference code or link that is sent to the user for verification.\n- status (boolean): Indicates the status of the request, where true means the request was successful.\n- message (string): A message confirming the successful sending of the request."
 							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
+							"response": [
 								{
-									"key": "X-Powered-By",
-									"value": "Express"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								},
-								{
-									"key": "X-RateLimit-Limit",
-									"value": "50"
-								},
-								{
-									"key": "X-RateLimit-Remaining",
-									"value": "49"
-								},
-								{
-									"key": "X-RateLimit-Reset",
-									"value": "1"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Content-Length",
-									"value": "319"
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"13f-dFtSF6ra1gcwMRssDwNhJ3CxNtM\""
-								},
-								{
-									"key": "Date",
-									"value": "Sat, 20 Jan 2024 05:17:38 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=5"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"data\": {\n        \"verification_method\": \"mail_link\",\n        \"reference\": \"YmczVDlHYXNRaVBQNUQvajd6RXpSRmN2NmhXdVZyelVOd0ppTW1VMnB2N2FZOSs0dEhPZndQSnY5Tk5FRlR3NVJmZmc1dC9Cd0pROEJ0RVpFekUxdC8xdHVOaHZzbEpNMlVjOHdwVjZuK0FVSk9ZRjVLcUYySFEwMVJiekYzZXZQaGFkMUt5N1Q0YitONVZKRmJWeG1RPT0_\"\n    },\n    \"status\": true,\n    \"message\": \"Request was sent successfully\"\n}"
-						}
-					]
-				},
-				{
-					"name": "Change Forgot Password",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "apikey",
-							"apikey": [
-								{
-									"key": "value",
-									"value": "{{organization_secret}}",
-									"type": "string"
-								},
-								{
-									"key": "key",
-									"value": "Organization-Secret",
-									"type": "string"
-								},
-								{
-									"key": "in",
-									"value": "header",
-									"type": "string"
+									"name": "Example",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"email\": \"example@gmail.com\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8000/v1/auth/forgot-password/user",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8000",
+											"path": [
+												"v1",
+												"auth",
+												"forgot-password",
+												"user"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "50"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "49"
+										},
+										{
+											"key": "X-RateLimit-Reset",
+											"value": "1"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "319"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"13f-dFtSF6ra1gcwMRssDwNhJ3CxNtM\""
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 20 Jan 2024 05:17:38 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"verification_method\": \"mail_link\",\n        \"reference\": \"YmczVDlHYXNRaVBQNUQvajd6RXpSRmN2NmhXdVZyelVOd0ppTW1VMnB2N2FZOSs0dEhPZndQSnY5Tk5FRlR3NVJmZmc1dC9Cd0pROEJ0RVpFekUxdC8xdHVOaHZzbEpNMlVjOHdwVjZuK0FVSk9ZRjVLcUYySFEwMVJiekYzZXZQaGFkMUt5N1Q0YitONVZKRmJWeG1RPT0_\"\n    },\n    \"status\": true,\n    \"message\": \"Request was sent successfully\"\n}"
 								}
 							]
 						},
-						"method": "PATCH",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"password\": \"qwerty12345\",\n    \"token\": \"992311\",\n    \"reference\": \"YmczVDlHYXNRaVBQNUQvajd6RXpSRmN2NmhXdVZyelVOd0ppTW1VMnB2N2FZOSs0dEhPZndQSnY5Tk5FRlR3NVJmZmc1dC9Cd0pROEJ0RVpFekUxdC8xdHVOaHZzbEpNMlVjOHdwVjZuK0FVSk9ZRjVLcUYySFEwMVJiekYzZXZQaGFkMUt5N1Q0YitONVZKRmJWeG1RPT0_\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{base_url}}/auth/forgot-password/new-password",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"auth",
-								"forgot-password",
-								"new-password"
-							]
-						},
-						"description": "This endpoint is used to update the password after a user has forgotten their password. The HTTP PATCH request is sent to {{base_url}}/auth/forgot-password/new-password with the necessary payload in the raw request body.\n\n### Request Body\n\n- `password` (string): The new password for the user.\n- `token` (string): The token received by the user for password reset.\n- `reference` (string): Reference information for the password reset.\n    \n\n### Response\n\n- `data`: This field will be null.\n- `status` (boolean): Indicates the status of the password change request.\n- `message` (string): A message indicating the outcome of the password change request."
-					},
-					"response": [
 						{
-							"name": "Example",
-							"originalRequest": {
+							"name": "Change Password",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{organization_secret}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Organization-Secret",
+											"type": "string"
+										},
+										{
+											"key": "in",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
 								"method": "PATCH",
 								"header": [],
 								"body": {
@@ -1041,240 +951,239 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8000/v1/auth/forgot-password/new-password",
-									"protocol": "http",
+									"raw": "{{base_url}}/auth/forgot-password/new-password",
 									"host": [
-										"localhost"
+										"{{base_url}}"
 									],
-									"port": "8000",
 									"path": [
-										"v1",
 										"auth",
 										"forgot-password",
 										"new-password"
 									]
-								}
+								},
+								"description": "This endpoint is used to update the password after a user has forgotten their password. The HTTP PATCH request is sent to {{base_url}}/auth/forgot-password/new-password with the necessary payload in the raw request body.\n\n### Request Body\n\n- `password` (string): The new password for the user.\n- `token` (string): The token received by the user for password reset.\n- `reference` (string): Reference information for the password reset.\n    \n\n### Response\n\n- `data`: This field will be null.\n- `status` (boolean): Indicates the status of the password change request.\n- `message` (string): A message indicating the outcome of the password change request."
 							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
+							"response": [
 								{
-									"key": "X-Powered-By",
-									"value": "Express"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								},
-								{
-									"key": "X-RateLimit-Limit",
-									"value": "50"
-								},
-								{
-									"key": "X-RateLimit-Remaining",
-									"value": "49"
-								},
-								{
-									"key": "X-RateLimit-Reset",
-									"value": "1"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Content-Length",
-									"value": "70"
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"46-u9mgx+UWK6mgKnvi13b0jQ4F9hc\""
-								},
-								{
-									"key": "Date",
-									"value": "Sat, 20 Jan 2024 05:23:02 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=5"
+									"name": "Example",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"password\": \"qwerty12345\",\n    \"token\": \"992311\",\n    \"reference\": \"YmczVDlHYXNRaVBQNUQvajd6RXpSRmN2NmhXdVZyelVOd0ppTW1VMnB2N2FZOSs0dEhPZndQSnY5Tk5FRlR3NVJmZmc1dC9Cd0pROEJ0RVpFekUxdC8xdHVOaHZzbEpNMlVjOHdwVjZuK0FVSk9ZRjVLcUYySFEwMVJiekYzZXZQaGFkMUt5N1Q0YitONVZKRmJWeG1RPT0_\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/auth/forgot-password/new-password",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"auth",
+												"forgot-password",
+												"new-password"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "50"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "49"
+										},
+										{
+											"key": "X-RateLimit-Reset",
+											"value": "1"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "70"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"46-u9mgx+UWK6mgKnvi13b0jQ4F9hc\""
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 20 Jan 2024 05:23:02 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": null,\n    \"status\": true,\n    \"message\": \"Password change was successful\"\n}"
 								}
-							],
-							"cookie": [],
-							"body": "{\n    \"data\": null,\n    \"status\": true,\n    \"message\": \"Password change was successful\"\n}"
+							]
 						}
 					]
 				},
 				{
-					"name": "List Allowed 2-Factor Auth",
-					"event": [
+					"name": "2FA Authentication",
+					"item": [
 						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
+							"name": "List Allowed 2-FA",
+							"event": [
 								{
-									"key": "token",
-									"value": "{{access_token}}",
-									"type": "string"
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
 								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/auth/2fa/list",
-							"host": [
-								"{{base_url}}"
 							],
-							"path": [
-								"auth",
-								"2fa",
-								"list"
-							]
-						},
-						"description": "This endpoint makes an HTTP GET request to retrieve a list of available two-factor authentication (2FA) methods. The request does not include a request body.\n\n### Response\n\n- `data` (array of strings): An array containing the available 2FA methods, such as \"app\", \"mail\", and \"sms\".\n- `status` (boolean): Indicates the status of the request, where `true` means the request was successful.\n- `message` (string): Provides a message related to the status of the request, with \"Ok\" indicating a successful response."
-					},
-					"response": [
-						{
-							"name": "Example",
-							"originalRequest": {
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8000/v1/auth/2fa/list",
-									"protocol": "http",
+									"raw": "{{base_url}}/auth/2fa/list",
 									"host": [
-										"localhost"
+										"{{base_url}}"
 									],
-									"port": "8000",
 									"path": [
-										"v1",
 										"auth",
 										"2fa",
 										"list"
 									]
-								}
+								},
+								"description": "This endpoint makes an HTTP GET request to retrieve a list of available two-factor authentication (2FA) methods. The request does not include a request body.\n\n### Response\n\n- `data` (array of strings): An array containing the available 2FA methods, such as \"app\", \"mail\", and \"sms\".\n- `status` (boolean): Indicates the status of the request, where `true` means the request was successful.\n- `message` (string): Provides a message related to the status of the request, with \"Ok\" indicating a successful response."
 							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
+							"response": [
 								{
-									"key": "X-Powered-By",
-									"value": "Express"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								},
-								{
-									"key": "X-RateLimit-Limit",
-									"value": "50"
-								},
-								{
-									"key": "X-RateLimit-Remaining",
-									"value": "49"
-								},
-								{
-									"key": "X-RateLimit-Reset",
-									"value": "1"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Content-Length",
-									"value": "58"
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"3a-qzYByVzi7BanMFORQIQQ69KsiG0\""
-								},
-								{
-									"key": "Date",
-									"value": "Sat, 20 Jan 2024 05:24:23 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=5"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"data\": [\n        \"app\",\n        \"mail\",\n        \"sms\"\n    ],\n    \"status\": true,\n    \"message\": \"Ok\"\n}"
-						}
-					]
-				},
-				{
-					"name": "Enable 2-Factor Auth",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{access_token}}",
-									"type": "string"
+									"name": "Example",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/auth/2fa/list",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"auth",
+												"2fa",
+												"list"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "50"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "49"
+										},
+										{
+											"key": "X-RateLimit-Reset",
+											"value": "1"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "58"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"3a-qzYByVzi7BanMFORQIQQ69KsiG0\""
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 20 Jan 2024 05:24:23 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": [\n        \"app\",\n        \"mail\",\n        \"sms\"\n    ],\n    \"status\": true,\n    \"message\": \"Ok\"\n}"
 								}
 							]
 						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"type\": \"app\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{base_url}}/auth/2fa/enable",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"auth",
-								"2fa",
-								"enable"
-							]
-						},
-						"description": "This endpoint enables two-factor authentication for the user.\n\n### Request Body\n\n- `type` (string, required): Specifies the type of two-factor authentication to enable.\n    \n\n### Response\n\nThe response will contain the result of the two-factor authentication enablement process."
-					},
-					"response": [
 						{
-							"name": "Example",
-							"originalRequest": {
+							"name": "Enable 2-FA",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "POST",
 								"header": [],
 								"body": {
@@ -1296,129 +1205,129 @@
 										"2fa",
 										"enable"
 									]
-								}
+								},
+								"description": "This endpoint enables two-factor authentication for the user.\n\n### Request Body\n\n- `type` (string, required): Specifies the type of two-factor authentication to enable.\n    \n\n### Response\n\nThe response will contain the result of the two-factor authentication enablement process."
 							},
-							"status": "Created",
-							"code": 201,
-							"_postman_previewlanguage": "json",
-							"header": [
+							"response": [
 								{
-									"key": "X-Powered-By",
-									"value": "Express"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								},
-								{
-									"key": "X-RateLimit-Limit",
-									"value": "50"
-								},
-								{
-									"key": "X-RateLimit-Remaining",
-									"value": "49"
-								},
-								{
-									"key": "X-RateLimit-Reset",
-									"value": "1"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Content-Length",
-									"value": "3042"
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"be2-aqklNsvZqRxMl8rX6cRhkQVMXv0\""
-								},
-								{
-									"key": "Date",
-									"value": "Sat, 16 Dec 2023 15:05:41 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=5"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"data\": {\n        \"qrcode\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAYAAAA9zQYyAAAAAklEQVR4AewaftIAAAe5SURBVO3BQY4kR5IAQVVH/f/LujzaXAIIZFaT7Wsi9g/WusRhrYsc1rrIYa2LHNa6yGGtixzWushhrYsc1rrIYa2LHNa6yGGtixzWushhrYsc1rrIYa2L/PAhlT+p4onKk4pJZap4ojJVPFGZKv4klaniDZU/qeITh7UucljrIoe1LvLDl1V8k8oTlW9S+aaKb1J5UjFVfFPFN6l802GtixzWushhrYv88MtU3qh4o2JSmSqeVDxReaIyVTxRmSreqPiEylTxCZU3Kn7TYa2LHNa6yGGti/yw/ofKVPEJlaniDZWpYlKZKiaVJypTxd/ssNZFDmtd5LDWRX74y6lMFW+o/EkqU8UbKlPFpDJV/H9yWOsih7UucljrIj/8sorfVPFfojJVvKHyhsobKk8q3qj4LzmsdZHDWhc5rHWRH75M5U9SmSomlaniScWkMlVMKlPFpDJVTCpTxaQyVUwqU8WkMlVMKm+o/Jcd1rrIYa2LHNa6yA8fqvg3VbyhMlVMKlPFpPJE5Y2Kb1KZKj5R8Tc5rHWRw1oXOax1kR8+pDJVTCpTxaQyVUwqU8UTlaniicpUMalMFZPKVDGpvKHyROVJxROVqeITKlPFE5Wp4psOa13ksNZFDmtd5IcvU5kqnlRMKlPFE5WpYlKZKt6omFQ+oTJVPKmYVKaKSeVJxaQyVTxRmSomlScVk8pU8YnDWhc5rHWRw1oXsX/wB6n8popJ5RMVk8qTit+k8kbFpPJGxROVqWJSeaPiE4e1LnJY6yKHtS7yw7+sYlKZKt5QmSomlaliUnlSMam8oTJVTCpPKp6oTCpvVEwqU8UbFZPKVPFNh7UucljrIoe1LvLDl6lMFVPFpPJEZaqYVKaKSWWqmFSmiicqU8UTlaliUnlS8YmKSeWbKiaVqeKJylTxicNaFzmsdZHDWhf54UMqT1SmijcqJpVPqEwVT1Q+UfGkYlL5TRVPVJ6oTBVvVPymw1oXOax1kcNaF7F/8AGVJxWTyicqvkllqphUpoonKlPFpDJVPFGZKiaVNyomlaliUpkq3lCZKiaVqeITh7UucljrIoe1LvLDhyomlUnljYonKk8qJpUnFU8qJpUnFZ9QmSomlaniDZWp4knFpPKkYqr4kw5rXeSw1kUOa13E/sEHVJ5UPFGZKiaVT1RMKk8qJpWp4ptUpopJ5ZsqJpWp4m92WOsih7UucljrIj98WcWkMlU8UZkqJpUnFZPKVPFEZaqYVKaKSWWqmFSeqEwVk8pUMak8UZkqJpWp4onKGxWTylTxicNaFzmsdZHDWhf54V9W8URlqnii8psq3lD5hMoTlaliUpkqJpU3VD6h8psOa13ksNZFDmtd5IcPVUwqU8UnKn6TylTxRGWqeKNiUvkmlTcqnqhMFZPKVDGpTBWTyjcd1rrIYa2LHNa6yA9/mMpvqviEylQxVXxC5Y2KSeWNikllqphUnqhMFZPKVDGpTBXfdFjrIoe1LnJY6yI/fEhlqnij4ptUpoonFZPKE5Wp4o2KN1SmiknlicpUMalMFZPKN1VMKlPFJw5rXeSw1kUOa13khw9VTCpPKp6oPKl4UvFE5UnFk4pJZaqYVN5QmSreqPiEypOKSeWJylTxmw5rXeSw1kUOa13khw+pPKmYVJ5UPFGZKj5RMalMFU8qJpUnKk8qnqh8QuWNiknlScUTlanimw5rXeSw1kUOa13khy+rmFQ+ofJEZaqYVD6h8kbFpPKk4o2KN1Smik9UPFGZKv6kw1oXOax1kcNaF/nhQxVPKiaVNyreUJkqPlExqfwmlaliUpkqnlQ8UZkqJpUnFVPFGypTxScOa13ksNZFDmtd5IcPqUwVk8qTiicqU8UnVKaKJyrfVPGGyhOVqWJSmSqmiknlScWk8l9yWOsih7UucljrIj98qGJSeVIxqTypmFTeUJkqPlExqbyhMlU8qXiiMql8U8Wk8qTiDZVvOqx1kcNaFzmsdRH7Bx9QmSomlScVk8onKp6oPKmYVN6o+ITKVDGpTBWTylTxROU3VUwqU8U3Hda6yGGtixzWuoj9g7+YyicqPqEyVXxCZap4ojJVvKEyVbyhMlX8mw5rXeSw1kUOa13khw+p/EkVU8WkMlV8k8pUMalMFU9UpopJZaqYKt5QeUNlqnii8qRiUpkqPnFY6yKHtS5yWOsiP3xZxTepfEJlqphUpopJ5Y2KJypPVJ6ovFExVUwqTyreqPg3Hda6yGGtixzWusgPv0zljYo3VKaKT6hMFZPKJyomlaliUpkqnqh8QuUTKlPFn3RY6yKHtS5yWOsiP/zlKiaVqWJSmSomlUnlm1SeqLyh8k0VT1SeVLxR8U2HtS5yWOsih7Uu8sNfTuWJyhsVk8pU8Zsqnqg8qZhUnlR8k8qTikllqvjEYa2LHNa6yGGti/zwyyp+U8WkMlVMKk9UnqhMFZPKVDFVTCqTyhsVk8qTiicqU8WTikllqphUpopvOqx1kcNaFzmsdZEfvkzlT1KZKiaVJypTxTepPKmYVKaKSeWNik+oPFGZKiaVJypTxScOa13ksNZFDmtdxP7BWpc4rHWRw1oXOax1kcNaFzmsdZHDWhc5rHWRw1oXOax1kcNaFzmsdZHDWhc5rHWRw1oXOax1kf8D4Hz+s7rCqtgAAAAASUVORK5CYII=\",\n        \"two_factor_type\": \"app\",\n        \"two_factor_enabled\": false,\n        \"reference\": \"NVErL3VocWdsSyt3V2VjV3VvdG1oUU1zNFF6QytYbVJyVStNWTN2aFZBWDNoN2loMElTUDVvY2htaE8yd3ZNVVFVNjBsRGNmcWxxZGRQNlNGb2xrNHVibDFlWXhlVC9Fb3pTdE15cE53K0Vld3VvVG5tODQvRVpISGtQODRxSno\"\n    },\n    \"status\": true,\n    \"message\": \"Ok\"\n}"
-						}
-					]
-				},
-				{
-					"name": "Verify 2-Factor Auth",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "apikey",
-							"apikey": [
-								{
-									"key": "key",
-									"value": "Organization-Secret",
-									"type": "string"
-								},
-								{
-									"key": "value",
-									"value": "{{organization_secret}}",
-									"type": "string"
-								},
-								{
-									"key": "in",
-									"value": "header",
-									"type": "string"
+									"name": "Example",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"type\": \"app\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/auth/2fa/enable",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"auth",
+												"2fa",
+												"enable"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "50"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "49"
+										},
+										{
+											"key": "X-RateLimit-Reset",
+											"value": "1"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "3042"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"be2-aqklNsvZqRxMl8rX6cRhkQVMXv0\""
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 16 Dec 2023 15:05:41 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"qrcode\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAYAAAA9zQYyAAAAAklEQVR4AewaftIAAAe5SURBVO3BQY4kR5IAQVVH/f/LujzaXAIIZFaT7Wsi9g/WusRhrYsc1rrIYa2LHNa6yGGtixzWushhrYsc1rrIYa2LHNa6yGGtixzWushhrYsc1rrIYa2L/PAhlT+p4onKk4pJZap4ojJVPFGZKv4klaniDZU/qeITh7UucljrIoe1LvLDl1V8k8oTlW9S+aaKb1J5UjFVfFPFN6l802GtixzWushhrYv88MtU3qh4o2JSmSqeVDxReaIyVTxRmSreqPiEylTxCZU3Kn7TYa2LHNa6yGGti/yw/ofKVPEJlaniDZWpYlKZKiaVJypTxd/ssNZFDmtd5LDWRX74y6lMFW+o/EkqU8UbKlPFpDJV/H9yWOsih7UucljrIj/8sorfVPFfojJVvKHyhsobKk8q3qj4LzmsdZHDWhc5rHWRH75M5U9SmSomlaniScWkMlVMKlPFpDJVTCpTxaQyVUwqU8WkMlVMKm+o/Jcd1rrIYa2LHNa6yA8fqvg3VbyhMlVMKlPFpPJE5Y2Kb1KZKj5R8Tc5rHWRw1oXOax1kR8+pDJVTCpTxaQyVUwqU8UTlaniicpUMalMFZPKVDGpvKHyROVJxROVqeITKlPFE5Wp4psOa13ksNZFDmtd5IcvU5kqnlRMKlPFE5WpYlKZKt6omFQ+oTJVPKmYVKaKSeVJxaQyVTxRmSomlScVk8pU8YnDWhc5rHWRw1oXsX/wB6n8popJ5RMVk8qTit+k8kbFpPJGxROVqWJSeaPiE4e1LnJY6yKHtS7yw7+sYlKZKt5QmSomlaliUnlSMam8oTJVTCpPKp6oTCpvVEwqU8UbFZPKVPFNh7UucljrIoe1LvLDl6lMFVPFpPJEZaqYVKaKSWWqmFSmiicqU8UTlaliUnlS8YmKSeWbKiaVqeKJylTxicNaFzmsdZHDWhf54UMqT1SmijcqJpVPqEwVT1Q+UfGkYlL5TRVPVJ6oTBVvVPymw1oXOax1kcNaF7F/8AGVJxWTyicqvkllqphUpoonKlPFpDJVPFGZKiaVNyomlaliUpkq3lCZKiaVqeITh7UucljrIoe1LvLDhyomlUnljYonKk8qJpUnFU8qJpUnFZ9QmSomlaniDZWp4knFpPKkYqr4kw5rXeSw1kUOa13E/sEHVJ5UPFGZKiaVT1RMKk8qJpWp4ptUpopJ5ZsqJpWp4m92WOsih7UucljrIj98WcWkMlU8UZkqJpUnFZPKVPFEZaqYVKaKSWWqmFSeqEwVk8pUMak8UZkqJpWp4onKGxWTylTxicNaFzmsdZHDWhf54V9W8URlqnii8psq3lD5hMoTlaliUpkqJpU3VD6h8psOa13ksNZFDmtd5IcPVUwqU8UnKn6TylTxRGWqeKNiUvkmlTcqnqhMFZPKVDGpTBWTyjcd1rrIYa2LHNa6yA9/mMpvqviEylQxVXxC5Y2KSeWNikllqphUnqhMFZPKVDGpTBXfdFjrIoe1LnJY6yI/fEhlqnij4ptUpoonFZPKE5Wp4o2KN1SmiknlicpUMalMFZPKN1VMKlPFJw5rXeSw1kUOa13khw9VTCpPKp6oPKl4UvFE5UnFk4pJZaqYVN5QmSreqPiEypOKSeWJylTxmw5rXeSw1kUOa13khw+pPKmYVJ5UPFGZKj5RMalMFU8qJpUnKk8qnqh8QuWNiknlScUTlanimw5rXeSw1kUOa13khy+rmFQ+ofJEZaqYVD6h8kbFpPKk4o2KN1Smik9UPFGZKv6kw1oXOax1kcNaF/nhQxVPKiaVNyreUJkqPlExqfwmlaliUpkqnlQ8UZkqJpUnFVPFGypTxScOa13ksNZFDmtd5IcPqUwVk8qTiicqU8UnVKaKJyrfVPGGyhOVqWJSmSqmiknlScWk8l9yWOsih7UucljrIj98qGJSeVIxqTypmFTeUJkqPlExqbyhMlU8qXiiMql8U8Wk8qTiDZVvOqx1kcNaFzmsdRH7Bx9QmSomlScVk8onKp6oPKmYVN6o+ITKVDGpTBWTylTxROU3VUwqU8U3Hda6yGGtixzWuoj9g7+YyicqPqEyVXxCZap4ojJVvKEyVbyhMlX8mw5rXeSw1kUOa13khw+p/EkVU8WkMlV8k8pUMalMFU9UpopJZaqYKt5QeUNlqnii8qRiUpkqPnFY6yKHtS5yWOsiP3xZxTepfEJlqphUpopJ5Y2KJypPVJ6ovFExVUwqTyreqPg3Hda6yGGtixzWusgPv0zljYo3VKaKT6hMFZPKJyomlaliUpkqnqh8QuUTKlPFn3RY6yKHtS5yWOsiP/zlKiaVqWJSmSomlUnlm1SeqLyh8k0VT1SeVLxR8U2HtS5yWOsih7Uu8sNfTuWJyhsVk8pU8Zsqnqg8qZhUnlR8k8qTikllqvjEYa2LHNa6yGGti/zwyyp+U8WkMlVMKk9UnqhMFZPKVDFVTCqTyhsVk8qTiicqU8WTikllqphUpopvOqx1kcNaFzmsdZEfvkzlT1KZKiaVJypTxTepPKmYVKaKSeWNik+oPFGZKiaVJypTxScOa13ksNZFDmtdxP7BWpc4rHWRw1oXOax1kcNaFzmsdZHDWhc5rHWRw1oXOax1kcNaFzmsdZHDWhc5rHWRw1oXOax1kf8D4Hz+s7rCqtgAAAAASUVORK5CYII=\",\n        \"two_factor_type\": \"app\",\n        \"two_factor_enabled\": false,\n        \"reference\": \"NVErL3VocWdsSyt3V2VjV3VvdG1oUU1zNFF6QytYbVJyVStNWTN2aFZBWDNoN2loMElTUDVvY2htaE8yd3ZNVVFVNjBsRGNmcWxxZGRQNlNGb2xrNHVibDFlWXhlVC9Fb3pTdE15cE53K0Vld3VvVG5tODQvRVpISGtQODRxSno\"\n    },\n    \"status\": true,\n    \"message\": \"Ok\"\n}"
 								}
 							]
 						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"token\": \"145824\",\n    \"reference\": \"bFQ4NHZSdHpObSsxUzh4RHRrek1yeXk4dHRmVEtKcVlCVlVtSlpwVVJramdGRUlDa3l1ZW9sVmYzL0hNNHFLdHNncXhjN1UzWU1sQXlWOFlNOGtSKzZQZTZ2OVVVUkRVbWNzanprMk5OL1ptZVYzaVVOb1gxb1Fqejh1OWhmY3Q_\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{base_url}}/auth/2fa/verify",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"auth",
-								"2fa",
-								"verify"
-							]
-						},
-						"description": "This endpoint is used to verify a two-factor authentication (2FA) token. The HTTP POST request should be sent to {{base_url}}/auth/2fa/verify with a payload containing the token and reference.\n\n### Request Body\n\n- token (string, required): The 2FA token to be verified.\n- reference (string, required): The reference for the 2FA verification.\n    \n\n### Response\n\n- data (null): The response data will be null upon successful verification.\n- status (boolean): Indicates the status of the verification process.\n- message (string): A message indicating the outcome of the 2FA verification process."
-					},
-					"response": [
 						{
-							"name": "Example",
-							"originalRequest": {
+							"name": "Verify 2-FA",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "key",
+											"value": "Organization-Secret",
+											"type": "string"
+										},
+										{
+											"key": "value",
+											"value": "{{organization_secret}}",
+											"type": "string"
+										},
+										{
+											"key": "in",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
 								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"token\": \"738486\",\n    \"reference\": \"NVErL3VocWdsSyt3V2VjV3VvdG1oUU1zNFF6QytYbVJyVStNWTN2aFZBWDNoN2loMElTUDVvY2htaE8yd3ZNVVFVNjBsRGNmcWxxZGRQNlNGb2xrNHVibDFlWXhlVC9Fb3pTdE15cE53K0Vld3VvVG5tODQvRVpISGtQODRxSno\"\n}",
+									"raw": "{\n    \"token\": \"145824\",\n    \"reference\": \"bFQ4NHZSdHpObSsxUzh4RHRrek1yeXk4dHRmVEtKcVlCVlVtSlpwVVJramdGRUlDa3l1ZW9sVmYzL0hNNHFLdHNncXhjN1UzWU1sQXlWOFlNOGtSKzZQZTZ2OVVVUkRVbWNzanprMk5OL1ptZVYzaVVOb1gxb1Fqejh1OWhmY3Q_\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1435,109 +1344,293 @@
 										"2fa",
 										"verify"
 									]
-								}
+								},
+								"description": "This endpoint is used to verify a two-factor authentication (2FA) token. The HTTP POST request should be sent to {{base_url}}/auth/2fa/verify with a payload containing the token and reference.\n\n### Request Body\n\n- token (string, required): The 2FA token to be verified.\n- reference (string, required): The reference for the 2FA verification.\n    \n\n### Response\n\n- data (null): The response data will be null upon successful verification.\n- status (boolean): Indicates the status of the verification process.\n- message (string): A message indicating the outcome of the 2FA verification process."
 							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
+							"response": [
 								{
-									"key": "X-Powered-By",
-									"value": "Express"
-								},
+									"name": "Example",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"token\": \"738486\",\n    \"reference\": \"NVErL3VocWdsSyt3V2VjV3VvdG1oUU1zNFF6QytYbVJyVStNWTN2aFZBWDNoN2loMElTUDVvY2htaE8yd3ZNVVFVNjBsRGNmcWxxZGRQNlNGb2xrNHVibDFlWXhlVC9Fb3pTdE15cE53K0Vld3VvVG5tODQvRVpISGtQODRxSno\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/auth/2fa/verify",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"auth",
+												"2fa",
+												"verify"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "50"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "49"
+										},
+										{
+											"key": "X-RateLimit-Reset",
+											"value": "1"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "71"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"47-xocXVfI8KYnY/Rf0WnKylXyELa0\""
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 16 Dec 2023 15:07:39 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": null,\n    \"status\": true,\n    \"message\": \"2-factor authentication enabled\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Reference & Token",
+					"item": [
+						{
+							"name": "Decode Reference & Token",
+							"event": [
 								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								},
-								{
-									"key": "X-RateLimit-Limit",
-									"value": "50"
-								},
-								{
-									"key": "X-RateLimit-Remaining",
-									"value": "49"
-								},
-								{
-									"key": "X-RateLimit-Reset",
-									"value": "1"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Content-Length",
-									"value": "71"
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"47-xocXVfI8KYnY/Rf0WnKylXyELa0\""
-								},
-								{
-									"key": "Date",
-									"value": "Sat, 16 Dec 2023 15:07:39 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=5"
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
 								}
 							],
-							"cookie": [],
-							"body": "{\n    \"data\": null,\n    \"status\": true,\n    \"message\": \"2-factor authentication enabled\"\n}"
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{organization_secret}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Organization-Secret",
+											"type": "string"
+										},
+										{
+											"key": "in",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/auth/token/verify?token=864916&reference=YmczVDlHYXNRaVBQNUQvajd6RXpSRmN2NmhXdVZyelVOd0ppTW1VMnB2NDR2NkFiNmpVcGNtdkxwVVA3WkhlUCs4dGlWMndzNEpFRmc0bm9DVTZDRW1mN1B4cEZ2eDRNTXlkY0tJSWZnUTg0OGhxRmIrTHR6Ym53clRvN3dCMWRGODQ4T0xHQWQwd3NYZE9GdGZ1ZWRRPT0_",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"auth",
+										"token",
+										"verify"
+									],
+									"query": [
+										{
+											"key": "token",
+											"value": "864916",
+											"description": "[YOUR-6-DIGIT-NUMBER]"
+										},
+										{
+											"key": "reference",
+											"value": "YmczVDlHYXNRaVBQNUQvajd6RXpSRmN2NmhXdVZyelVOd0ppTW1VMnB2NDR2NkFiNmpVcGNtdkxwVVA3WkhlUCs4dGlWMndzNEpFRmc0bm9DVTZDRW1mN1B4cEZ2eDRNTXlkY0tJSWZnUTg0OGhxRmIrTHR6Ym53clRvN3dCMWRGODQ4T0xHQWQwd3NYZE9GdGZ1ZWRRPT0_",
+											"description": "[YOUR-REFERENCE]"
+										}
+									]
+								},
+								"description": "Swayauth provides an api to test the authenticity of a reference and token generated, in the following steps:\n\n1. Pass the reference and token as a query parameter to the request to get a response.\n2. Add token secret as a Bearer token in the authorization header of your request.\n    \n\nThis endpoint makes an HTTP GET request to verify the provided token and reference. The token and reference are included as query parameters in the request URL. The response contains the data object with the purpose and require_password fields, along with the status and message fields.\n\nThe purpose field indicates the purpose of the token verification, and the require_password field specifies whether a password is required for the verification process.\n\n### Request Parameters\n\n- token: (string) The token to be verified.\n- reference: (string) The reference for the token verification.\n    \n\n### Response\n\n- data (object)\n    - purpose: (string) The purpose of the token verification.\n    - require_password: (boolean) Indicates if a password is required for the verification.\n- status: (boolean) Indicates the status of the verification process.\n- message: (string) A message indicating the outcome of the verification process."
+							},
+							"response": [
+								{
+									"name": "Example",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/auth/token/verify?token=731503&reference=aUk1MmJLUG5wdndTNW1pelNUNStFNG1CbTlwWVdOYTlDV3YrMzhtc1Z1MWJLSVp1d2FTMDRwenQycHlYRzVHbFMvNnVQZk1acld5K1N1TTRTbjlSQlk2WGljSHp3Mm1LZk9hVGwxaHAxNW9sangzcHkxbWIxZFlzRnllc1RIc2k0SkxYMVp3UkhCZDc3dkdqd1Z0U3VlNUViMjRwOGhSdEpHZTM4Qzk5NTB5YmFMV1Nxb0ZCa2FXczhRMlhGTGRN",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"auth",
+												"token",
+												"verify"
+											],
+											"query": [
+												{
+													"key": "token",
+													"value": "731503"
+												},
+												{
+													"key": "reference",
+													"value": "aUk1MmJLUG5wdndTNW1pelNUNStFNG1CbTlwWVdOYTlDV3YrMzhtc1Z1MWJLSVp1d2FTMDRwenQycHlYRzVHbFMvNnVQZk1acld5K1N1TTRTbjlSQlk2WGljSHp3Mm1LZk9hVGwxaHAxNW9sangzcHkxbWIxZFlzRnllc1RIc2k0SkxYMVp3UkhCZDc3dkdqd1Z0U3VlNUViMjRwOGhSdEpHZTM4Qzk5NTB5YmFMV1Nxb0ZCa2FXczhRMlhGTGRN"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "50"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "49"
+										},
+										{
+											"key": "X-RateLimit-Reset",
+											"value": "1"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "84"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"54-QO92EDHC/5sHArSH2pugUOyUYZo\""
+										},
+										{
+											"key": "Date",
+											"value": "Sun, 17 Dec 2023 04:00:27 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"purpose\": \"register\",\n        \"require_password\": true\n    },\n    \"status\": true,\n    \"message\": \"Ok\"\n}"
+								}
+							]
 						}
 					]
 				}
-			],
-			"description": "Add our simplified authenticate flow to your application with various options provided, which include social & manual (login/register), 2-Factor Authentication, SMS & Mail token mode of authentication and more."
+			]
 		},
 		{
-			"name": "Account (Client & User)",
+			"name": "Account",
 			"item": [
 				{
-					"name": "Get Personal Account",
-					"event": [
+					"name": "Shared (Client & User)",
+					"item": [
 						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
+							"name": "Get Account",
+							"event": [
 								{
-									"key": "token",
-									"value": "{{access_token}}",
-									"type": "string"
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
 								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/account",
-							"host": [
-								"{{base_url}}"
 							],
-							"path": [
-								"account"
-							]
-						},
-						"description": "# Account Information Retrieval\n\nThis endpoint retrieves the account information associated with the user's profile.\n\n## Request\n\n- Method: GET\n- Endpoint: {{base_url}}/account\n    \n\n## Response\n\nUpon a successful request, the API returns the following information:\n\n- `id` (string) - The unique identifier for the account\n- `first_name` (string) - The first name of the account holder\n- `last_name` (string) - The last name of the account holder\n- `phone` (string) - The phone number associated with the account\n- `address` (string) - The address of the account holder\n- `city` (string) - The city of residence\n- `state` (string) - The state of residence\n- `country` (string) - The country of residence\n- `ip_address` (string) - The IP address associated with the account\n- `email` (string) - The email address of the account holder\n- `status` (string) - The status of the account (e.g., active)\n- `verified` (boolean) - Indicates whether the account is verified\n- `photo` (string) - URL to the account holder's photo\n- `scope` (array) - The scope of account permissions\n- `permissions` (array) - The permissions associated with the account\n- `access` (string) - The level of access for the account\n- `two_factor_type` (null) - The type of two-factor authentication (if enabled)\n- `company_id` (string) - The unique identifier for the associated company\n- `organization_id` (string) - The unique identifier for the associated organization\n- `organization_token_id` (string) - The unique identifier for the organization token\n- `created_at` (string) - The date and time of the account creation\n- `updated_at` (string) - The date and time of the last account update."
-					},
-					"response": [
-						{
-							"name": "Example",
-							"originalRequest": {
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "GET",
 								"header": [],
 								"url": {
@@ -1548,105 +1641,96 @@
 									"path": [
 										"account"
 									]
-								}
+								},
+								"description": "# Account Information Retrieval\n\nThis endpoint retrieves the account information associated with the user's profile.\n\n## Request\n\n- Method: GET\n- Endpoint: {{base_url}}/account\n    \n\n## Response\n\nUpon a successful request, the API returns the following information:\n\n- `id` (string) - The unique identifier for the account\n- `first_name` (string) - The first name of the account holder\n- `last_name` (string) - The last name of the account holder\n- `phone` (string) - The phone number associated with the account\n- `address` (string) - The address of the account holder\n- `city` (string) - The city of residence\n- `state` (string) - The state of residence\n- `country` (string) - The country of residence\n- `ip_address` (string) - The IP address associated with the account\n- `email` (string) - The email address of the account holder\n- `status` (string) - The status of the account (e.g., active)\n- `verified` (boolean) - Indicates whether the account is verified\n- `photo` (string) - URL to the account holder's photo\n- `scope` (array) - The scope of account permissions\n- `permissions` (array) - The permissions associated with the account\n- `access` (string) - The level of access for the account\n- `two_factor_type` (null) - The type of two-factor authentication (if enabled)\n- `company_id` (string) - The unique identifier for the associated company\n- `organization_id` (string) - The unique identifier for the associated organization\n- `organization_token_id` (string) - The unique identifier for the organization token\n- `created_at` (string) - The date and time of the account creation\n- `updated_at` (string) - The date and time of the last account update."
 							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
+							"response": [
 								{
-									"key": "X-Powered-By",
-									"value": "Express"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Content-Length",
-									"value": "687"
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"2af-2EVVN29P9fxnnFKygAKZja9+TCc\""
-								},
-								{
-									"key": "Date",
-									"value": "Sat, 20 Jan 2024 05:25:27 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=5"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"data\": {\n        \"id\": \"65ab4e3dcf0725fe6ebf4c3d\",\n        \"first_name\": \"John\",\n        \"last_name\": \"Doe\",\n        \"phone\": \"+2349027938938\",\n        \"address\": \"No 4, Cresent Estate, Lagos\",\n        \"city\": \"Lagos\",\n        \"state\": \"Lagos\",\n        \"country\": \"Nigeria\",\n        \"ip_address\": \"::1\",\n        \"email\": \"example@gmail.com\",\n        \"status\": \"active\",\n        \"verified\": true,\n        \"photo\": \"https://api.swayauth.com/logo.png\",\n        \"scope\": [\n            \"manual\"\n        ],\n        \"permissions\": [\n            \"read\",\n            \"write\",\n            \"delete\"\n        ],\n        \"access\": \"level_1\",\n        \"two_factor_type\": null,\n        \"company_id\": \"65a2f888684add2bc7aa612d\",\n        \"organization_id\": \"65ab48e8e7e73bf1fbeb6152\",\n        \"organization_token_id\": \"65ab4a31e7e73bf1fbeb6153\",\n        \"created_at\": \"2024-01-20T04:38:20.674Z\",\n        \"updated_at\": \"2024-01-20T05:23:49.258Z\"\n    },\n    \"status\": true,\n    \"message\": \"Ok\"\n}"
-						}
-					]
-				},
-				{
-					"name": "Update Account",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{access_token}}",
-									"type": "string"
+									"name": "Example",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/account",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"account"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "687"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"2af-2EVVN29P9fxnnFKygAKZja9+TCc\""
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 20 Jan 2024 05:25:27 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"id\": \"65ab4e3dcf0725fe6ebf4c3d\",\n        \"first_name\": \"John\",\n        \"last_name\": \"Doe\",\n        \"phone\": \"+2349027938938\",\n        \"address\": \"No 4, Cresent Estate, Lagos\",\n        \"city\": \"Lagos\",\n        \"state\": \"Lagos\",\n        \"country\": \"Nigeria\",\n        \"ip_address\": \"::1\",\n        \"email\": \"example@gmail.com\",\n        \"status\": \"active\",\n        \"verified\": true,\n        \"photo\": \"https://api.swayauth.com/logo.png\",\n        \"scope\": [\n            \"manual\"\n        ],\n        \"permissions\": [\n            \"read\",\n            \"write\",\n            \"delete\"\n        ],\n        \"access\": \"level_1\",\n        \"two_factor_type\": null,\n        \"company_id\": \"65a2f888684add2bc7aa612d\",\n        \"organization_id\": \"65ab48e8e7e73bf1fbeb6152\",\n        \"organization_token_id\": \"65ab4a31e7e73bf1fbeb6153\",\n        \"created_at\": \"2024-01-20T04:38:20.674Z\",\n        \"updated_at\": \"2024-01-20T05:23:49.258Z\"\n    },\n    \"status\": true,\n    \"message\": \"Ok\"\n}"
 								}
 							]
 						},
-						"method": "PATCH",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"first_name\": \"John\",\n    \"last_name\": \"Doe\",\n    \"phone\": \"+234903939898983\",\n    \"address\": \"No 4, Cresent Estate, Lagos\",\n    \"city\": \"Lagos\",\n    \"state\": \"Lagos\",\n    \"country\": \"Nigeria\",\n    \"photo\": \"https://api.swayauth.com/logo.png\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{base_url}}/account",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"account"
-							]
-						},
-						"description": "This endpoint allows you to update the account details using an HTTP PATCH request. The request should include a payload with the following parameters in the raw request body: first_name, last_name, phone, address, city, state, country, and photo.\n\n### Request Body\n\n- `first_name` (string): The first name of the user.\n- `last_name` (string): The last name of the user.\n- `phone` (string): The phone number of the user.\n- `address` (string): The address of the user.\n- `city` (string): The city of the user.\n- `state` (string): The state of the user.\n- `country` (string): The country of the user.\n- `photo` (string): The URL of the user's photo."
-					},
-					"response": [
 						{
-							"name": "Example",
-							"originalRequest": {
+							"name": "Update Account",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "PATCH",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"first_name\": \"Tosin\",\n    \"last_name\": \"Fashanu\",\n    \"phone\": \"+2349033379793\",\n    \"address\": \"No 4, Cresent Estate, Lagos\",\n    \"city\": \"Lagos\",\n    \"state\": \"Lagos\",\n    \"country\": \"Nigeria\",\n    \"photo\": \"https://api.swayauth.com/logo.png\"\n}",
+									"raw": "{\n    \"first_name\": \"John\",\n    \"last_name\": \"Doe\",\n    \"phone\": \"+234903939898983\",\n    \"address\": \"No 4, Cresent Estate, Lagos\",\n    \"city\": \"Lagos\",\n    \"state\": \"Lagos\",\n    \"country\": \"Nigeria\",\n    \"photo\": \"https://api.swayauth.com/logo.png\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1661,102 +1745,100 @@
 									"path": [
 										"account"
 									]
-								}
+								},
+								"description": "This endpoint allows you to update the account details using an HTTP PATCH request. The request should include a payload with the following parameters in the raw request body: first_name, last_name, phone, address, city, state, country, and photo.\n\n### Request Body\n\n- `first_name` (string): The first name of the user.\n- `last_name` (string): The last name of the user.\n- `phone` (string): The phone number of the user.\n- `address` (string): The address of the user.\n- `city` (string): The city of the user.\n- `state` (string): The state of the user.\n- `country` (string): The country of the user.\n- `photo` (string): The URL of the user's photo."
 							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
+							"response": [
 								{
-									"key": "X-Powered-By",
-									"value": "Express"
-								},
+									"name": "Example",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"first_name\": \"Tosin\",\n    \"last_name\": \"Fashanu\",\n    \"phone\": \"+2349033379793\",\n    \"address\": \"No 4, Cresent Estate, Lagos\",\n    \"city\": \"Lagos\",\n    \"state\": \"Lagos\",\n    \"country\": \"Nigeria\",\n    \"photo\": \"https://api.swayauth.com/logo.png\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/account",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"account"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "687"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"2af-rIYNHULql+EPEsmaw2YaiAhowPs\""
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 20 Jan 2024 05:28:41 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"id\": \"65ab4e3dcf0725fe6ebf4c3d\",\n        \"first_name\": \"John\",\n        \"last_name\": \"Doe\",\n        \"phone\": \"+234903393399\",\n        \"address\": \"No 4, Cresent Estate, Lagos\",\n        \"city\": \"Lagos\",\n        \"state\": \"Lagos\",\n        \"country\": \"Nigeria\",\n        \"ip_address\": \"::1\",\n        \"email\": \"fashanutosin7@gmail.com\",\n        \"status\": \"active\",\n        \"verified\": true,\n        \"photo\": \"https://api.swayauth.com/logo.png\",\n        \"scope\": [\n            \"manual\"\n        ],\n        \"permissions\": [\n            \"read\",\n            \"write\",\n            \"delete\"\n        ],\n        \"access\": \"level_1\",\n        \"two_factor_type\": null,\n        \"company_id\": \"65a2f888684add2bc7aa612d\",\n        \"organization_id\": \"65ab48e8e7e73bf1fbeb6152\",\n        \"organization_token_id\": \"65ab4a31e7e73bf1fbeb6153\",\n        \"created_at\": \"2024-01-20T04:38:20.674Z\",\n        \"updated_at\": \"2024-01-20T05:28:39.722Z\"\n    },\n    \"status\": true,\n    \"message\": \"Ok\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Change Photo",
+							"event": [
 								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Content-Length",
-									"value": "687"
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"2af-rIYNHULql+EPEsmaw2YaiAhowPs\""
-								},
-								{
-									"key": "Date",
-									"value": "Sat, 20 Jan 2024 05:28:41 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=5"
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
 								}
 							],
-							"cookie": [],
-							"body": "{\n    \"data\": {\n        \"id\": \"65ab4e3dcf0725fe6ebf4c3d\",\n        \"first_name\": \"John\",\n        \"last_name\": \"Doe\",\n        \"phone\": \"+234903393399\",\n        \"address\": \"No 4, Cresent Estate, Lagos\",\n        \"city\": \"Lagos\",\n        \"state\": \"Lagos\",\n        \"country\": \"Nigeria\",\n        \"ip_address\": \"::1\",\n        \"email\": \"fashanutosin7@gmail.com\",\n        \"status\": \"active\",\n        \"verified\": true,\n        \"photo\": \"https://api.swayauth.com/logo.png\",\n        \"scope\": [\n            \"manual\"\n        ],\n        \"permissions\": [\n            \"read\",\n            \"write\",\n            \"delete\"\n        ],\n        \"access\": \"level_1\",\n        \"two_factor_type\": null,\n        \"company_id\": \"65a2f888684add2bc7aa612d\",\n        \"organization_id\": \"65ab48e8e7e73bf1fbeb6152\",\n        \"organization_token_id\": \"65ab4a31e7e73bf1fbeb6153\",\n        \"created_at\": \"2024-01-20T04:38:20.674Z\",\n        \"updated_at\": \"2024-01-20T05:28:39.722Z\"\n    },\n    \"status\": true,\n    \"message\": \"Ok\"\n}"
-						}
-					]
-				},
-				{
-					"name": "Change Account Photo",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{access_token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PATCH",
-						"header": [],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "file",
-									"type": "file",
-									"src": "/Users/john/Downloads/shield.png"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{base_url}}/account/photo",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"account",
-								"photo"
-							]
-						},
-						"description": "### Update Account Photo\n\nThis endpoint allows the user to update the photo associated with their account.\n\n#### Request Body\n\n- form-data\n    - `file` (file): The image file to be uploaded.\n\n#### Response\n\nUpon a successful request, the server responds with a JSON object containing the following fields:\n\n- `fieldname` (string): The field name of the uploaded file.\n- `originalname` (string): The original name of the uploaded file.\n- `encoding` (string): The encoding type of the file.\n- `mimetype` (string): The MIME type of the file.\n- `destination` (string): The destination directory for the uploaded file.\n- `filename` (string): The name of the uploaded file.\n- `path` (string): The URL path to access the uploaded file.\n- `size` (number): The size of the uploaded file in bytes."
-					},
-					"response": [
-						{
-							"name": "Example",
-							"originalRequest": {
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "PATCH",
 								"header": [],
 								"body": {
@@ -1778,101 +1860,102 @@
 										"account",
 										"photo"
 									]
-								}
+								},
+								"description": "### Update Account Photo\n\nThis endpoint allows the user to update the photo associated with their account.\n\n#### Request Body\n\n- form-data\n    - `file` (file): The image file to be uploaded.\n\n#### Response\n\nUpon a successful request, the server responds with a JSON object containing the following fields:\n\n- `fieldname` (string): The field name of the uploaded file.\n- `originalname` (string): The original name of the uploaded file.\n- `encoding` (string): The encoding type of the file.\n- `mimetype` (string): The MIME type of the file.\n- `destination` (string): The destination directory for the uploaded file.\n- `filename` (string): The name of the uploaded file.\n- `path` (string): The URL path to access the uploaded file.\n- `size` (number): The size of the uploaded file in bytes."
 							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
+							"response": [
 								{
-									"key": "X-Powered-By",
-									"value": "Express"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Content-Length",
-									"value": "299"
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"12b-Eyazhm1Q/SwewKXJpUuIHIpMCbA\""
-								},
-								{
-									"key": "Date",
-									"value": "Sat, 20 Jan 2024 05:40:20 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=5"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"data\": {\n        \"fieldname\": \"file\",\n        \"originalname\": \"shield.png\",\n        \"encoding\": \"7bit\",\n        \"mimetype\": \"image/png\",\n        \"destination\": \"uploads/\",\n        \"filename\": \"d89498d1-9199-4a95-a43d-4ac0ff2c5491.png\",\n        \"path\": \"http://localhost:8000/uploads/d89498d1-9199-4a95-a43d-4ac0ff2c5491.png\",\n        \"size\": 26030\n    },\n    \"status\": true,\n    \"message\": \"Ok\"\n}"
-						}
-					]
-				},
-				{
-					"name": "Change Account Password",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{access_token}}",
-									"type": "string"
+									"name": "Example",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "file",
+													"type": "file",
+													"src": "/Users/john/Downloads/shield.png"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{base_url}}/account/photo",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"account",
+												"photo"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "299"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"12b-Eyazhm1Q/SwewKXJpUuIHIpMCbA\""
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 20 Jan 2024 05:40:20 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"fieldname\": \"file\",\n        \"originalname\": \"shield.png\",\n        \"encoding\": \"7bit\",\n        \"mimetype\": \"image/png\",\n        \"destination\": \"uploads/\",\n        \"filename\": \"d89498d1-9199-4a95-a43d-4ac0ff2c5491.png\",\n        \"path\": \"http://localhost:8000/uploads/d89498d1-9199-4a95-a43d-4ac0ff2c5491.png\",\n        \"size\": 26030\n    },\n    \"status\": true,\n    \"message\": \"Ok\"\n}"
 								}
 							]
 						},
-						"method": "PATCH",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"old_password\": \"qwerty12345\",\n    \"new_password\": \"qwerty12345\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{base_url}}/account/password",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"account",
-								"password"
-							]
-						},
-						"description": "This endpoint allows the user to update their account password using an HTTP PATCH request to {{base_url}}/account/password. The request should include a raw request body with the keys \"old_password\" and \"new_password\" to specify the old and new passwords respectively.\n\n### Request Body\n\n- old_password (string, required): The user's current password.\n- new_password (string, required): The new password to be set.\n    \n\n### Response\n\n- data: null\n- status (boolean): Indicates the status of the password reset operation.\n- message (string): A message indicating the outcome of the password reset operation, such as \"Password reset successful\"."
-					},
-					"response": [
 						{
-							"name": "Example",
-							"originalRequest": {
+							"name": "Change Password",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "PATCH",
 								"header": [],
 								"body": {
@@ -1893,102 +1976,116 @@
 										"account",
 										"password"
 									]
-								}
+								},
+								"description": "This endpoint allows the user to update their account password using an HTTP PATCH request to {{base_url}}/account/password. The request should include a raw request body with the keys \"old_password\" and \"new_password\" to specify the old and new passwords respectively.\n\n### Request Body\n\n- old_password (string, required): The user's current password.\n- new_password (string, required): The new password to be set.\n    \n\n### Response\n\n- data: null\n- status (boolean): Indicates the status of the password reset operation.\n- message (string): A message indicating the outcome of the password reset operation, such as \"Password reset successful\"."
 							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
+							"response": [
 								{
-									"key": "X-Powered-By",
-									"value": "Express"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Content-Length",
-									"value": "65"
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"41-EpL4ApFkm9h5pMC+X24anBvbOQM\""
-								},
-								{
-									"key": "Date",
-									"value": "Sat, 20 Jan 2024 05:36:15 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=5"
+									"name": "Example",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"old_password\": \"qwerty12345\",\n    \"new_password\": \"qwerty12345\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/account/password",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"account",
+												"password"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "65"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"41-EpL4ApFkm9h5pMC+X24anBvbOQM\""
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 20 Jan 2024 05:36:15 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": null,\n    \"status\": true,\n    \"message\": \"Password reset successful\"\n}"
 								}
-							],
-							"cookie": [],
-							"body": "{\n    \"data\": null,\n    \"status\": true,\n    \"message\": \"Password reset successful\"\n}"
+							]
 						}
 					]
 				},
 				{
-					"name": "Get Company Account (Client)",
-					"event": [
+					"name": "Client",
+					"item": [
 						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "apikey",
-							"apikey": [
+							"name": "Get Company Account",
+							"event": [
 								{
-									"key": "value",
-									"value": "{{application_key}}",
-									"type": "string"
-								},
-								{
-									"key": "key",
-									"value": "Application-Key",
-									"type": "string"
-								},
-								{
-									"key": "in",
-									"value": "header",
-									"type": "string"
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
 								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/account/company",
-							"host": [
-								"{{base_url}}"
 							],
-							"path": [
-								"account",
-								"company"
-							]
-						},
-						"description": "This endpoint makes an HTTP GET request to retrieve company account information. The response will include details such as the company ID, name, email, status, plan, wallet ID, creation and update timestamps, and more. The status field indicates the success of the request, and a message provides additional information."
-					},
-					"response": [
-						{
-							"name": "Example",
-							"originalRequest": {
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{application_key}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Application-Key",
+											"type": "string"
+										},
+										{
+											"key": "in",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
 								"method": "GET",
 								"header": [],
 								"url": {
@@ -2000,111 +2097,102 @@
 										"account",
 										"company"
 									]
-								}
+								},
+								"description": "This endpoint makes an HTTP GET request to retrieve company account information. The response will include details such as the company ID, name, email, status, plan, wallet ID, creation and update timestamps, and more. The status field indicates the success of the request, and a message provides additional information."
 							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
+							"response": [
 								{
-									"key": "X-Powered-By",
-									"value": "Express"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Content-Length",
-									"value": "452"
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"1c4-8Fk7MbtZoLMvC3sHnSoncdmRnrM\""
-								},
-								{
-									"key": "Date",
-									"value": "Sat, 20 Jan 2024 05:41:38 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=5"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"data\": {\n        \"id\": \"65a2f888684add2bc7aa612d\",\n        \"default_card_id\": null,\n        \"name\": \"Swayauth\",\n        \"email\": \"example@gmail.com\",\n        \"status\": \"active\",\n        \"address\": null,\n        \"city\": null,\n        \"state\": null,\n        \"country\": null,\n        \"verified\": false,\n        \"save_cards\": false,\n        \"plan\": \"free\",\n        \"app_key_id\": \"65a2f888684add2bc7aa612c\",\n        \"service_email_id\": null,\n        \"wallet_id\": \"65a2f888684add2bc7aa612b\",\n        \"created_at\": \"2024-01-13T20:54:32.989Z\",\n        \"updated_at\": \"2024-01-13T20:56:14.269Z\"\n    },\n    \"status\": true,\n    \"message\": \"Ok\"\n}"
-						}
-					]
-				},
-				{
-					"name": "Update Company Account (Client)",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "apikey",
-							"apikey": [
-								{
-									"key": "value",
-									"value": "{{application_key}}",
-									"type": "string"
-								},
-								{
-									"key": "key",
-									"value": "Application-Key",
-									"type": "string"
-								},
-								{
-									"key": "in",
-									"value": "header",
-									"type": "string"
+									"name": "Example",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/account/company",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"account",
+												"company"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "452"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"1c4-8Fk7MbtZoLMvC3sHnSoncdmRnrM\""
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 20 Jan 2024 05:41:38 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"id\": \"65a2f888684add2bc7aa612d\",\n        \"default_card_id\": null,\n        \"name\": \"Swayauth\",\n        \"email\": \"example@gmail.com\",\n        \"status\": \"active\",\n        \"address\": null,\n        \"city\": null,\n        \"state\": null,\n        \"country\": null,\n        \"verified\": false,\n        \"save_cards\": false,\n        \"plan\": \"free\",\n        \"app_key_id\": \"65a2f888684add2bc7aa612c\",\n        \"service_email_id\": null,\n        \"wallet_id\": \"65a2f888684add2bc7aa612b\",\n        \"created_at\": \"2024-01-13T20:54:32.989Z\",\n        \"updated_at\": \"2024-01-13T20:56:14.269Z\"\n    },\n    \"status\": true,\n    \"message\": \"Ok\"\n}"
 								}
 							]
 						},
-						"method": "PATCH",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"name\": \"Swayauth\",\n    \"address\": \"No 5, Cresent Estate, Lagos, Nigeria.\",\n    \"city\": \"Lagos\",\n    \"state\": \"Lagos\",\n    \"country\": \"Nigeria\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{base_url}}/account/company",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"account",
-								"company"
-							]
-						},
-						"description": "This HTTP PATCH request is used to update the company details. The request should include a JSON payload with the fields for name, address, city, state, and country.\n\n### Request Body\n\n- name (string, optional): The name of the company.\n- address (string, optional): The address of the company.\n- city (string, optional): The city where the company is located.\n- state (string, optional): The state where the company is located.\n- country (string, optional): The country where the company is located.\n    \n\n### Response\n\nUpon a successful update, the response will include the updated company details along with the status and a message indicating the success."
-					},
-					"response": [
 						{
-							"name": "Example",
-							"originalRequest": {
+							"name": "Update Company Account",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{application_key}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Application-Key",
+											"type": "string"
+										},
+										{
+											"key": "in",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
 								"method": "PATCH",
 								"header": [],
 								"body": {
@@ -2125,139 +2213,148 @@
 										"account",
 										"company"
 									]
-								}
+								},
+								"description": "This HTTP PATCH request is used to update the company details. The request should include a JSON payload with the fields for name, address, city, state, and country.\n\n### Request Body\n\n- name (string, optional): The name of the company.\n- address (string, optional): The address of the company.\n- city (string, optional): The city where the company is located.\n- state (string, optional): The state where the company is located.\n- country (string, optional): The country where the company is located.\n    \n\n### Response\n\nUpon a successful update, the response will include the updated company details along with the status and a message indicating the success."
 							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
+							"response": [
 								{
-									"key": "X-Powered-By",
-									"value": "Express"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Content-Length",
-									"value": "507"
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"1fb-ky4ncST71Mc+DWcaDiw4FJli5vU\""
-								},
-								{
-									"key": "Date",
-									"value": "Sat, 20 Jan 2024 05:45:50 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=5"
+									"name": "Example",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Swayauth\",\n    \"address\": \"No 5, Cresent Estate, Lagos, Nigeria.\",\n    \"city\": \"Lagos\",\n    \"state\": \"Lagos\",\n    \"country\": \"Nigeria\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/account/company",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"account",
+												"company"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "507"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"1fb-ky4ncST71Mc+DWcaDiw4FJli5vU\""
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 20 Jan 2024 05:45:50 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"id\": \"65a2f888684add2bc7aa612d\",\n        \"default_card_id\": null,\n        \"name\": \"Swayauth\",\n        \"email\": \"example@gmail.com\",\n        \"status\": \"active\",\n        \"address\": \"No 5, Cresent Estate, Lagos, Nigeria.\",\n        \"city\": \"Lagos\",\n        \"state\": \"Lagos\",\n        \"country\": \"Nigeria\",\n        \"verified\": false,\n        \"save_cards\": false,\n        \"plan\": \"free\",\n        \"app_key_id\": \"65a2f888684add2bc7aa612c\",\n        \"service_email_id\": null,\n        \"wallet_id\": \"65a2f888684add2bc7aa612b\",\n        \"created_at\": \"2024-01-13T20:54:32.989Z\",\n        \"updated_at\": \"2024-01-20T05:45:48.498Z\"\n    },\n    \"status\": true,\n    \"message\": \"Ok\"\n}"
 								}
-							],
-							"cookie": [],
-							"body": "{\n    \"data\": {\n        \"id\": \"65a2f888684add2bc7aa612d\",\n        \"default_card_id\": null,\n        \"name\": \"Swayauth\",\n        \"email\": \"example@gmail.com\",\n        \"status\": \"active\",\n        \"address\": \"No 5, Cresent Estate, Lagos, Nigeria.\",\n        \"city\": \"Lagos\",\n        \"state\": \"Lagos\",\n        \"country\": \"Nigeria\",\n        \"verified\": false,\n        \"save_cards\": false,\n        \"plan\": \"free\",\n        \"app_key_id\": \"65a2f888684add2bc7aa612c\",\n        \"service_email_id\": null,\n        \"wallet_id\": \"65a2f888684add2bc7aa612b\",\n        \"created_at\": \"2024-01-13T20:54:32.989Z\",\n        \"updated_at\": \"2024-01-20T05:45:48.498Z\"\n    },\n    \"status\": true,\n    \"message\": \"Ok\"\n}"
-						}
-					]
-				},
-				{
-					"name": "Switch Account (Client)",
-					"event": [
+							]
+						},
 						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
+							"name": "Switch Account",
+							"event": [
 								{
-									"key": "token",
-									"value": "{{access_token}}",
-									"type": "string"
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
 								}
-							]
-						},
-						"method": "PUT",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/account/switch/:id",
-							"host": [
-								"{{base_url}}"
 							],
-							"path": [
-								"account",
-								"switch",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "6583e64077a391169b2496bd"
-								}
-							]
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/account/switch/:id",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"account",
+										"switch",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "6583e64077a391169b2496bd"
+										}
+									]
+								},
+								"description": "\nThis endpoint allows the user to switch the account by making an HTTP PUT request to the specified URL. The request should include the account ID in the endpoint. The request body is expected to be of undefined type and was null in the last call. \n\n### Response\n- Status: 401\n- **status**: Indicates the status of the response.\n- **message**: Represents any additional information or error message.\n- **data**: Contains the data related to the account switch.\n- **$metadata**: Provides metadata including statusCode, timestamp, and path.\n\n"
+							},
+							"response": []
 						},
-						"description": "\nThis endpoint allows the user to switch the account by making an HTTP PUT request to the specified URL. The request should include the account ID in the endpoint. The request body is expected to be of undefined type and was null in the last call. \n\n### Response\n- Status: 401\n- **status**: Indicates the status of the response.\n- **message**: Represents any additional information or error message.\n- **data**: Contains the data related to the account switch.\n- **$metadata**: Provides metadata including statusCode, timestamp, and path.\n\n"
-					},
-					"response": []
-				},
-				{
-					"name": "Get Linked Accounts (Client)",
-					"event": [
 						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
+							"name": "Get Linked Accounts",
+							"event": [
 								{
-									"key": "token",
-									"value": "{{access_token}}",
-									"type": "string"
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
 								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/account/association",
-							"host": [
-								"{{base_url}}"
 							],
-							"path": [
-								"account",
-								"association"
-							]
-						},
-						"description": "This endpoint makes an HTTP GET request to retrieve account association information. The request does not require a request body.\n\nThe response will include an array of \"data\" containing association details, such as ID, verification status, creator status, permissions, access level, company ID, client email, creation and update timestamps, and company information including ID, name, and status. Additionally, the response will include a \"status\" boolean indicating the success status and a \"message\" providing a descriptive status message."
-					},
-					"response": [
-						{
-							"name": "Example",
-							"originalRequest": {
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "GET",
 								"header": [],
 								"url": {
@@ -2269,47 +2366,67 @@
 										"account",
 										"association"
 									]
-								}
+								},
+								"description": "This endpoint makes an HTTP GET request to retrieve account association information. The request does not require a request body.\n\nThe response will include an array of \"data\" containing association details, such as ID, verification status, creator status, permissions, access level, company ID, client email, creation and update timestamps, and company information including ID, name, and status. Additionally, the response will include a \"status\" boolean indicating the success status and a \"message\" providing a descriptive status message."
 							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
+							"response": [
 								{
-									"key": "X-Powered-By",
-									"value": "Express"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Content-Length",
-									"value": "398"
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"18e-zbhKbw6C9LejHPNEQz7D44bxr3A\""
-								},
-								{
-									"key": "Date",
-									"value": "Fri, 22 Dec 2023 12:55:38 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=5"
+									"name": "Example",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/account/association",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"account",
+												"association"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "398"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"18e-zbhKbw6C9LejHPNEQz7D44bxr3A\""
+										},
+										{
+											"key": "Date",
+											"value": "Fri, 22 Dec 2023 12:55:38 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": [\n        {\n            \"id\": \"6583e64277a391169b2496bf\",\n            \"verified\": true,\n            \"creator\": true,\n            \"permissions\": [\n                \"read\",\n                \"write\",\n                \"delete\"\n            ],\n            \"access\": \"level_3\",\n            \"company_id\": \"6583e64077a391169b2496bd\",\n            \"client_email\": \"example@gmail.com\",\n            \"created_at\": \"2023-12-21T07:16:18.352Z\",\n            \"updated_at\": \"2023-12-21T07:16:46.377Z\",\n            \"company\": {\n                \"id\": \"6583e64077a391169b2496bd\",\n                \"name\": null,\n                \"status\": \"active\"\n            }\n        }\n    ],\n    \"status\": true,\n    \"message\": \"Ok\"\n}"
 								}
-							],
-							"cookie": [],
-							"body": "{\n    \"data\": [\n        {\n            \"id\": \"6583e64277a391169b2496bf\",\n            \"verified\": true,\n            \"creator\": true,\n            \"permissions\": [\n                \"read\",\n                \"write\",\n                \"delete\"\n            ],\n            \"access\": \"level_3\",\n            \"company_id\": \"6583e64077a391169b2496bd\",\n            \"client_email\": \"example@gmail.com\",\n            \"created_at\": \"2023-12-21T07:16:18.352Z\",\n            \"updated_at\": \"2023-12-21T07:16:46.377Z\",\n            \"company\": {\n                \"id\": \"6583e64077a391169b2496bd\",\n                \"name\": null,\n                \"status\": \"active\"\n            }\n        }\n    ],\n    \"status\": true,\n    \"message\": \"Ok\"\n}"
+							]
 						}
 					]
 				}
@@ -6742,6 +6859,67 @@
 					]
 				}
 			]
+		},
+		{
+			"name": "Test",
+			"item": [
+				{
+					"name": "eq",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"fashanutosin7@gmail.com\",\n    \"password\":\"qwerty12345\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login/admin",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"login",
+								"admin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "req 2",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/Users/john/Downloads/guide_app_logo.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/upload/image",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"upload",
+								"image"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"auth": {
@@ -6787,7 +6965,7 @@
 		},
 		{
 			"key": "access_token",
-			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWFiNGUzZGNmMDcyNWZlNmViZjRjM2QiLCJlbWFpbCI6ImZhc2hhbnV0b3NpbjdAZ21haWwuY29tIiwic2NvcGUiOlsibWFudWFsIl0sInR3b19mYWN0b3JfdHlwZSI6bnVsbCwicGVybWlzc2lvbnMiOlsicmVhZCIsIndyaXRlIiwiZGVsZXRlIl0sInN0YXR1cyI6ImFjdGl2ZSIsImNvbXBhbnlfaWQiOiI2NWEyZjg4ODY4NGFkZDJiYzdhYTYxMmQiLCJvcmdhbml6YXRpb25fdG9rZW5faWQiOiI2NWFiNGEzMWU3ZTczYmYxZmJlYjYxNTMiLCJvcmdhbml6YXRpb25faWQiOiI2NWFiNDhlOGU3ZTczYmYxZmJlYjYxNTIiLCJhY2Nlc3MiOiJsZXZlbF8xIiwiaWF0IjoxNzA1NzI4MjMyLCJleHAiOjE3MDU4MTQ2MzJ9.6PpgCUjSJv4aeDiVk-eXUktSb-5uuzGVPTddAueJLE4",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWJmNzljZTEwNzgwODQ4ZmZmMDE4MzAiLCJlbWFpbCI6ImZhc2hhbnV0b3NpbjdAZ21haWwuY29tIiwic2NvcGUiOlsibWFudWFsIl0sInR3b19mYWN0b3JfdHlwZSI6ImFwcCIsInBlcm1pc3Npb25zIjpbInJlYWQiLCJ3cml0ZSIsImRlbGV0ZSJdLCJzdGF0dXMiOiJhY3RpdmUiLCJjb21wYW55X2lkIjoiU3dheWF1dGgiLCJhY2Nlc3MiOiJsZXZlbF81IiwiaWF0IjoxNzA3NDk3Mzk1LCJleHAiOjE3MDc1ODM3OTV9.IEaTy33ARR6Jjt_bfXMwSLyr4c63j5_qFyQByQlFxbc",
 			"type": "string"
 		},
 		{

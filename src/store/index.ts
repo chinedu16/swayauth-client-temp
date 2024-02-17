@@ -18,6 +18,7 @@ import transactions from './slice/transactions';
 import twoFa from './slice/twoFa';
 import users from './slice/users';
 import wallet from './slice/wallet';
+import subscription from './slice/subscription';
 
 const persistConfig: PersistConfig<any> = {
   key: 'root',
@@ -30,6 +31,7 @@ const reducers = combineReducers({
   wallet,
   account,
   appKey,
+  subscription,
   cards,
   smtp,
   organization,

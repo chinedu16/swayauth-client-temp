@@ -43,6 +43,29 @@ export const usersSlice = createSlice({
   name: "users",
   initialState,
   reducers: {
+    removeAUser: (
+      state: UsersState,
+      action: PayloadAction<string>
+    ) => {
+      if (state.data) {
+        state.data = [...state.data].map(d => ({ ...d })).filter(d => d.id != action.payload);
+      }
+    },
+    updateUsersStatus: (
+      state: UsersState,
+      action: PayloadAction<{ ids: string[], status: 'active' | 'disabled' }>
+    ) => {
+      if (state.data) {
+        const oldData = [...state.data].map(d => ({ ...d }));
+        for (let i = 0; i < action.payload.ids.length; i++) {
+          const foundIndex = oldData.findIndex(d => d.id == action.payload.ids[i]);
+          if (foundIndex > -1) {
+            oldData[foundIndex] = { ...oldData[foundIndex], status: action.payload.status }
+          }
+        }
+        state.data = oldData
+      }
+    },
     updateUsers: (
       state: UsersState,
       action: PayloadAction<UsersState>
@@ -55,6 +78,6 @@ export const usersSlice = createSlice({
   },
 });
 
-export const { updateUsers } = usersSlice.actions;
+export const { updateUsers, removeAUser, updateUsersStatus } = usersSlice.actions;
 
 export default usersSlice.reducer;

@@ -70,6 +70,10 @@ export const CONST = Object.freeze({
       CREATE: '/client/organizations/create',
       DELETE: '/client/organizations',
     },
+    SUBSCRIPTION: {
+      GET: '/subscription',
+      UPGRADE: '/subscription/upgrade'
+    },
     TRANSACTION: {
       LIST: '/client/transactions'
     },

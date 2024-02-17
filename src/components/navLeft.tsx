@@ -6,7 +6,7 @@ const NavLeft = () => {
   return <div className="w-full md:w-[220px] nav-left  transition-all fixed h-[calc(100vh-4rem)] overflow-hidden">
     <div className="h-full w-ful md:w-full flex">
       <div className="py-6 overflow-auto h-full min-w-[220px] bg-white border-r shadow-lg">
-        <NavLink href='/clientarea/'
+        <NavLink href='/clientarea'
           prefetch
           exact
           activeClass='bg-slate-100 border-blue-700 font-bold'
@@ -18,7 +18,7 @@ const NavLeft = () => {
           </span>
           <span className="inline-block">Dashboard</span>
         </NavLink>
-        <NavLink href='/clientarea/customers'
+        <NavLink href='/clientarea/users'
           activeClass='bg-slate-100 border-blue-700 font-bold'
           inActiveClass="border-[transparent]"
           prefetch
@@ -27,7 +27,7 @@ const NavLeft = () => {
           <span className="inline-block w-10">
             <FontAwesomeIcon icon={faAddressBook} className="text-[1.4rem]" />
           </span>
-          <span className="inline-block">Customers</span>
+          <span className="inline-block">Users</span>
         </NavLink>
         <NavLink href='/clientarea/credentials'
           activeClass='bg-slate-100 border-blue-700 font-bold'

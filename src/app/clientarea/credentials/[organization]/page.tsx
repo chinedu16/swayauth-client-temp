@@ -251,7 +251,9 @@ const Company = ({ params }: { params: { organization: string } }) => {
       organization={params.organization}
       isOpen={credModal.open}
       toggle={() => toggleCred(null)} />
+
     <EditOrg getEditOrg={updateData} org={data} isOpen={editModal} toggle={toggleEditCred} />
+
     <AlertAction
       isOpen={deleteModal.open}
       loading={deleteLoading}
@@ -260,6 +262,7 @@ const Company = ({ params }: { params: { organization: string } }) => {
       message={<span>Are you sure you want to <b className="text-red-500">delete</b> token(s)? <br /> This action cannot be undone!!!</span>}
       action={() => deleteTokens(deleteModal.token_ids)}
     />
+
   </div>;
 };
 

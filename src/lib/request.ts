@@ -38,7 +38,7 @@ export const normalRequest = async <T = any>(
 
 export const reduxRequest = <T>(
   url: string,
-  data: { [key: string]: any },
+  data: { [key: string]: any } | null | undefined,
   reduxFunc: (state: AnyReduxState<T>) => {
     payload: AnyReduxState<T>;
     type: string;

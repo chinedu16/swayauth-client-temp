@@ -44,7 +44,7 @@ const Pricing = ({ children }: { children?: ReactNode }) => {
           <div className=" bg-white hover:border-t shadow-sm hover:border-gray-100 hover:shadow-2xl relative transition-all hover:scale-[1.01] p-6 rounded-3xl">
             <h4 className="font-bold text-xl">Standard</h4>
             <p className="text-gray-600 my-3">
-              The Standard subscription includes all of the features of the Basic
+              The Standard subscription includes all of the features of the Free
               subscription, plus the following:
             </p>
             <div>

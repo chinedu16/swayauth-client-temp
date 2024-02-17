@@ -17,7 +17,7 @@ const AlertAction = ({ isOpen, toggle, title, message, loading, action }: { acti
         <div className="p-7 text-center">
           <p>{message}</p>
         </div>
-        <div className="border-t px-4 py-2 flex justify-end">
+        <div className="border-t px-4 py-2 flex justify-between">
           <button onClick={toggle} disabled={loading} className="bg-slate-200 disabled:opacity-60 disabled:bg-slate-300 min-w-[5rem] border py-1 px-4 rounded-md mr-2">
             Cancel
           </button>
