@@ -302,3 +302,35 @@ img {
   font-size: 1.5rem;
   margin: 2.5rem 0 1rem 0;
 }
+
+.article p {
+  margin: 1rem 0;
+}
+
+.article pre {
+  background: #343a40 !important;
+  padding: 1rem 6rem 1rem 1.5rem !important;
+  color: white !important;
+}
+
+.article iframe,
+.article video {
+  background: url("data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4KICA8cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMDAwOWRjMTEiIC8+CiAgPHJlY3QgaWQ9InIiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiMwMDA5YmExMSIgLz4KICA8YW5pbWF0ZSB4bGluazpocmVmPSIjciIgYXR0cmlidXRlTmFtZT0ieCIgZnJvbT0iLTEwMCUiIHRvPSIxMDAlIiBkdXI9IjFzIiByZXBlYXRDb3VudD0iaW5kZWZpbml0ZSIgIC8+Cjwvc3ZnPg==");
+}
+
+.article video {
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .article iframe {
+    min-width: 100% !important;
+    min-height: 400px !important;
+  }
+}
+
+@media (min-width: 1280px) {
+  .article iframe {
+    min-height: 500px !important;
+  }
+}
