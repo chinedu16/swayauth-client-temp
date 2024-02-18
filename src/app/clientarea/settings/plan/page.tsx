@@ -92,8 +92,9 @@ const Plan = () => {
         <h5 className="text-slate-700 text-sm mt-2 font-light">Last Billing Cycle</h5>
         <p >{isClient && !cardsLoading && !walletLoading ? dateLong(data?.created_at) : <span className="inline-block"><SpinnerCircle2 /></span>}</p>
         <h5 className="text-slate-700 text-sm mt-2 font-light">Next Billing Cycle</h5>
-        <p >{isClient && !cardsLoading && !walletLoading ? dateLong(new Date(new Date(data?.created_at as string)?.getTime() +
-          (1000 * 60 * 60 * 24 * 30))?.toISOString()) :
+        <p >{isClient && !cardsLoading && !walletLoading && data?.created_at ?
+          dateLong(new Date(new Date(data?.created_at as string)?.getTime() +
+            (1000 * 60 * 60 * 24 * 30))?.toISOString()) :
           <span className="inline-block"><SpinnerCircle2 /></span>}</p>
       </div>
     </div>

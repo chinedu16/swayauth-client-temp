@@ -12,7 +12,7 @@ const Input = ({ invalid, ...rest }: { invalid?: boolean | string } & ComponentP
     {...rest}
     className={`
     ${rest?.className ? rest?.className : ''}
-    w-full pr-10 focus:outline-1  focus:outline-blue-600 ring-blue-200
+    w-full focus:outline-1  focus:outline-blue-600 ring-blue-200
     ${invalid ? 'ring-red-200 border-red-700 ring-offset-1 ring-2' : ''}
     ${rest?.disabled ? 'bg-slate-100' : ''}
     invalid:[&:not(:placeholder-shown):not(:focus)]:ring-1

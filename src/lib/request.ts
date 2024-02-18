@@ -5,7 +5,7 @@ import { CONST } from "./constant";
 
 export const normalRequest = async <T = any>(
   url: string,
-  data: { [key: string]: any },
+  data: { [key: string]: any } | undefined,
   method: Methods = "post",
   auth: boolean = true,
   head: { [key: string]: any } | null = null

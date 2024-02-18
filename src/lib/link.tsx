@@ -1,3 +1,4 @@
+"use client"
 import { Url } from 'next/dist/shared/lib/router/router';
 import * as LinkExt from 'next/link';
 import NProgress from 'nprogress';

@@ -13,6 +13,14 @@ export const CONST = Object.freeze({
   UPLOAD: {
     IMAGE: '/upload/image'
   },
+  NEWSLETTER: {
+    JOIN: '/subscription/newsletter'
+  },
+  BLOG: {
+    LIST: '/blog',
+    GET_ONE: '/blog',
+    COUNT: '/blog/count'
+  },
   AUTH: {
     MANUAL_LOGIN: '/auth/login/client',
     GET_TWO_FA: '/auth/2fa/list',
