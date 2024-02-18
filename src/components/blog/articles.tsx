@@ -24,7 +24,7 @@ export interface BlogData {
 const getBlogList = async (query?: SearchParams): Promise<ResponseProp<null | BlogData[]> & { total?: number }> => {
   let countRes = { data: Number(query?.count) || 0 }
   if (!query?.count) {
-    countRes = await normalRequest(CONST.BLOG.COUNT, undefined, 'get', false)
+    countRes = await normalRequest(CONST.BLOG.COUNT+'?status=active', undefined, 'get', false)
   }
   const blogRes = await normalRequest(CONST.BLOG.LIST + '?status=active' + (Number(query?.page) ? `&page=${query?.page}` : ''), undefined, 'get', false)
   return { ...blogRes, total: countRes?.data }

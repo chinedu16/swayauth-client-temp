@@ -19,7 +19,7 @@ interface Prop {
 }
 
 const getBlog = async (link: string): Promise<ResponseProp<null | { blog: BlogData, next: BlogData[] }>> => {
-  return await normalRequest(CONST.BLOG.LIST + `/${link}`, undefined, 'get', false)
+  return await normalRequest(CONST.BLOG.LIST + `/${link}?status=active`, undefined, 'get', false)
 }
 const Post = async ({ params: { post } }: Prop) => {
   const { data, status } = await getBlog(post)
