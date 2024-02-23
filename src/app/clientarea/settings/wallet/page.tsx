@@ -17,6 +17,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
+
 let pageTimer: any;
 let newTab: Window | null;
 const Wallet = () => {
@@ -36,6 +37,19 @@ const Wallet = () => {
   useEffect(() => {
     fetchTransactions(changeRouteQuery())
   }, [searchParams]);
+
+  useEffect(() => {
+    window.addEventListener('storage', () => {
+      if (window.localStorage.getItem('reloadWallet') == 'true') {
+        setTimeout(() => {
+          fetchWallet();
+          fetchTransactions('');
+          fetchCards();
+        }, 2000)
+        window.localStorage.removeItem('reloadWallet');
+      }
+    });
+  }, []);
 
   const toggleFundModal = () => setFundModal(!fundModal)
   const toggleDeleteCard = (id: string) => setDeleteCardModal(p => ({ id, open: !p.open }))
@@ -92,22 +106,19 @@ const Wallet = () => {
     const res = await normalRequest<{ authorization_url?: string }>(CONST.COMPANY.WALLET.FUND_WALLET, data);
     toggleFundModal()
     if (res.status && res.data?.authorization_url) {
-      window?.open(res.data.authorization_url, '_blank')?.addEventListener('unload', (e) => {
-        handleCloseEvent(e)
-      });
+      let windowProperties = 'resizable=yes,'
+      if (window.outerWidth > 650) {
+        let left = (screen.width - 600) / 2;
+        let top = (screen.height - 700) / 2;
+        windowProperties += `resizable=yes,width=600,height=700,top=${top},left=${left}`
+      } else {
+        windowProperties += 'fullscreen=yes'
+      }
+      window.open(window.location.origin + `/payment?url=${res.data.authorization_url}`, 'Swayauth Payment', windowProperties)
     } else {
       toast.error(res.message)
     }
     setLoading(false);
-  }
-
-  const handleCloseEvent = (e: Event) => {
-    setTimeout(() => {
-      fetchWallet();
-      fetchTransactions('');
-      fetchCards();
-    }, 10000)
-    e?.target?.removeEventListener('unload', () => null);
   }
 
   const removeCard = async (id: string) => {

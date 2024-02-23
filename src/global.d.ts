@@ -16,3 +16,9 @@ interface AnyReduxState<T = any> {
   message?: string | null;
   data?: T | null;
 }
+
+interface ExtendedWindow {
+  googleInitialize: (url: string, callback: (data: any) => void) => void
+}
+
+interface Window extends ExtendedWindow { }
