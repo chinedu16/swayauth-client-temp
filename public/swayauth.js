@@ -1,5 +1,6 @@
 window.swayauthInitialize =  function swayauthInitialize (url, buttonID, callback) {
-  const baseUrl = 'https://swayauth.com'
+  const baseUrl = 'https://localhost:3000'
+  // const baseUrl = 'https://swayauth.com'
   const origin = window.location.origin
   const button = document.getElementById(buttonID);
   if (!button) return callback({ status: false, message: 'Unhandled button exception', data: null })

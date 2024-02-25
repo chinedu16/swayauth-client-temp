@@ -4,11 +4,14 @@ import { SpinnerCircle2 } from "@/components/spinner";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-const Social = ({ searchParams }: { searchParams: { status: 'true' | 'false', message: string, origins?: string } }) => {
+const Social = () => {
   const [error, setError] = useState<boolean | null>(null);
 
   useEffect(() => {
+    const searchParams = Object.fromEntries(new URLSearchParams(location.search)) as { status: 'true' | 'false', message: string, origins?: string }
+    console.log(searchParams)
     setError(!searchParams?.origins)
+    console.log(window.opener)
     if (window.opener) {
       window.opener.postMessage({
         body: searchParams,
