@@ -18,7 +18,7 @@ interface AnyReduxState<T = any> {
 }
 
 interface ExtendedWindow {
-  googleInitialize: (url: string, callback: (data: any) => void) => void
+  swayauthInitialize: (url: string, buttonID: string, callback: (data: any) => void) => void
 }
 
 interface Window extends ExtendedWindow { }

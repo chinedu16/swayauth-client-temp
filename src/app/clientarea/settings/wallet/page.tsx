@@ -19,7 +19,6 @@ import toast from "react-hot-toast";
 
 
 let pageTimer: any;
-let newTab: Window | null;
 const Wallet = () => {
   const router = useRouter()
   const pathname = usePathname()
@@ -248,7 +247,7 @@ const Wallet = () => {
                         </div>
                       </td>
                       <td scope="row" className="px-6 pt-4 whitespace-nowrap">
-                        <div className="whitespace-nowrap">
+                        <div className="whitespace-nowrap capitalize">
                           {item?.purpose}
                         </div>
                       </td>

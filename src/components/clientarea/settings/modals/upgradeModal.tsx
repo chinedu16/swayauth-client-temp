@@ -6,15 +6,28 @@ import { FormData } from "@/lib/form";
 import Link from "@/lib/link";
 import { normalRequest } from "@/lib/request";
 import useSubscription from "@/store/hooks/subscription";
+import useWallet from "@/store/hooks/wallet";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 const UpgradeSubscriptionModal = ({ isOpen, toggle, }: { isOpen: boolean, toggle: () => void }) => {
   const [payOption, setPayOption] = useState({ open: false, option: '' });
   const { fetchSubscription } = useSubscription(false)
+  const { fetchWallet } = useWallet(false);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    window.addEventListener('storage', () => {
+      if (window.localStorage.getItem('reloadWallet') == 'true') {
+        setTimeout(() => {
+          fetchSubscription()
+        }, 2000)
+        window.localStorage.removeItem('reloadWallet');
+      }
+    });
+  }, []);
 
   const toggleOption = (opt?: 'standard' | 'premium') => {
     if (loading) return
@@ -30,25 +43,28 @@ const UpgradeSubscriptionModal = ({ isOpen, toggle, }: { isOpen: boolean, toggle
     setLoading(false);
     if (res.status) {
       if (data.payWith == 'paystack') {
-        window?.open(res.data.authorization_url, '_blank')?.addEventListener('unload', (e) => {
-          handleCloseEvent(e)
-        });
+        let windowProperties = 'resizable=yes,'
+        if (window.outerWidth > 650) {
+          let left = (screen.width - 600) / 2;
+          let top = (screen.height - 700) / 2;
+          windowProperties += `resizable=yes,width=600,height=700,top=${top},left=${left}`
+        } else {
+          windowProperties += 'fullscreen=yes'
+        }
+        window.open(window.location.origin + `/payment?url=${res.data.authorization_url}`, 'Swayauth Payment', windowProperties)
       }
       toggleOption()
       toggle()
+      setTimeout(() => {
+        fetchSubscription()
+        if (data.payWith == 'wallet') {
+          fetchWallet();
+        }
+      }, 1000)
     } else {
       toggleOption()
       toast.error(res.message as string)
     }
-  }
-
-  const handleCloseEvent = (e: Event) => {
-    toast.success('Subscription plan is processing...')
-    setTimeout(() => {
-      //fetch sub again
-      fetchSubscription()
-    }, 10000)
-    e?.target?.removeEventListener('unload', () => null);
   }
 
   return <Modal isOpen={isOpen} toggle={toggle} center size="max-w-2xl">
@@ -87,7 +103,7 @@ const UpgradeSubscriptionModal = ({ isOpen, toggle, }: { isOpen: boolean, toggle
               <div>
                 <h4 className="font-bold text-xl">Premium</h4>
                 <div className="mt-3">
-                  <span className="inline-block font-bold text-3xl">₦10,000</span>
+                  <span className="inline-block font-bold text-3xl">₦30,000</span>
                   <span className="inline-block ml-1 text-sm">
                     / Per Month
                   </span>
