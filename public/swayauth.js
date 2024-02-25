@@ -1,4 +1,4 @@
-window.swayauthInitialize = function (url, buttonID, callback) {
+window.swayauthInitialize =  function swayauthInitialize (url, buttonID, callback) {
   const baseUrl = 'https://swayauth.com'
   const origin = window.location.origin
   const button = document.getElementById(buttonID);
