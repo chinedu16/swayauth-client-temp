@@ -9,36 +9,49 @@ const Social = () => {
 
   useEffect(() => {
     try {
+      window.opener.postMessage('TaskComplete', 'http://localhost:3000');
+    } catch (error: any) {
+      console.log(error);
+    }
+    try {
       window.parent.postMessage('TaskComplete', '*');
     } catch (error: any) {
-
+      console.log(error);
     }
     try {
       window.parent.localStorage.setItem('trial', 'trial');
     } catch (error: any) {
+      console.log(error);
 
     }
     try {
       window.opener.localStorage.setItem('trial', 'trial');
     } catch (error: any) {
 
+      console.log(error);
     }
     try {
       window.opener.postMessage('TaskComplete', '*');
     } catch (error: any) {
-
+      console.log(error);
     }
-    const searchParams = Object.fromEntries(new URLSearchParams(location.search)) as { status: 'true' | 'false', message: string, origins?: string }
-    setError(!searchParams?.origins)
-    console.log(window.opener)
-    window.opener.postMessage('TestComplete', '*');
-    if (window.opener) {
-      console.log(searchParams);
-      (window.opener || window.parent).postMessage({
-        body: searchParams,
-        title: "SWAYAUTH-SOCIAL-AUTHENTICATION"
-      }, '*');
-      setError(null)
+    try {
+      const searchParams = Object.fromEntries(new URLSearchParams(location.search)) as { status: 'true' | 'false', message: string, origins?: string }
+      setError(!searchParams?.origins)
+      console.log(window.opener)
+      window.opener.postMessage('TestComplete', '*');
+      if (window.opener) {
+        console.log(searchParams);
+        (window.opener || window.parent).postMessage({
+          body: searchParams,
+          title: "SWAYAUTH-SOCIAL-AUTHENTICATION"
+        }, '*');
+        setError(null)
+      }
+
+    } catch (error: any) {
+      console.log(error);
+
     }
   }, []);
 
