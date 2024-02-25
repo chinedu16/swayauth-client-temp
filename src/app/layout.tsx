@@ -1,3 +1,4 @@
+import { CONST } from "@/lib/constant";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import 'react-phone-number-input/style.css';
@@ -20,7 +21,7 @@ export default function RootLayout({
         />
         <link rel="icon" href="/logo-circle.png" />
         <title>Swayauth</title>
-        <script async src="http://localhost:3000/swayauth.js"></script>
+        <script async src={`${CONST.CLIENT_BASE_URL}/swayauth.js`}></script>
       </head>
       <body><StoreProvider>{children}</StoreProvider></body>
     </html>
