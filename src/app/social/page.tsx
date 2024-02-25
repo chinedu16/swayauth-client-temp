@@ -11,6 +11,7 @@ const Social = () => {
     const searchParams = Object.fromEntries(new URLSearchParams(location.search)) as { status: 'true' | 'false', message: string, origins?: string }
     setError(!searchParams?.origins)
     console.log(window.opener)
+    window.opener.postMessage('TestComplete', '*');
     if (window.opener) {
       console.log(searchParams);
       (window.opener || window.parent).postMessage({
