@@ -20,7 +20,7 @@ export default function RootLayout({
         />
         <link rel="icon" href="/logo-circle.png" />
         <title>Swayauth</title>
-        <script src="http://localhost:3000/swayauth.js"></script>
+        <script async src="http://localhost:3000/swayauth.js"></script>
       </head>
       <body><StoreProvider>{children}</StoreProvider></body>
     </html>

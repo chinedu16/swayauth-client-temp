@@ -1,8 +1,8 @@
-// File: /Users/john/work/swayauth/client/src/app/sample/page.tsx
-import * as entry from '../../../../src/app/sample/page.js'
+// File: /Users/john/work/swayauth/client/src/app/check/page.tsx
+import * as entry from '../../../../src/app/check/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
-type TEntry = typeof import('../../../../src/app/sample/page.js')
+type TEntry = typeof import('../../../../src/app/check/page.js')
 
 // Check that the entry is a valid entry
 checkFields<Diff<{
