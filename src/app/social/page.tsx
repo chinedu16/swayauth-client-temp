@@ -9,11 +9,11 @@ const Social = () => {
 
   useEffect(() => {
     const searchParams = Object.fromEntries(new URLSearchParams(location.search)) as { status: 'true' | 'false', message: string, origins?: string }
-    console.log(searchParams)
     setError(!searchParams?.origins)
     console.log(window.opener)
     if (window.opener) {
-      window.opener.postMessage({
+      console.log(searchParams);
+      (window.opener || window.parent).postMessage({
         body: searchParams,
         title: "SWAYAUTH-SOCIAL-AUTHENTICATION"
       }, '*');

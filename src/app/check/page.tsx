@@ -1,9 +1,15 @@
 "use client";
 import { CONST } from "@/lib/constant";
 import Script from "next/script";
+import { useEffect } from "react";
 
 const CheckPage = () => {
 
+  useEffect(() => {
+    window.onmessage = (event) => {
+      console.log(event);
+    }
+  }, []);
   return <main className="h-screen text-center w-screen flex items-center justify-center">
     <div>
       <Script
