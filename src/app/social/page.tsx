@@ -9,33 +9,6 @@ const Social = () => {
 
   useEffect(() => {
     try {
-      window.opener.postMessage('TaskComplete-opener', 'http://localhost:3000');
-    } catch (error: any) {
-      console.log(error);
-    }
-    try {
-      window.parent.postMessage('TaskComplete-parent', '*');
-    } catch (error: any) {
-      console.log(error);
-    }
-    try {
-      window.parent.localStorage.setItem('trial-parent', 'trial');
-    } catch (error: any) {
-      console.log(error);
-
-    }
-    try {
-      window.opener.localStorage.setItem('trial-opener', 'trial');
-    } catch (error: any) {
-
-      console.log(error);
-    }
-    try {
-      window.opener.postMessage('TaskComplete-opener*', '*');
-    } catch (error: any) {
-      console.log(error);
-    }
-    try {
       const searchParams = Object.fromEntries(new URLSearchParams(location.search)) as { status: 'true' | 'false', message: string, origins?: string }
       setError(!searchParams?.origins)
       console.log(window.opener)
@@ -48,11 +21,7 @@ const Social = () => {
         }, '*');
         setError(null)
       }
-
-    } catch (error: any) {
-      console.log(error);
-
-    }
+    } catch (error: any) { }
   }, []);
 
   return <div className="flex items-center justify-center h-screen">
