@@ -8,6 +8,26 @@ const Social = () => {
   const [error, setError] = useState<boolean | null>(null);
 
   useEffect(() => {
+    try {
+      window.parent.postMessage('TaskComplete', '*');
+    } catch (error: any) {
+
+    }
+    try {
+      window.parent.localStorage.setItem('trial', 'trial');
+    } catch (error: any) {
+
+    }
+    try {
+      window.opener.localStorage.setItem('trial', 'trial');
+    } catch (error: any) {
+
+    }
+    try {
+      window.opener.postMessage('TaskComplete', '*');
+    } catch (error: any) {
+
+    }
     const searchParams = Object.fromEntries(new URLSearchParams(location.search)) as { status: 'true' | 'false', message: string, origins?: string }
     setError(!searchParams?.origins)
     console.log(window.opener)

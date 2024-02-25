@@ -8,7 +8,6 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 3000",
-    "run":"npm run prod && git add . & git commit -m \"all\" && git push && npm start",
     "build": "echo pre-built",
     "start": "next start -p 3000",
     "lint": "next lint",
