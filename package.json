@@ -14,6 +14,7 @@
     "build": "echo pre-built",
     "start": "next start -p 3000",
     "lint": "next lint",
+    "preprod": "del-cli --force ./.next",
     "prod": "next build",
     "postprod": "del-cli --force ./.next/cache"
   },
