@@ -6,9 +6,9 @@ import { useEffect } from "react";
 const CheckPage = () => {
 
   useEffect(() => {
-    window.onmessage = (event) => {
+    window.addEventListener('message', (event)=> {
       console.log(event);
-    }
+    })
   }, []);
   return <main className="h-screen text-center w-screen flex items-center justify-center">
     <div>
