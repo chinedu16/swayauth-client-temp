@@ -34,7 +34,7 @@ const Post = async ({ params: { post } }: Prop) => {
           <h1 className="text-4xl font-bold mb-3">{data?.blog?.title}</h1>
           <p className="text-lg">{data?.blog?.sub_title}</p>
           <div className="my-10">
-            <Image src={data?.blog?.photo || '/placeholder.png'} width={930} height={852} alt="" />
+            <Image src={data?.blog?.photo || '/placeholder.png'} className="rounded-lg" width={1000} height={1000} alt="" />
           </div>
           <PostParser post={data?.blog?.content} />
           <Blogs data={data?.next} />

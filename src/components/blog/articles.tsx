@@ -24,7 +24,7 @@ export interface BlogData {
 const getBlogList = async (query?: SearchParams): Promise<ResponseProp<null | BlogData[]> & { total?: number }> => {
   let countRes = { data: Number(query?.count) || 0 }
   if (!query?.count) {
-    countRes = await normalRequest(CONST.BLOG.COUNT+'?status=active', undefined, 'get', false)
+    countRes = await normalRequest(CONST.BLOG.COUNT + '?status=active', undefined, 'get', false)
   }
   const blogRes = await normalRequest(CONST.BLOG.LIST + '?status=active' + (Number(query?.page) ? `&page=${query?.page}` : ''), undefined, 'get', false)
   return { ...blogRes, total: countRes?.data }
@@ -48,8 +48,8 @@ const Articles = async ({ s: { page = '1', count } }: { s: SearchParams }) => {
                   {item.sub_title}
                 </p>
               </div>
-              <div className="w-full md:w-5/12 md:px-6">
-                <Image src={item.photo || '/placeholder.png'} width={930} height={852} alt="" />
+              <div className="w-full border aspect-square md:w-5/12 rounded-lg overflow-hidden">
+                <Image src={item.photo || '/placeholder.png'} className="object-cover h-full w-full" width={500} height={500} alt="" />
               </div>
             </div>
 
