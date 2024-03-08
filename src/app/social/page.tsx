@@ -11,11 +11,8 @@ const Social = () => {
     try {
       const searchParams = Object.fromEntries(new URLSearchParams(location.search)) as { status: 'true' | 'false', message: string, origins?: string }
       setError(!searchParams?.origins)
-      console.log(window.opener)
-      window.opener.postMessage('TestComplete-last', '*');
       if (window.opener) {
-        console.log(searchParams);
-        (window.opener || window.parent).postMessage({
+        window.opener.postMessage({
           body: searchParams,
           title: "SWAYAUTH-SOCIAL-AUTHENTICATION"
         }, '*');
