@@ -15,7 +15,7 @@ const Nav = ({
 }) => {
 
   return (
-    <div className={`fixed w-full  transition-all lg:sticky z-50 top-0 w-100 ${bg}`}>
+    <nav className={`fixed w-full  transition-all lg:sticky z-50 top-0 w-100 ${bg}`}>
       <div className={`${maxWidth} px-5 md:px-10 py-4 items-center lg:flex justify-between mx-auto`}>
         <div className="flex items-center justify-between">
           <NavLink href='/' className="w-[2.5rem] h-[2.5rem] flex items-center">
@@ -66,7 +66,7 @@ const Nav = ({
         </div>
         <AuthButtons />
       </div>
-    </div>
+    </nav>
   );
 };
 

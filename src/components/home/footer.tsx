@@ -15,7 +15,7 @@ import Link from "next/link";
 
 const Footer = () => {
   return (
-    <div className="mt-16 pt-16">
+    <footer className="mt-16 pt-16">
       <div className="flex flex-wrap">
         <div className="w-full flex justify-between md:block md:w-4/12">
           <div className="max-w-[7rem]">
@@ -109,7 +109,7 @@ const Footer = () => {
           @{new Date().getFullYear()} SwayAuth. All Rights Reserved
         </div>
       </div>
-    </div>
+    </footer>
   );
 };
 
