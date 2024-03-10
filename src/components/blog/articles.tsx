@@ -38,8 +38,8 @@ const Articles = async ({ s: { page = '1', count } }: { s: SearchParams }) => {
       {
         status && data?.length ?
           data?.map((item, idx) =>
-            <div className="flex flex-wrap-reverse mb-20" key={idx}>
-              <div className="w-full md:w-7/12">
+            <div className="flex flex-wrap-reverse mb-28" key={idx}>
+              <div className="w-full md:w-7/12 md:pr-10">
                 <p className="text-slate-500 mb-4">{dateLong(item.created_at)}</p>
                 <Link href={`/blog/${item.url}`} className="text-2xl md:text-3xl mb-4 font-bold underline-offset-4 underline block">
                   {item.title}
@@ -60,10 +60,10 @@ const Articles = async ({ s: { page = '1', count } }: { s: SearchParams }) => {
       }
     </div>
     <div className="text-center">
-      <Link href={`/blog?page=${Number(page) > 1 ? Number(page) - 1 : page}&count=${total}`}><FontAwesomeIcon icon={faChevronLeft} className="px-4 py-3 bg-blue-700 text-white" /></Link>
+      <Link href={`/blog?page=${Number(page) > 1 ? Number(page) - 1 : page}&count=${total}`}><FontAwesomeIcon icon={faChevronLeft} className="px-4 py-3 bg-blue-700 rounded-md text-white" /></Link>
       <span className="inline-block mx-2"></span>
       <Link href={`/blog?page=${(((data?.length || 0) == 10) && ((total || 0) > (Number(page) * 10))) ? Number(page) + 1 : page
-        }&count=${total}`}><FontAwesomeIcon icon={faChevronRight} className="px-4 py-3 bg-blue-700 text-white" /></Link>
+        }&count=${total}`}><FontAwesomeIcon icon={faChevronRight} className="px-4 py-3 bg-blue-700 rounded-md text-white" /></Link>
     </div>
 
   </div>;

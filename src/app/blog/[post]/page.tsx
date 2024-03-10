@@ -30,10 +30,10 @@ const Post = async ({ params: { post } }: Prop) => {
       <Nav />
       <div className="max-w-7xl px-5 mt-14 md:px-10 mx-auto">
         <div className="pt-16">
-          <div className="text-right">{dateLong(data?.blog?.created_at)}</div>
+          <div className="text-right mb-8">{dateLong(data?.blog?.created_at)}</div>
           <h1 className="text-4xl font-bold mb-3">{data?.blog?.title}</h1>
           <p className="text-lg">{data?.blog?.sub_title}</p>
-          <div className="my-10">
+          <div className="my-16 max-w-screen-sm">
             <Image src={data?.blog?.photo || '/placeholder.png'} className="rounded-lg" width={1000} height={1000} alt="" />
           </div>
           <PostParser post={data?.blog?.content} />

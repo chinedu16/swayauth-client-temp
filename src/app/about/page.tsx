@@ -16,7 +16,7 @@ const About = () => {
       </div>
       <div className="max-w-7xl px-5 md:px-10 mx-auto">
         <Info />
-        <TrustedBy />
+        {/* <TrustedBy /> */}
       </div>
       <div className="linear-blue-1">
         <div className="max-w-7xl px-5 md:px-10 mx-auto">
