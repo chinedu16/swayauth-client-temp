@@ -3,7 +3,7 @@ import Input from '@/components/input';
 import FormButton from '@/components/onboarding/button';
 import Success from '@/components/onboarding/success';
 import { CONST } from '@/lib/constant';
-import { socialAuth, handleRegisterForm } from '@/lib/server/form';
+import { handleRegisterForm, socialAuth } from '@/lib/server/form';
 import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
@@ -25,6 +25,7 @@ const SignUp = () => {
       setMessage(state.message)
     }
   }, [state]);
+
 
   const handleChange = () => {
     setMessage('')
@@ -138,7 +139,7 @@ const SignUp = () => {
               message && <small>* {message}</small>
             }
           </div>
-          <div className='mb-4'>
+          <div onClick={()=>setMessage('')} className='mb-4'>
             <FormButton title='Create account' />
           </div>
           <div className='mt-6 text-center'>

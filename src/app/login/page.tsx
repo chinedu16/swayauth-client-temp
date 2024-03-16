@@ -128,7 +128,7 @@ const Login = () => {
               }
             </div>
           </div>
-          <div className='mb-4'>
+          <div onClick={()=>setMessage('')} className='mb-4'>
             <FormButton title='Login' />
           </div>
           <div className='mt-6 text-center'>
