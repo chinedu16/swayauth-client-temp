@@ -1,4 +1,5 @@
 "use client"
+import AlertAction from "@/components/alert";
 import AddTeam from "@/components/clientarea/settings/modals/addTeam";
 import App2factorEable from "@/components/clientarea/settings/modals/app2FactorEnable";
 import ConfigureEmail from "@/components/clientarea/settings/modals/configureEmail";
@@ -38,9 +39,10 @@ interface TwoFactor {
 const Settings = () => {
   const [isPending, startTransition] = useTransition()
   const [isClient, setIsClient] = useState(false)
+  const [removeSmtp, setRemoveSmtp] = useState(false);
   const [twoFaTypeModal, setTwoFaTypeModal] = useState(false);
   const { data: team, loading: teamLoading } = useTeam()
-  const { data: smtp, loading: smtpLoading } = useSmtp()
+  const { data: smtp, loading: smtpLoading, fetchSmtp, updateSmtpStatus } = useSmtp()
   const { data: twoFa } = useTwoFa()
   const { data, loading, updateClientProfile } = useAccount()
   const [visiblePassoword, setVisiblePassoword] = useState(false);
@@ -58,6 +60,7 @@ const Settings = () => {
     team: false,
     profile: false,
     photo: false,
+    smtp: false,
     password: false,
     member: false,
   });
@@ -77,11 +80,12 @@ const Settings = () => {
     }
   }, [data]);
 
-  const setLoading = (key: 'photo' | 'team' | 'twoFactor' | 'profile' | 'password' | 'member', value: boolean) => {
+  const setLoading = (key: 'photo' | 'team' | 'smtp' | 'twoFactor' | 'profile' | 'password' | 'member', value: boolean) => {
     setLoaders(p => ({ ...p, [key]: value }))
   }
 
   const toggleModal = () => setModal(!modal)
+  const toggleRemoveSmtp = () => setRemoveSmtp(!removeSmtp)
   const toggleEmailModal = () => setEmailModal(!emailModal)
 
   const toggle2Auth = () => {
@@ -197,12 +201,24 @@ const Settings = () => {
     }
   }
 
+  const deleteSmtpSetup = async () => {
+    setLoading('smtp', true)
+    const res = await normalRequest(CONST.COMPANY.SMTP.DELETE, undefined, 'delete');
+    setLoading('smtp', false)
+    if (res.status) {
+      updateSmtpStatus({ verified: false })
+      fetchSmtp()
+      toggleRemoveSmtp();
+    } else {
+      toast.error(res.message as string)
+    }
+  }
+
   const changeTeamStatus = (team: TeamData) => {
     const status = team.status == 'disabled' ? 'active' : 'disabled'
   }
 
   console.log(data)
-
   return <div>
     <div className="flex flex-wrap justify-between items-end shadow-md rounded-lg bg-white mt-8 p-6">
       <form onSubmit={handleAccountForm} className="w-full lg:w-6/12 lg:pr-6">
@@ -451,18 +467,26 @@ const Settings = () => {
           <h4 className="text-lg sm:text-xl font-semibold">
             SMTP Setup
           </h4>
-          <button
-            disabled={smtpLoading}
-            onClick={toggleEmailModal}
-            className="text-white inline-flex justify-center items-center min-w-[6rem] bg-blue-600 active:[&:not(:disabled)]:bg-blue-700 disabled:bg-blue-500 py-1 rounded-md">
+          <div>
+            <button
+              disabled={smtpLoading}
+              onClick={toggleEmailModal}
+              className="text-white inline-flex justify-center items-center min-w-[6rem] bg-blue-600 active:[&:not(:disabled)]:bg-blue-700 disabled:bg-blue-500 py-1 rounded-md">
+              {
+                smtpLoading ?
+                  <span className='inline-block py-[0.5px]'>
+                    <SpinnerCircle2 size="sm" color='white' />
+                  </span> :
+                  <span className="inline-block">Configure</span>
+              }
+            </button>
             {
-              smtpLoading ?
-                <span className='inline-block py-[0.5px]'>
-                  <SpinnerCircle2 size="sm" color='white' />
-                </span> :
-                <span className="inline-block">Configure</span>
+              smtp?.verified ?
+                <button onClick={toggleRemoveSmtp} disabled={loaders.smtp} className="bg-red-500 text-white  rounded-md py-1 px-3 ml-3">
+                  <FontAwesomeIcon icon={faTrash} />
+                </button> : null
             }
-          </button>
+          </div>
         </div>
       </div>
       <div className="px-6 font-semibold text-left w-full flex justify-between">
@@ -674,6 +698,14 @@ const Settings = () => {
       toggle={toggle2Auth}
     />
     <ConfigureEmail title="Email Configuration" isOpen={emailModal} toggle={toggleEmailModal} />
+    <AlertAction
+      isOpen={removeSmtp}
+      loading={loaders.smtp}
+      title="Delete SMTP"
+      toggle={toggleRemoveSmtp}
+      message={<span>Are you sure you want to <b className="text-red-500">delete</b> smtp setup? <br /> This action cannot be undone!!!</span>}
+      action={deleteSmtpSetup}
+    />
     <Modal isOpen={twoFaTypeModal} toggle={toggle2faTypes} center size="max-w-sm">
       <div className="mx-auto transition w-full items-center justify-center flex" >
         <div className="bg-white rounded-md w-full">

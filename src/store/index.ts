@@ -21,9 +21,9 @@ import wallet from './slice/wallet';
 import subscription from './slice/subscription';
 
 const persistConfig: PersistConfig<any> = {
-  key: 'root',
+  key: 'swayauth.com',
   storage,
-  whitelist: ['account', 'appKey', 'smtp', 'twoFa'],
+  whitelist: ['account', 'appKey', 'twoFa'],
 };
 
 const reducers = combineReducers({

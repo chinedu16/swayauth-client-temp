@@ -72,7 +72,7 @@ const NavTop = () => {
           <PreloadImage src={data?.photo || '/avatar-2.png'} className="object-cover" />
         </DropDown.Toggle>
         <DropDown.Body className="inline-block right-0 top-[calc(100%+0.5rem)] min-w-[10rem]">
-          <ul className="py-2 dark:text-gray-200 bg-black rounded-md">
+          <ul className="py-2  bg-black rounded-md">
             <li onClick={toggleSwitchAccount} className="flex relative z-30 items-center justify-between px-4 py-2 text-white hover:bg-gray-600 cursor-pointer">
               <span>
                 <FontAwesomeIcon icon={faRepeat} className="w-[1rem]" />
@@ -120,7 +120,7 @@ const NavTop = () => {
                 {
                   assocData?.length ?
                     assocData.map((item, idx) =>
-                      <option key={idx} value={item.company_id}>{item.company?.name} {item.creator ? '(owner)' : null} {item.company_id == data?.company?.id ? ' - current' : null}</option>
+                      <option key={idx} value={item.company_id}>{item.company?.name} {item.creator ? '(owner)' : null} {item.company_id == data?.company?.id ? ' - active' : null}</option>
                     ) :
                     <option value="Lagos">--Select aaccount--</option>
                 }

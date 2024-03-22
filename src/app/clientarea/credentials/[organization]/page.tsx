@@ -121,14 +121,14 @@ const Company = ({ params }: { params: { organization: string } }) => {
                 <FontAwesomeIcon icon={faEllipsisV} className="text-2xl" />
               </DropDown.Toggle>
               <DropDown.Body className="inline-block right-0 sm:left-auto sm:right-0 top-[calc(100%+0.5rem)] min-w-[10rem] text-base font-normal">
-                <ul className="py-2 text-gray-700 dark:text-gray-200 bg-black rounded-md">
+                <ul className="py-2 text-gray-200  bg-black rounded-md">
                   <li onClick={() => {
                     if (!deleteModal.token_ids.length) {
                       toast.error('Please mark tokens to proceed.');
                     } else {
                       toggleDeleteTokens()
                     }
-                  }} className="block px-4 py-2 hover:bg-gray-100 cursor-pointer dark:hover:bg-gray-600 dark:hover:text-white">
+                  }} className="block px-4 py-2 hover:bg-gray-100 cursor-pointer ">
                     <FontAwesomeIcon icon={faTrash} className="w-[1rem]" />
                     <span className="ml-3">Delete</span>
                   </li>

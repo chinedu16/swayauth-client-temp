@@ -62,15 +62,15 @@ const ViewUserModal = ({ isOpen, toggle, data }: { isOpen: boolean, data?: null 
             </div>
             <div className="flex mt-3 capitalize justify-between">
               <span className="inline-block pr-5">Scope:</span>
-              <span>({data?.scope?.join(', ')})</span>
+              <span>{data?.scope?.join(', ') ? `(${data?.scope?.join(', ')})` : 'N/A'}</span>
             </div>
             <div className="flex mt-3 capitalize justify-between">
               <span className="inline-block pr-5">Permission:</span>
-              <span>({data?.permissions?.join(', ')})</span>
+              <span>{data?.permissions?.join(', ') ? `(${data?.permissions?.join(', ')})` : 'N/A'}</span>
             </div>
             <div className="flex mt-3 capitalize justify-between">
               <span className="inline-block pr-5">Two Factor Type:</span>
-              <span>({data?.two_factor_type})</span>
+              <span>{data?.two_factor_type ? `(${data?.two_factor_type})` : 'N/A'}</span>
             </div>
             <div className="flex mt-3 justify-between">
               <span className="inline-block pr-5">Organization ID:</span>

@@ -256,12 +256,12 @@ const Customer = () => {
               <FontAwesomeIcon icon={faEllipsisV} className="text-2xl" />
             </DropDown.Toggle>
             <DropDown.Body className="inline-block right-0 top-[calc(100%+0.5rem)] min-w-[10rem] text-base font-normal">
-              <ul className="py-2 text-gray-700 dark:text-gray-200 bg-black rounded-md">
-                <li onClick={() => activateUsers()} className="block px-4 py-2 hover:bg-gray-100 cursor-pointer dark:hover:bg-gray-600 dark:hover:text-white">
+              <ul className="py-2 text-gray-200 bg-black rounded-md">
+                <li onClick={() => activateUsers()} className="block px-4 py-2 hover:bg-gray-100 cursor-pointer ">
                   <FontAwesomeIcon icon={faBolt} className="w-[1rem]" />
                   <span className="ml-3">Activate</span>
                 </li>
-                <li onClick={() => deactivateUsers()} className="block px-4 py-2 hover:bg-gray-100 cursor-pointer dark:hover:bg-gray-600 dark:hover:text-white">
+                <li onClick={() => deactivateUsers()} className="block px-4 py-2 hover:bg-gray-100 cursor-pointer ">
                   <FontAwesomeIcon icon={faBan} className="w-[1rem]" />
                   <span className="ml-3">Deactivate</span>
                 </li>
@@ -318,6 +318,9 @@ const Customer = () => {
                         : 'opacity-40'} />
                   </button>
                 </div>
+              </th>
+              <th scope="col" className="px-4 py-3">
+                Verified
               </th>
               <th scope="col" className="px-4 py-3">
                 Organisation
@@ -377,6 +380,13 @@ const Customer = () => {
                       <td scope="row" className="px-4 pt-2 whitespace-nowrap">
                         <div className="whitespace-nowrap">
                           {item.email}
+                        </div>
+                      </td>
+                      <td scope="row" className="px-4 pt-2 whitespace-nowrap">
+                        <div className="whitespace-nowrap">
+                          <small className={`inline-block capitalize px-3 ${item.verified ? 'bg-green-600' : 'bg-red-600'} text-white rounded-md`}>
+                            {String(item.verified)}
+                          </small>
                         </div>
                       </td>
                       <td scope="row" className="px-4 pt-2 whitespace-nowrap">

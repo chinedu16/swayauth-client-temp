@@ -11,17 +11,21 @@ const useSmtp = (auto = true) => {
     useEffect(() => {
         if (auto) {
             if (loading === 'false' && data === null) {
-                http(reduxRequest(CONST.COMPANY.SMTP.DETAIL, {}, updateSmtp, 'get'))
+                fetchSmtp()
             }
         }
     }, []);
+
+    const fetchSmtp = () => {
+        http(reduxRequest(CONST.COMPANY.SMTP.DETAIL, {}, updateSmtp, 'get'))
+    }
 
     const updateSmtpStatus = (data?: SmtpData | null) => {
         if (data)
             http(updateSmtp({ data }))
     }
 
-    return { loading: loading == 'true', data, message, status, updateSmtpStatus }
+    return { loading: loading == 'true', data, message, status, updateSmtpStatus, fetchSmtp }
 }
 
 export default useSmtp;

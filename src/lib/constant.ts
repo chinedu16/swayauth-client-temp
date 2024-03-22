@@ -56,6 +56,7 @@ export const CONST = Object.freeze({
       LOGO: '/client/mail/photo',
       SETUP: '/client/mail/setup',
       UPDATE: '/client/mail/update',
+      DELETE: '/client/mail/delete',
       VERIFY: '/client/mail/verify',
     },
     USERS: {
