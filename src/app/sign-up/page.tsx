@@ -4,6 +4,7 @@ import FormButton from '@/components/onboarding/button';
 import Success from '@/components/onboarding/success';
 import { CONST } from '@/lib/constant';
 import { handleRegisterForm, socialAuth } from '@/lib/server/form';
+import { LoginProp } from '@/lib/types';
 import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
@@ -16,7 +17,7 @@ const SignUp = () => {
   const [successMessage, setSuccessMessage] = useState(false);
   const [message, setMessage] = useState('');
   const [visiblePassoword, setVisiblePassoword] = useState(false);
-  const [state, formAction] = useFormState(handleRegisterForm, { status: false, message: '', data: null })
+  const [state, formAction] = useFormState<Promise<ResponseProp<LoginProp | null>>, any>(handleRegisterForm, { status: false, message: '', data: null })
 
   useEffect(() => {
     if (state.status) {
@@ -45,7 +46,7 @@ const SignUp = () => {
   }
 
   return (
-    <main className="flex justify-center items-center p-2 py-24 md:p-12" style={{ height: '100svh' }}>
+    <main className="flex justify-center items-center p-2 min-h-[100svh] py-24 md:p-12">
       <div className="max-w-xl w-full">
         <Link href='/' className='inline-block mb-4 mx-4'>
           <div className='md:inline-flex items-center hidden'>
@@ -139,7 +140,7 @@ const SignUp = () => {
               message && <small>* {message}</small>
             }
           </div>
-          <div onClick={()=>setMessage('')} className='mb-4'>
+          <div onClick={() => setMessage('')} className='mb-4'>
             <FormButton title='Create account' />
           </div>
           <div className='mt-6 text-center'>

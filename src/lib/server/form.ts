@@ -4,10 +4,28 @@ import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { CONST } from "../constant";
 import { formRequest, normalRequest } from "../request";
-import { LoginProp } from "../types";
+import { LoginProp, SearchParamsProp } from "../types";
 
-export const handleLoginform = async (_: any, e: FormData): Promise<ResponseProp<LoginProp | null>> => {
-  const data = { email: e.get('email'), password: e.get('password') }
+
+export const handleResetPassword = async (initData: ResponseProp<SearchParamsProp | null>, e: FormData) => {
+  const password = e.get('password');
+  const confirm_password = e.get('confirm_password');
+  if (password != confirm_password) {
+    return { status: false, message: 'Password mismatch', data: null }
+  }
+  const header = {
+    "Swayauth-Identifier": process.env.SWAYAUTH_IDENTITY
+  }
+  const res = await normalRequest<LoginProp>(CONST.AUTH.NEW_PASSWORD, {
+    token: initData.data?.token,
+    reference: initData.data?.reference,
+    password
+  }, 'patch', false, header)
+  return res as any
+}
+
+export const handleLoginform = async (_: any, e: FormData) => {
+  const data = { email: e.get('email'), password: e.get('password') };
   const header = {
     "Swayauth-Identifier": process.env.SWAYAUTH_IDENTITY
   }
@@ -16,7 +34,15 @@ export const handleLoginform = async (_: any, e: FormData): Promise<ResponseProp
     cookies().set(CONST.ACCESS_TOKEN, res.data.access_token)
     redirect(CONST.LOCATION.CLIENT_AREA)
   }
-  return res
+  return res as any
+}
+
+export const handleForgotPasswordForm = async (_: any, e: FormData): Promise<ResponseProp<LoginProp | null>> => {
+  const data = { email: e.get('email') };
+  const header = {
+    "Swayauth-Identifier": process.env.SWAYAUTH_IDENTITY
+  }
+  return await normalRequest<LoginProp>(CONST.AUTH.FORGOT_PASSWORD, data, 'post', false, header)
 }
 
 export const handleRegisterForm = async (_: any, e: FormData): Promise<ResponseProp<LoginProp | null>> => {

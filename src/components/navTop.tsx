@@ -2,7 +2,7 @@ import { CONST } from "@/lib/constant";
 import { FormData } from "@/lib/form";
 import Link from "@/lib/link";
 import { normalRequest } from "@/lib/request";
-import { money } from "@/lib/utils";
+import { isAccess, money } from "@/lib/utils";
 import { logOut, useAppDispatch } from "@/store";
 import useAccount from "@/store/hooks/account";
 import useAssociation from "@/store/hooks/association";
@@ -10,13 +10,16 @@ import useWallet from "@/store/hooks/wallet";
 import { faBars, faChevronDown, faGear, faRepeat, faRightFromBracket, faWallet, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import DropDown from "./dropDown";
 import Modal from "./modal";
 import { SpinnerCircle2 } from "./spinner";
 import PreloadImage from "./preloadImage";
 import NavLink from "@/lib/navLink";
+import { removeRemember } from "@/lib/token";
+
+const isSuperAdmin = isAccess('level_3')
 
 const NavTop = () => {
   const { data, loading } = useAccount();
@@ -25,6 +28,11 @@ const NavTop = () => {
   const [switchAccoutModal, setSwitchAccoutModal] = useState(false);
   const dispatch = useAppDispatch();
   const [switchLoading, setSwitchLoading] = useState(false);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true)
+  }, []);
 
   const toggleSwitchAccount = () => {
     if (switchLoading || assocLoading) return
@@ -32,6 +40,7 @@ const NavTop = () => {
   }
 
   const logMeOut = (link?: any) => {
+    removeRemember();
     dispatch(logOut(typeof link == 'string' ? link : undefined)())
   }
 
@@ -57,7 +66,7 @@ const NavTop = () => {
       </NavLink>
     </div>
     <div className="w-full md:px-6 pr-2 flex justify-end items-center">
-      <h3 className="mr-4 flex items-center money whitespace-nowrap bg-slate-200 font-bold 0 py-1 md:my-2 px-2 md:px-4 rounded-md text-xl md:text-2xl">
+      {isSuperAdmin && isClient ? <NavLink href='/clientarea/settings/wallet' className="mr-4 flex items-center money whitespace-nowrap bg-slate-200 font-bold 0 py-1 md:my-2 px-2 md:px-4 rounded-md text-xl md:text-2xl">
         <FontAwesomeIcon icon={faWallet} className="mr-3" />
         {
           walletLoading ?
@@ -66,7 +75,7 @@ const NavTop = () => {
             </span> :
             money(walletData?.amount)
         }
-      </h3>
+      </NavLink> : null}
       <DropDown.Container>
         <DropDown.Toggle className={`w-[2.5rem] ${loading ? 'opacity-50' : ''} border max-w-[2.5rem] h-[2.5rem] inline-flex items-center justify-center overflow-hidden rounded-full`}>
           <PreloadImage src={data?.photo || '/avatar-2.png'} className="object-cover" />

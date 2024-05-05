@@ -1,10 +1,11 @@
 'use client'
+import { getRemember } from '@/lib/token'
 import { usePathname, useSearchParams } from 'next/navigation'
 import NProgress from 'nprogress'
 import { useEffect, useRef } from 'react'
 import { Toaster } from 'react-hot-toast'
 import { Provider } from 'react-redux'
-import { AppStore, makeStore } from '../store'
+import { AppStore, logOut, makeStore } from '../store'
 
 NProgress.configure({ showSpinner: false });
 
@@ -18,7 +19,10 @@ export default function StoreProvider({
   const search = useSearchParams()
 
   useEffect(() => {
-    NProgress.done()
+    NProgress.done();
+    if (!getRemember()) {
+      storeRef.current?.dispatch(logOut(undefined)())
+    }
   }, [pathname, search]);
 
   if (!storeRef.current) {

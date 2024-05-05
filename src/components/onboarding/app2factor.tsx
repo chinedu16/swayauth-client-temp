@@ -6,7 +6,7 @@ const App2factor = ({ isOpen, message, toggle, type = 'app', handle2faVerify, on
   return <Modal size="max-w-xl" isOpen={isOpen} toggle={toggle} className="pt-[15%]" >
     <div className="mx-auto transition w-full items-center justify-center flex" >
       <div className="bg-white rounded-md w-full">
-        <div className="flex items-center px-4 py-2 w-full border-b">
+        <div className="flex items-center px-4 py-3 w-full border-b">
           <h2 className='text-xl pl-3 font-bold'>Two-Factor Authentication</h2>
         </div>
         <div className="px-7 pt-7 pb-6">

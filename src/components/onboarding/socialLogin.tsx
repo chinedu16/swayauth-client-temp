@@ -9,7 +9,7 @@ interface DataProp {
   access_token?: string,
   require_password?: boolean,
   email?: string,
-  purpose?: 'register' | 'team' | 'two-factor' | 'login'
+  purpose?: 'register' | 'team' | 'two-factor' | 'login' | 'forgot-password'
 }
 
 const SocialLogin = ({ data }: { data: DataProp }) => {

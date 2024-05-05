@@ -28,11 +28,11 @@ export const normalRequest = async <T = any>(
       url: CONST.BASE_URL + url,
       data: data,
       headers,
-    })
+    });
     if (res.data?.data?.access_token) saveAccessToken(res.data?.data?.access_token)
     return res.data as ResponseProp<T>
   } catch (error: any) {
-    return { status: false, message: error.response?.data?.message || error?.message, data: null as never }
+    return { status: false, message: error.response?.data?.message || error?.message || 'Error, please try again later.', data: null as never }
   }
 }
 
@@ -64,7 +64,7 @@ export const reduxRequest = <T>(
     })
     dispatch(reduxFunc({ loading: "done", ...res.data }));
   } catch (error: any) {
-    dispatch(reduxFunc({ status: false, message: error.response?.data?.message || error?.message, data: null, loading: "done" }));
+    dispatch(reduxFunc({ status: false, message: error.response?.data?.message || error?.message || 'Error, please try again later.', data: null, loading: "done" }));
   }
 }
 
@@ -102,6 +102,6 @@ export const formRequest = async <T>(
     });
     return res.data as ResponseProp<T>
   } catch (error: any) {
-    return { status: false, message: error.response?.data?.message || error?.message || 'Server error, please try again', data: null }
+    return { status: false, message: error.response?.data?.message || error?.message || 'Error, please try again later.', data: null }
   }
 }

@@ -40,6 +40,8 @@ const Settings = () => {
   const [isPending, startTransition] = useTransition()
   const [isClient, setIsClient] = useState(false)
   const [removeSmtp, setRemoveSmtp] = useState(false);
+  const [newPass, setNewPass] = useState('');
+  const [newPass2, setNewPass2] = useState('');
   const [twoFaTypeModal, setTwoFaTypeModal] = useState(false);
   const { data: team, loading: teamLoading } = useTeam()
   const { data: smtp, loading: smtpLoading, fetchSmtp, updateSmtpStatus } = useSmtp()
@@ -47,6 +49,7 @@ const Settings = () => {
   const { data, loading, updateClientProfile } = useAccount()
   const [visiblePassoword, setVisiblePassoword] = useState(false);
   const [visiblePassoword2, setVisiblePassoword2] = useState(false);
+  const [visiblePassoword3, setVisiblePassoword3] = useState(false);
 
   const [location, setLocation] = useState({
     state: '',
@@ -218,7 +221,6 @@ const Settings = () => {
     const status = team.status == 'disabled' ? 'active' : 'disabled'
   }
 
-  console.log(data)
   return <div>
     <div className="flex flex-wrap justify-between items-end shadow-md rounded-lg bg-white mt-8 p-6">
       <form onSubmit={handleAccountForm} className="w-full lg:w-6/12 lg:pr-6">
@@ -333,17 +335,23 @@ const Settings = () => {
               null
         }
         <div className='mb-8 flex w-full flex-wrap justify-between'>
-          <div className="w-full sm:w-[32%]">
-            <label >LGA</label>
+          <div className="mt-4 sm:mt-0 w-full sm:w-[32%]">
+            <label>Country</label>
             <div className='mt-1'>
-              <input type="text"
-                autoComplete="city"
+              <select
+                name='country'
                 required
                 disabled={loaders.profile || loading}
-                name='city'
-                defaultValue={data?.city || ''}
-                className='w-full bg-slate-50 focus:border-blue-700 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
-                placeholder='e.g New York' />
+                onChange={(e) => setLocation((p) => ({ ...p, country: e.target.value }))}
+                defaultValue={data?.country || ''}
+                className='w-full bg-slate-50 focus:border-blue-700 focus:outline-1 ring-offset-1 focus:ring-1  border focus:border-2 h-[2.65rem]  px-3 rounded-md' >
+                <option value="" hidden>--Select country--</option>
+                {
+                  geoData.map((item, i) =>
+                    <option key={i} selected={item.name === location.country} value={item.name}>{item.name}</option>
+                  )
+                }
+              </select>
             </div>
           </div>
           <div className="mt-4 sm:mt-0 w-full sm:w-[32%]">
@@ -366,25 +374,20 @@ const Settings = () => {
               </select>
             </div>
           </div>
-          <div className="mt-4 sm:mt-0 w-full sm:w-[32%]">
-            <label>Country</label>
+          <div className="w-full sm:w-[32%]">
+            <label >LGA</label>
             <div className='mt-1'>
-              <select
-                name='country'
+              <input type="text"
+                autoComplete="city"
                 required
                 disabled={loaders.profile || loading}
-                onChange={(e) => setLocation((p) => ({ ...p, country: e.target.value }))}
-                defaultValue={data?.country || ''}
-                className='w-full bg-slate-50 focus:border-blue-700 focus:outline-1 ring-offset-1 focus:ring-1  border focus:border-2 h-[2.65rem]  px-3 rounded-md' >
-                <option value="" hidden>--Select country--</option>
-                {
-                  geoData.map((item, i) =>
-                    <option key={i} selected={item.name === location.country} value={item.name}>{item.name}</option>
-                  )
-                }
-              </select>
+                name='city'
+                defaultValue={data?.city || ''}
+                className='w-full bg-slate-50 focus:border-blue-700 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
+                placeholder='e.g New York' />
             </div>
           </div>
+
         </div>
 
 
@@ -427,14 +430,15 @@ const Settings = () => {
               </button>
             </div>
           </div>
-          <div className='mb-8'>
+          <div className='mb-4'>
             <label >New Password</label>
             <div className='mt-1 flex items-center relative'>
               <Input
                 required
                 invalid={message}
+                onChange={(e) => setNewPass(e.target.value)}
                 disabled={loaders.password || loading}
-                type={visiblePassoword ? 'text' : 'password'}
+                type={visiblePassoword2 ? 'text' : 'password'}
                 name='new_password'
                 pattern='^(.*).{6,}$'
                 title='Password must be at least 6 character.'
@@ -442,6 +446,25 @@ const Settings = () => {
               />
               <button onClick={() => setVisiblePassoword2(!visiblePassoword2)} type='button' className={`inline-block absolute right-3 ${visiblePassoword2 ? '' : 'opacity-40'}`}>
                 <FontAwesomeIcon icon={visiblePassoword2 ? faEye : faEyeSlash} />
+              </button>
+            </div>
+          </div>
+          <div className='mb-8'>
+            <label >Confirm Password</label>
+            <div className='mt-1 flex items-center relative'>
+              <Input
+                required
+                invalid={message || ((newPass != newPass2) && newPass2.length >= newPass.length)}
+                onChange={(e) => setNewPass2(e.target.value)}
+                disabled={loaders.password || loading}
+                type={visiblePassoword3 ? 'text' : 'password'}
+                name='confirm_password'
+                pattern={newPass}
+                title='Password must be at least 6 character.'
+                placeholder='*********'
+              />
+              <button onClick={() => setVisiblePassoword3(!visiblePassoword3)} type='button' className={`inline-block absolute right-3 ${visiblePassoword3 ? '' : 'opacity-40'}`}>
+                <FontAwesomeIcon icon={visiblePassoword3 ? faEye : faEyeSlash} />
               </button>
             </div>
           </div>

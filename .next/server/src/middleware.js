@@ -2512,6 +2512,8 @@ const constant_CONST = Object.freeze({
         COUNT: "/blog/count"
     },
     AUTH: {
+        FORGOT_PASSWORD: "/auth/forgot-password/client",
+        NEW_PASSWORD: "/auth/forgot-password/new-password",
         MANUAL_LOGIN: "/auth/login/client",
         GET_TWO_FA: "/auth/2fa/list",
         MANUAL_REGISTER: "/auth/register/client",
@@ -2767,6 +2769,16 @@ const isGoodToken = (token)=>{
     } catch (error) {
         return false;
     }
+};
+const changeRemember = (r)=>{
+    if (false) {}
+};
+const getRemember = ()=>{
+    if (false) {}
+    return true;
+};
+const removeRemember = ()=>{
+    if (false) {}
 };
 
 ;// CONCATENATED MODULE: ./node_modules/next/dist/esm/server/web/exports/next-response.js

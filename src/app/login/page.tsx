@@ -2,9 +2,11 @@
 import Input from '@/components/input';
 import App2factor from '@/components/onboarding/app2factor';
 import FormButton from '@/components/onboarding/button';
+import ForgotPassword from '@/components/onboarding/forgotPassword';
 import { CONST } from '@/lib/constant';
 import { auth2faVerify, handleLoginform, socialAuth } from '@/lib/server/form';
-import { TwoFactor } from '@/lib/types';
+import { changeRemember } from '@/lib/token';
+import { LoginProp, TwoFactor } from '@/lib/types';
 import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
@@ -16,8 +18,9 @@ import { useFormState } from 'react-dom';
 const Login = () => {
   const [isPending, startTransition] = useTransition()
   const [message, setMessage] = useState('');
+  const [forgotPassword, setForgotPassword] = useState(false);
   const searchParams = useSearchParams()
-  const [state, formAction] = useFormState(handleLoginform, { status: false, message: '', data: null })
+  const [state, formAction] = useFormState<Promise<ResponseProp<LoginProp | null>>, any>(handleLoginform, { status: false, message: '', data: null })
   const [twoFactor, setTwoFactor] = useState<TwoFactor>({ open: false, reference: '', token: '', two_factor_type: 'app' });
   const [visiblePassoword, setVisiblePassoword] = useState(false);
   const defaultEmail = searchParams.get('email') || ''
@@ -31,6 +34,12 @@ const Login = () => {
       setMessage(state.message || '')
     }
   }, [state]);
+
+  useEffect(() => {
+    changeRemember(true)
+  }, []);
+
+  const toggleForgotPassword = () => setForgotPassword(!forgotPassword);
 
   const toggle2Auth = () => {
     if (isPending) return
@@ -77,7 +86,7 @@ const Login = () => {
   }
 
   return (
-    <main className="flex justify-center items-center p-2 md:p-12" style={{ height: '100svh' }}>
+    <main className="flex justify-center items-center min-h-[100svh] p-2 md:p-12">
       <div className="max-w-xl w-full">
         <Link href='/' className='inline-block mb-4 mx-4'>
           <div className='md:inline-flex items-center hidden'>
@@ -87,7 +96,7 @@ const Login = () => {
         </Link>
         <form onChange={handleChange} action={formAction} className='p-6 md:p-10 shadow-lg border rounded-md'>
           <h1 className='text-2xl mb-3 font-bold'>Sign in to your account</h1>
-          <div className='mb-4'>
+          <div className='mb-6'>
             <label>Email</label>
             <div className='mt-1'>
               <Input
@@ -102,11 +111,8 @@ const Login = () => {
               />
             </div>
           </div>
-          <div className='mb-6'>
-            <div className='flex justify-between items-center'>
-              <label>Password</label>
-              <button type='button' className='text-blue-700'>Forgot your password</button>
-            </div>
+          <div className='mb-4'>
+            <label>Password</label>
             <div className='mt-1 flex items-center relative'>
               <Input
                 required
@@ -128,10 +134,17 @@ const Login = () => {
               }
             </div>
           </div>
-          <div onClick={()=>setMessage('')} className='mb-4'>
+          <label className='inline-flex pb-1 cursor-pointer items-center'>
+            <input onChange={e => changeRemember(e.target.checked)} defaultChecked name='remember' type="checkbox" className='w-4 h-4' />
+            <span className="inline-block ml-2">Remember me</span>
+          </label>
+          <div onClick={() => setMessage('')} className='mb-4'>
             <FormButton title='Login' />
           </div>
-          <div className='mt-6 text-center'>
+          <div className='flex mt-2 justify-center'>
+            <button onClick={toggleForgotPassword} type='button' className='text-blue-700'>Forgot password?</button>
+          </div>
+          <div className='mt-10 text-center'>
             <div><span className='inline-block text-slate-600 mr-2'>Don&apos;t have an account?</span><Link href='/sign-up' className='text-blue-700'>Sign up</Link></div>
           </div>
           <div className='mt-4 flex justify-center items-center'>
@@ -160,6 +173,7 @@ const Login = () => {
         onChange={handle2AuthChange}
         isOpen={twoFactor.open}
         toggle={toggle2Auth} />
+      <ForgotPassword isOpen={forgotPassword} toggle={toggleForgotPassword} />
     </main>
   );
 };

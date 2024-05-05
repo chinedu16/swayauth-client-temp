@@ -2,9 +2,15 @@
 
 import { useFormStatus } from "react-dom";
 import { SpinnerCircle2 } from "../spinner";
+import { useEffect } from "react";
 
-const FormButton = ({ title }: { title: string }) => {
+const FormButton = ({ title, loadAction }: { title: string, loadAction?: (v: boolean) => void }) => {
   const { pending } = useFormStatus();
+
+  useEffect(() => {
+    if (loadAction) loadAction(pending)
+  }, []);
+
   return <button
     disabled={pending}
     type='submit'

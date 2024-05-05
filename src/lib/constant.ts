@@ -1,6 +1,6 @@
 export const CONST = Object.freeze({
-  BASE_URL: process.env.NODE_ENV == 'development' ? `http://${typeof window !== "undefined" ? window?.location?.hostname : '172.20.10.4'}:8000/v1` : 'https://api.swayauth.com/v1',
-  CLIENT_BASE_URL: process.env.NODE_ENV == 'development' ? `http://${typeof window !== "undefined" ? window?.location?.hostname : '172.20.10.4'}:3000` : 'https://swayauth.com',
+  BASE_URL: process.env.NODE_ENV == 'development' ? `http://${typeof window !== "undefined" ? window?.location?.hostname : 'localhost'}:8000/v1` : 'https://api.swayauth.com/v1',
+  CLIENT_BASE_URL: process.env.NODE_ENV == 'development' ? `http://${typeof window !== "undefined" ? window?.location?.hostname : 'localhost'}:3000` : 'https://swayauth.com',
   ACCESS_TOKEN: '__s_c_UUtk_at',
   REFRESH_TOKEN: '__s_c_UUtk_tr',
   LOCATION: {
@@ -22,6 +22,8 @@ export const CONST = Object.freeze({
     COUNT: '/blog/count'
   },
   AUTH: {
+    FORGOT_PASSWORD: '/auth/forgot-password/client',
+    NEW_PASSWORD: '/auth/forgot-password/new-password',
     MANUAL_LOGIN: '/auth/login/client',
     GET_TWO_FA: '/auth/2fa/list',
     MANUAL_REGISTER: '/auth/register/client',

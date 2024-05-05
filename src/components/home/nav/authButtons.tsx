@@ -21,19 +21,21 @@ const AuthButtons = () => {
         </NavLink> :
         <>
           <NavLink
-            href="/login"
-            prefetch
-            className="px-5 pl-0 lg:pl-5 block hover:text-blue-700 lg:inline-block py-3"
-          >
-            Login
-          </NavLink>
-          <NavLink
             href="/sign-up"
             prefetch
             className="px-5 py-3 hover:bg-blue-800 bg-blue-700 inline-block mt-3 lg:mt-0 rounded-full text-white"
           >
-            Sign Up
-          </NavLink></>
+            Create account
+          </NavLink>
+          <NavLink
+            href="/login"
+            prefetch
+            className="pl-0 lg:pl-5 block hover:text-blue-700 mt-2 lg:mt-0 lg:inline-block py-3"
+          >
+            Login
+          </NavLink>
+
+        </>
     }
   </div>
 };

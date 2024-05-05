@@ -26,3 +26,29 @@ export const isGoodToken = (token?: string) => {
     return false
   }
 }
+
+export const changeRemember = (r: boolean) => {
+  if (typeof window != 'undefined') {
+    if (r) {
+      window.localStorage.setItem('remember', 'true');
+      window.sessionStorage.removeItem('remember');
+    } else {
+      window.sessionStorage.setItem('remember', 'true');
+      window.localStorage.removeItem('remember');
+    }
+  }
+}
+
+export const getRemember = () => {
+  if (typeof window != 'undefined') {
+    return (window.localStorage.getItem('remember') || window.sessionStorage.getItem('remember')) == 'true';
+  }
+  return true
+}
+
+export const removeRemember = () => {
+  if (typeof window != 'undefined') {
+    window.sessionStorage.removeItem('remember');
+    window.localStorage.removeItem('remember');
+  }
+}

@@ -1,5 +1,5 @@
 import { CONST } from '@/lib/constant';
-import { removeAccessToken } from '@/lib/token';
+import { removeAccessToken, removeRemember } from '@/lib/token';
 import { AsyncThunk, PayloadAction, combineReducers, configureStore, createAsyncThunk } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { FLUSH, PAUSE, PERSIST, PURGE, PersistConfig, REGISTER, REHYDRATE, persistReducer, persistStore } from 'redux-persist';
@@ -71,6 +71,7 @@ export const logOut = (link?: string) => createAsyncThunk(
   async function (_payload, thunkAPI) {
     thunkAPI.dispatch({ type: 'auth/LOGOUT' });
     removeAccessToken()
+    removeRemember();
     window.location.href = link || CONST.LOCATION.LOGIN
   }
 );
