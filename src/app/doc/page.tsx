@@ -9,7 +9,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import TreeView from "react-accessible-treeview";
 import Markdown from 'react-markdown';
-import pm from '../../lib/doc/postman-2.json';
+import pm from '../../lib/doc/swayauth-doc-2024.json';
 
 const Doc = () => {
   const [isClient, setIsClient] = useState(false);

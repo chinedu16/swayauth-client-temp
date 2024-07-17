@@ -3,6 +3,7 @@ import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from "react";
 
 const CodeInput = ({ length = 6, onChange, loading }: { length?: number, loading?: boolean, onChange?: (v: string) => void }) => {
   const [values, setValues] = useState('');
+  const [direction, setDirection] = useState(0);
   const inputRefs = useRef<HTMLInputElement[]>([])
 
   useEffect(() => {
@@ -12,46 +13,38 @@ const CodeInput = ({ length = 6, onChange, loading }: { length?: number, loading
   }, [values]);
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    const buttons = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'] as const
-    const key = e.key as typeof buttons[number]
-    const value = (e.target as any).value
+    const deletebuttons = ['Backspace', 'Delete'] as const
+    const navbuttons = ['ArrowLeft', 'ArrowRight'] as const
+    const key = e.key as any
+    const value = ((e.target as any).value as string).trim();
     const name = Number((e.target as any).name)
-    if (buttons.includes(key) && !value) {
-      if (name > 0) {
-        inputRefs.current[name].blur()
-        inputRefs.current[name - 1].focus()
-      }
+    if (deletebuttons.includes(key)) {
+      const pLgth = values.length ? values.length - 1 : 0;
+      setValues(p => p.substring(0, pLgth));
+      inputRefs.current[pLgth].focus()
     }
-    if (key === 'ArrowLeft' && name > 0) {
-      inputRefs.current[name].blur()
-      inputRefs.current[name - 1].focus()
+    if (navbuttons.includes(key)) {
+      if (key == 'ArrowLeft') {
+        setDirection(0)
+        inputRefs?.current?.[name - 1]?.focus()
+      } else {
+        setDirection(1)
+        if (value) inputRefs?.current?.[name + 1]?.focus()
+      }
     }
   }
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value
+    const value = (e.target.value[direction] || e.target.value[0])?.trim() as any
+    if (!value || isNaN(value)) return
     const name = Number(e.target.name)
     setValues(p => {
-      if (p[name]) {
-        let str = p.split('');
-        str[name] = value[value.length - 1]
-        p = str.join('')
-      } else {
-        p += value
-      }
-      return p
+      const v = p.split('');
+      v[name] = value;
+      return v.join('')
     })
-    if (value) {
-      if (name < (length - 1)) {
-        inputRefs.current[name].blur()
-        inputRefs.current[name + 1].focus()
-      }
-    } else {
-      if (name > 0) {
-        inputRefs.current[name].blur()
-        inputRefs.current[name - 1].focus()
-      }
-    }
+    setDirection(0)
+    if (name < length) inputRefs?.current?.[name + 1]?.focus()
   }
 
   return <div className="inline-block relative">

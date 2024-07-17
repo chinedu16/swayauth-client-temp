@@ -334,3 +334,6 @@ img {
     min-height: 500px !important;
   }
 }
+.markdown a {
+  text-decoration: underline !important;
+}
