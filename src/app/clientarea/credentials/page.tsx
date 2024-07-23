@@ -201,6 +201,7 @@ const Credentials = () => {
         }
       </div>
     </div>
+    
     <EditOrg org={orgSelected} toggle={toggleOrg} isOpen={orgModal} />
     <AlertAction
       toggle={() => toggleDeleteOrg('')}
