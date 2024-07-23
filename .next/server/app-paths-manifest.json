@@ -1,3 +1,23 @@
 {
-  "/clientarea/credentials/page": "app/clientarea/credentials/page.js"
+  "/_not-found": "app/_not-found.js",
+  "/about/page": "app/about/page.js",
+  "/blog/[post]/page": "app/blog/[post]/page.js",
+  "/blog/page": "app/blog/page.js",
+  "/doc/page": "app/doc/page.js",
+  "/payment/page": "app/payment/page.js",
+  "/page": "app/page.js",
+  "/login/page": "app/login/page.js",
+  "/pricing/page": "app/pricing/page.js",
+  "/privacy-policy/page": "app/privacy-policy/page.js",
+  "/sign-up/page": "app/sign-up/page.js",
+  "/social/page": "app/social/page.js",
+  "/terms-and-conditions/page": "app/terms-and-conditions/page.js",
+  "/verify/page": "app/verify/page.js",
+  "/clientarea/(index)/page": "app/clientarea/(index)/page.js",
+  "/clientarea/credentials/page": "app/clientarea/credentials/page.js",
+  "/clientarea/credentials/[organization]/page": "app/clientarea/credentials/[organization]/page.js",
+  "/clientarea/settings/page": "app/clientarea/settings/page.js",
+  "/clientarea/settings/wallet/page": "app/clientarea/settings/wallet/page.js",
+  "/clientarea/settings/plan/page": "app/clientarea/settings/plan/page.js",
+  "/clientarea/users/page": "app/clientarea/users/page.js"
 }
