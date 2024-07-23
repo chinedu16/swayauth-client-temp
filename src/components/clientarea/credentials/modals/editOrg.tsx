@@ -18,7 +18,7 @@ const EditOrg = ({ isOpen, org, toggle, getEditOrg }: { getEditOrg?: (data: Orga
   const [image, setImage] = useState('');
 
   const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    const formData = FormData(e, ['name', 'website', 'bio', 'photo'])
+    const formData = FormData(e, ['name', 'website', 'bio', 'address', 'photo'])
     if (!image && !org?.photo) return toast.error('Please include an image')
     formData.photo = image || org?.photo as string
     setLoading(true)
@@ -51,7 +51,7 @@ const EditOrg = ({ isOpen, org, toggle, getEditOrg }: { getEditOrg?: (data: Orga
               <div className='mt-1'>
                 <input
                   autoFocus
-                  autoComplete="name"
+                  autoComplete="organisation"
                   required
                   disabled={loading}
                   name='name'
@@ -61,17 +61,31 @@ const EditOrg = ({ isOpen, org, toggle, getEditOrg }: { getEditOrg?: (data: Orga
               </div>
             </div>
             <div className='mb-4'>
-              <label >Url</label>
+              <label >Website</label>
               <div className='mt-1'>
                 <input
                   type="url"
-                  autoComplete="url"
+                  autoComplete="website"
                   required
                   disabled={loading}
                   name='website'
                   defaultValue={org?.website}
                   className='w-full pr-10 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
                   placeholder='e.g https://swayauth.com' />
+              </div>
+            </div>
+            <div className='mb-4'>
+              <label >Address</label>
+              <div className='mt-1'>
+                <textarea autoComplete="address"
+                  required
+                  name='address'
+                  defaultValue={org?.address}
+                  disabled={loading}
+                  maxLength={100}
+                  rows={1}
+                  className='w-full pr-0 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
+                  placeholder='Enter address here...' />
               </div>
             </div>
             <div className='mb-4'>
@@ -85,7 +99,7 @@ const EditOrg = ({ isOpen, org, toggle, getEditOrg }: { getEditOrg?: (data: Orga
                   maxLength={300}
                   onChange={(e) => setBioLength(e.target.value.length)}
                   rows={3}
-                  className='w-full pr-10 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
+                  className='w-full pr-0 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
                   placeholder='Write bio here...' />
                 <div className="text-end">
                   <small >{bioLength}/300</small>

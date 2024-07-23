@@ -5,6 +5,7 @@ export interface OrganizationData {
   id: string;
   photo?: string;
   name?: string;
+  address?: string;
   website?: string;
   bio?: string;
   _count?: {
