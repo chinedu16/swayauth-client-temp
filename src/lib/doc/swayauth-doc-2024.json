@@ -760,6 +760,128 @@
 									"body": "{\n    \"data\": null,\n    \"status\": true,\n    \"message\": \"Registeration was successful\"\n}"
 								}
 							]
+						},
+						{
+							"name": "Resend Registration Code",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{organization_secret}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Organization-Secret",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\":\"example@gmail.com\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{local}}/auth/register/resend-code",
+									"host": [
+										"{{local}}"
+									],
+									"path": [
+										"auth",
+										"register",
+										"resend-code"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Resend Registration Code",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"email\":\"example@gmail.com\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{local}}/auth/register/resend-code",
+											"host": [
+												"{{local}}"
+											],
+											"path": [
+												"auth",
+												"register",
+												"resend-code"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "50"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "49"
+										},
+										{
+											"key": "X-RateLimit-Reset",
+											"value": "1"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "104"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"68-YxlzjzDyxecxT1/qBlw61FuhPzw\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 23 Jul 2024 09:25:09 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"message\": \"Request was send successful\"\n    },\n    \"status\": true,\n    \"message\": \"Request was send successful\"\n}"
+								}
+							]
 						}
 					]
 				},
@@ -775,7 +897,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -804,7 +927,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"email\": \"example@gmail.com\"\n}",
+									"raw": "{\n    \"email\": \"fashanutosin7@gmail.com\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -812,9 +935,9 @@
 									}
 								},
 								"url": {
-									"raw": "{{base_url}}/auth/forgot-password/user",
+									"raw": "{{local}}/auth/forgot-password/user",
 									"host": [
-										"{{base_url}}"
+										"{{local}}"
 									],
 									"path": [
 										"auth",
@@ -1445,7 +1568,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -1485,7 +1609,7 @@
 									}
 								},
 								"url": {
-									"raw": "{{base_url}}/auth/token/verify?token=864916&reference=YmczVDlHYXNRaVBQNUQvajd6RXpSRmN2NmhXdVZyelVOd0ppTW1VMnB2NDR2NkFiNmpVcGNtdkxwVVA3WkhlUCs4dGlWMndzNEpFRmc0bm9DVTZDRW1mN1B4cEZ2eDRNTXlkY0tJSWZnUTg0OGhxRmIrTHR6Ym53clRvN3dCMWRGODQ4T0xHQWQwd3NYZE9GdGZ1ZWRRPT0_",
+									"raw": "{{base_url}}/auth/token/verify",
 									"host": [
 										"{{base_url}}"
 									],
@@ -1497,13 +1621,15 @@
 									"query": [
 										{
 											"key": "token",
-											"value": "864916",
-											"description": "[YOUR-6-DIGIT-NUMBER]"
+											"value": "580830",
+											"description": "[YOUR-6-DIGIT-NUMBER]",
+											"disabled": true
 										},
 										{
 											"key": "reference",
-											"value": "YmczVDlHYXNRaVBQNUQvajd6RXpSRmN2NmhXdVZyelVOd0ppTW1VMnB2NDR2NkFiNmpVcGNtdkxwVVA3WkhlUCs4dGlWMndzNEpFRmc0bm9DVTZDRW1mN1B4cEZ2eDRNTXlkY0tJSWZnUTg0OGhxRmIrTHR6Ym53clRvN3dCMWRGODQ4T0xHQWQwd3NYZE9GdGZ1ZWRRPT0_",
-											"description": "[YOUR-REFERENCE]"
+											"value": "WmNjbjdBbnNMZHlsdTUrSTR1SkUwQlA0VGVUODZDOVEvYitjMitsZ205eDN6SmVsYkQ5em9ob2RCVHc1RGhxOUlnWURMNlNlYXVXRXBnTW54ZWQwcE1HQXcyWDk0c1dndlhjVWdYaWJVVHJCMlZxdUltclN5MDF2Qm9pSVQxdkt0M3ZHRnhWNzZCbTJqZjBVZzExU2F3PT0_",
+											"description": "[YOUR-REFERENCE]",
+											"disabled": true
 										}
 									]
 								},
@@ -3852,6 +3978,143 @@
 									],
 									"cookie": [],
 									"body": "{\n    \"data\": {\n        \"id\": \"65a2f888684add2bc7aa612c\",\n        \"key\": \"1705748472-cFcrb3ZXcE8zZXFzai8zcGdQU0FwWDF5OW0rWTdTMUFjc2kyeUc2NGUxOD0.app\",\n        \"created_at\": \"2024-01-13T20:54:32.714Z\",\n        \"updated_at\": \"2024-01-20T11:01:12.449Z\"\n    },\n    \"status\": true,\n    \"message\": \"Ok\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Verify JWT",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{application_key}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Application-Key",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"jwt\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2Njg4MDZhMDI3Njk0MTM4MWQ0MWQ5ZGEiLCJlbWFpbCI6ImZhc2hhbnV0b3NpbjdAZ21haWwuY29tIiwic2NvcGUiOlsibWFudWFsIl0sInR3b19mYWN0b3JfdHlwZSI6bnVsbCwicGVybWlzc2lvbnMiOlsicmVhZCIsIndyaXRlIiwiZGVsZXRlIl0sInN0YXR1cyI6ImFjdGl2ZSIsImNvbXBhbnlfaWQiOiI2NWY1MmNiNmY2NmExYWUwMzc3MDAzYzgiLCJvcmdhbml6YXRpb25fdG9rZW5faWQiOiI2Njg3ZTA4MzkyMWJiMmJiMTkzMWJkYjgiLCJvcmdhbml6YXRpb25faWQiOiI2Njg3ZGVjMTkyMWJiMmJiMTkzMWJkYjciLCJhY2Nlc3MiOiJsZXZlbF8xIiwiaWF0IjoxNzIyMDYwNTY5LCJleHAiOjE3MjIyMzMzNjl9.9Wg7A2JMC6CzzgR_wIbw_E3XRThksqbNLarbMpN0nQ4\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{local}}/client/credentials/jwt",
+									"host": [
+										"{{local}}"
+									],
+									"path": [
+										"client",
+										"credentials",
+										"jwt"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": "",
+											"disabled": true
+										}
+									]
+								},
+								"description": "### POST /client/credentials/jwt\n\nThis endpoint is used to retrieve client credentials using a JSON Web Token (JWT).\n\n#### Request\n\n- Method: POST\n    \n- URL: {{local}}/client/credentials/jwt\n    \n- Headers:\n    - Content-Type: application/json\n        \n- Body:\n    - token (string, required): The JSON Web Token (JWT) for authentication.\n        \n\n#### Response\n\nThe response is a JSON object with the following schema:\n\n``` json\n{\n  \"type\": \"object\",\n  \"properties\": {\n    \"data\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"sub\": {\"type\": \"string\"},\n        \"email\": {\"type\": \"string\"},\n        \"scope\": {\"type\": \"array\"},\n        \"two_factor_type\": {\"type\": [\"string\", \"null\"]},\n        \"permissions\": {\"type\": \"array\"},\n        \"status\": {\"type\": \"string\"},\n        \"company_id\": {\"type\": \"string\"},\n        \"organization_token_id\": {\"type\": \"string\"},\n        \"organization_id\": {\"type\": \"string\"},\n        \"access\": {\"type\": \"string\"},\n        \"iat\": {\"type\": \"number\"},\n        \"exp\": {\"type\": \"number\"}\n      }\n    },\n    \"status\": {\"type\": \"boolean\"},\n    \"message\": {\"type\": \"string\"}\n  }\n}\n- Status: 200 OK\n- Content-Type: application/json\nThe response contains the client credentials data in the \"data\" object, with additional status information and a message.\n\n ```"
+							},
+							"response": [
+								{
+									"name": "Verify JWT",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2Njg4MDZhMDI3Njk0MTM4MWQ0MWQ5ZGEiLCJlbWFpbCI6ImZhc2hhbnV0b3NpbjdAZ21haWwuY29tIiwic2NvcGUiOlsibWFudWFsIl0sInR3b19mYWN0b3JfdHlwZSI6bnVsbCwicGVybWlzc2lvbnMiOlsicmVhZCIsIndyaXRlIiwiZGVsZXRlIl0sInN0YXR1cyI6ImFjdGl2ZSIsImNvbXBhbnlfaWQiOiI2NWY1MmNiNmY2NmExYWUwMzc3MDAzYzgiLCJvcmdhbml6YXRpb25fdG9rZW5faWQiOiI2Njg3ZTA4MzkyMWJiMmJiMTkzMWJkYjgiLCJvcmdhbml6YXRpb25faWQiOiI2Njg3ZGVjMTkyMWJiMmJiMTkzMWJkYjciLCJhY2Nlc3MiOiJsZXZlbF8xIiwiaWF0IjoxNzIyMDYwNTY5LCJleHAiOjE3MjIyMzMzNjl9.9Wg7A2JMC6CzzgR_wIbw_E3XRThksqbNLarbMpN0nQ4\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{local}}/client/credentials/jwt",
+											"host": [
+												"{{local}}"
+											],
+											"path": [
+												"client",
+												"credentials",
+												"jwt"
+											],
+											"query": [
+												{
+													"key": "",
+													"value": "",
+													"disabled": true
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "395"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"18b-LrCKzJ2pcUtTXeHS7iVn907D22M\""
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 27 Jul 2024 06:37:14 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"sub\": \"668806a0276941381d41d9da\",\n        \"email\": \"example@gmail.com\",\n        \"scope\": [\n            \"manual\"\n        ],\n        \"two_factor_type\": null,\n        \"permissions\": [\n            \"read\",\n            \"write\",\n            \"delete\"\n        ],\n        \"status\": \"active\",\n        \"company_id\": \"65f52cb6f66a1ae0377003c8\",\n        \"organization_token_id\": \"6687e083921bb2bb1931bdb8\",\n        \"organization_id\": \"6687dec1921bb2bb1931bdb7\",\n        \"access\": \"level_1\",\n        \"iat\": 1722060569,\n        \"exp\": 1722233369\n    },\n    \"status\": true,\n    \"message\": \"Ok\"\n}"
 								}
 							]
 						}
@@ -6842,7 +7105,7 @@
 		},
 		{
 			"key": "organization_secret",
-			"value": "2fc0e83b-543d-4f4d-b4d4-30f45a40e9da.organization",
+			"value": "7edb1193-2ac2-4632-9f1d-5f59b4ea32f9.organization",
 			"type": "string"
 		},
 		{
@@ -6851,7 +7114,7 @@
 			"type": "string"
 		},
 		{
-			"key": "achieved_url",
+			"key": "local",
 			"value": "http://localhost:8000/v1",
 			"type": "string"
 		}
