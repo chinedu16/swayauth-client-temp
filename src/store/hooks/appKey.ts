@@ -14,7 +14,7 @@ const useAppKey = (auto = true) => {
                 http(reduxRequest(CONST.COMPANY.CREDENTIALS.GET_APP_KEY, {}, updateAppKey, 'get'))
             }
         }
-    }, []);
+    }, [loading, data]);
 
     const rotateAppKey = () => {
         http(reduxRequest(CONST.COMPANY.CREDENTIALS.ROTATE_APP_KEY, {}, updateAppKey, 'put'))

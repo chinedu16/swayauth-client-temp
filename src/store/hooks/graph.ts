@@ -15,7 +15,7 @@ const useGraph = (auto = true) => {
                 http(reduxRequest(CONST.COMPANY.STATISTICS.GET_LOGIN_GRAPH + '?duration=7_days', {}, updateLogin as any, 'get'))
             }
         }
-    }, []);
+    }, [loading]);
 
     const updateLoginStatistic = async (e: ChangeEvent<HTMLSelectElement>) => {
         http(reduxRequest(CONST.COMPANY.STATISTICS.GET_LOGIN_GRAPH + `?duration=${e.target.value}`, {}, updateLogin as any, 'get'))

@@ -14,7 +14,7 @@ const useCards = (auto = true) => {
                 fetchCards()
             }
         }
-    }, []);
+    }, [loading, data]);
 
     const fetchCards = () => {
         http(reduxRequest(CONST.COMPANY.CARD.LIST, {}, updateCards, 'get'))

@@ -1,4 +1,4 @@
-// File: /Users/john/work/swayauth/client/src/app/terms-and-conditions/page.tsx
+// File: /Users/johnfash/Work/Swayauth/client/src/app/terms-and-conditions/page.tsx
 import * as entry from '../../../../src/app/terms-and-conditions/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

@@ -14,7 +14,7 @@ const useAccount = (auto = true) => {
                 http(reduxRequest(CONST.ACCOUNT.GET_PROFILE, {}, updateAccount, 'get'))
             }
         }
-    }, []);
+    }, [loading, data]);
 
     const updateClientProfile = (value: AccountData | null) => {
         if (value)

@@ -14,7 +14,7 @@ const useUsers = (auto = true) => {
                 http(reduxRequest(CONST.COMPANY.USERS.LIST, {}, updateUsers, 'get'))
             }
         }
-    }, []);
+    }, [loading, data]);
 
     const updateStatus = (ids: string[], status: 'active' | 'disabled') => {
         http(updateUsersStatus({ ids, status }))

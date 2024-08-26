@@ -14,7 +14,7 @@ const useOrganization = (auto = true) => {
                 http(reduxRequest(CONST.COMPANY.ORGANIZATION.LIST + `?page=-1`, {}, updateOrganization, 'get'))
             }
         }
-    }, []);
+    }, [loading]);
 
     const addOrganization = (organization: OrganizationData) => {
         http(addAnOrganization(organization))

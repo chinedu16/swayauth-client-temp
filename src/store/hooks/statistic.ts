@@ -14,7 +14,7 @@ const useStatistics = (auto = true) => {
                 http(reduxRequest(CONST.COMPANY.STATISTICS.GET_ALL_STATISTIC_PERFORMANCE, {}, updateStatistics as any, 'get'))
             }
         }
-    }, []);
+    }, [loading]);
 
     const updateOneStatistic = async (key: keyof StatisticData, duration: string) => {
         http(updateOneStat({ key, loading: 'true' }))

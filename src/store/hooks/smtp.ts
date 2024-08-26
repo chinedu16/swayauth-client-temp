@@ -14,7 +14,7 @@ const useSmtp = (auto = true) => {
                 fetchSmtp()
             }
         }
-    }, []);
+    }, [loading, data]);
 
     const fetchSmtp = () => {
         http(reduxRequest(CONST.COMPANY.SMTP.DETAIL, {}, updateSmtp, 'get'))

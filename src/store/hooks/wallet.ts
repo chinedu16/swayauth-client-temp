@@ -14,7 +14,7 @@ const useWallet = (auto = true) => {
                 fetchWallet()
             }
         }
-    }, []);
+    }, [loading, data]);
 
     const fetchWallet = () => {
         http(reduxRequest(CONST.COMPANY.WALLET.GET_WALLET, {}, updateWallet, 'get'))

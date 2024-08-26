@@ -128,7 +128,7 @@ const Company = ({ params }: { params: { organization: string } }) => {
                     } else {
                       toggleDeleteTokens()
                     }
-                  }} className="block px-4 py-2 hover:bg-gray-100 cursor-pointer ">
+                  }} className="block px-4 py-2 hover:bg-gray-700 cursor-pointer ">
                     <FontAwesomeIcon icon={faTrash} className="w-[1rem]" />
                     <span className="ml-3">Delete</span>
                   </li>

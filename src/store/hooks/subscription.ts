@@ -14,7 +14,7 @@ const useSubscription = (auto = true) => {
                 fetchSubscription()
             }
         }
-    }, []);
+    }, [loading, data]);
 
     const fetchSubscription = () => {
         http(reduxRequest(CONST.COMPANY.SUBSCRIPTION.GET, undefined, updateSubscription, 'get'))

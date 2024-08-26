@@ -1,4 +1,4 @@
-// File: /Users/john/work/swayauth/client/src/app/clientarea/(index)/layout.tsx
+// File: /Users/johnfash/Work/Swayauth/client/src/app/clientarea/(index)/layout.tsx
 import * as entry from '../../../../../src/app/clientarea/(index)/layout.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

@@ -15,8 +15,8 @@ const useOneOrganization = (id: string) => {
   })
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    loadOrganization(id)
-  }, []);
+    if (id) loadOrganization(id)
+  }, [id]);
 
   const updateData = (data: OrganizationData) => {
     setData(p => ({ ...p, data }))

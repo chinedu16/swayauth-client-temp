@@ -257,11 +257,11 @@ const Customer = () => {
             </DropDown.Toggle>
             <DropDown.Body className="inline-block right-0 top-[calc(100%+0.5rem)] min-w-[10rem] text-base font-normal">
               <ul className="py-2 text-gray-200 bg-black rounded-md">
-                <li onClick={() => activateUsers()} className="block px-4 py-2 hover:bg-gray-100 cursor-pointer ">
+                <li onClick={() => activateUsers()} className="block px-4 py-2 hover:bg-gray-700 cursor-pointer ">
                   <FontAwesomeIcon icon={faBolt} className="w-[1rem]" />
                   <span className="ml-3">Activate</span>
                 </li>
-                <li onClick={() => deactivateUsers()} className="block px-4 py-2 hover:bg-gray-100 cursor-pointer ">
+                <li onClick={() => deactivateUsers()} className="block px-4 py-2 hover:bg-gray-700 cursor-pointer ">
                   <FontAwesomeIcon icon={faBan} className="w-[1rem]" />
                   <span className="ml-3">Deactivate</span>
                 </li>

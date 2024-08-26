@@ -14,7 +14,7 @@ const useTeam = (auto = true) => {
                 http(reduxRequest(CONST.COMPANY.TEAM.LIST + '?page=-1', {}, updateTeam, 'get'))
             }
         }
-    }, []);
+    }, [loading, data]);
 
     const addTeam = (team: TeamData) => {
         http(pushATeamMember(team))

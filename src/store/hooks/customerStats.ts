@@ -14,7 +14,7 @@ const useCustomerStats = (auto = true) => {
                 http(reduxRequest(CONST.COMPANY.USERS.STATISTICS, {}, updateCustomerStats, 'get'))
             }
         }
-    }, []);
+    }, [loading, data]);
 
     const changeCount = (ids: string[], status: 'active' | 'disabled') => {
         http(updateCustomerStatus({ count: ids.length, status }))

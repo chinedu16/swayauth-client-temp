@@ -518,7 +518,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"first_name\": \"John\",\n    \"last_name\": \"Doe\",\n    \"phone\": \"+2349036723177\",\n    \"address\": \"No 4, Cresent Estate, Lagos.\",\n    \"city\": \"Lagos\",\n    \"state\": \"Lagos\",\n    \"country\": \"Nigeria\",\n    \"photo\": \"https://api.swayauth.com/logo.png\",\n    \"email\": \"example@gmail.com\",\n    \"password\": \"qwerty12345\"\n}",
+									"raw": "{\n    \"first_name\": \"John\",\n    \"last_name\": \"Doe\",\n    \"phone\": \"+2349036723177\",\n    \"address\": \"No 4, Cresent Estate, Lagos.\",\n    \"city\": \"Lagos\",\n    \"state\": \"Lagos\",\n    \"country\": \"Nigeria\",\n    \"photo\": \"https://api.swayauth.com/public/logo.png\",\n    \"email\": \"example@gmail.com\",\n    \"password\": \"qwerty12345\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -546,7 +546,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n    \"first_name\": \"John\",\n    \"last_name\": \"Doe\",\n    \"phone\": \"+2349039398939\",\n    \"address\": \"No 4, Cresent Estate, Lagos\",\n    \"city\": \"Lagos\",\n    \"state\": \"Lagos\",\n    \"country\": \"Nigeria\",\n    \"photo\": \"https://api.swayauth.com/logo.png\",\n    \"email\": \"example@gmail.com\",\n    \"password\": \"qwerty12345\"\n}",
+											"raw": "{\n    \"first_name\": \"John\",\n    \"last_name\": \"Doe\",\n    \"phone\": \"+2349039398939\",\n    \"address\": \"No 4, Cresent Estate, Lagos\",\n    \"city\": \"Lagos\",\n    \"state\": \"Lagos\",\n    \"country\": \"Nigeria\",\n    \"photo\": \"https://api.swayauth.com/public/logo.png\",\n    \"email\": \"example@gmail.com\",\n    \"password\": \"qwerty12345\"\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -1827,7 +1827,7 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n    \"data\": {\n        \"id\": \"65ab4e3dcf0725fe6ebf4c3d\",\n        \"first_name\": \"John\",\n        \"last_name\": \"Doe\",\n        \"phone\": \"+2349027938938\",\n        \"address\": \"No 4, Cresent Estate, Lagos\",\n        \"city\": \"Lagos\",\n        \"state\": \"Lagos\",\n        \"country\": \"Nigeria\",\n        \"ip_address\": \"::1\",\n        \"email\": \"example@gmail.com\",\n        \"status\": \"active\",\n        \"verified\": true,\n        \"photo\": \"https://api.swayauth.com/logo.png\",\n        \"scope\": [\n            \"manual\"\n        ],\n        \"permissions\": [\n            \"read\",\n            \"write\",\n            \"delete\"\n        ],\n        \"access\": \"level_1\",\n        \"two_factor_type\": null,\n        \"company_id\": \"65a2f888684add2bc7aa612d\",\n        \"organization_id\": \"65ab48e8e7e73bf1fbeb6152\",\n        \"organization_token_id\": \"65ab4a31e7e73bf1fbeb6153\",\n        \"created_at\": \"2024-01-20T04:38:20.674Z\",\n        \"updated_at\": \"2024-01-20T05:23:49.258Z\"\n    },\n    \"status\": true,\n    \"message\": \"Ok\"\n}"
+									"body": "{\n    \"data\": {\n        \"id\": \"65ab4e3dcf0725fe6ebf4c3d\",\n        \"first_name\": \"John\",\n        \"last_name\": \"Doe\",\n        \"phone\": \"+2349027938938\",\n        \"address\": \"No 4, Cresent Estate, Lagos\",\n        \"city\": \"Lagos\",\n        \"state\": \"Lagos\",\n        \"country\": \"Nigeria\",\n        \"ip_address\": \"::1\",\n        \"email\": \"example@gmail.com\",\n        \"status\": \"active\",\n        \"verified\": true,\n        \"photo\": \"https://api.swayauth.com/public/logo.png\",\n        \"scope\": [\n            \"manual\"\n        ],\n        \"permissions\": [\n            \"read\",\n            \"write\",\n            \"delete\"\n        ],\n        \"access\": \"level_1\",\n        \"two_factor_type\": null,\n        \"company_id\": \"65a2f888684add2bc7aa612d\",\n        \"organization_id\": \"65ab48e8e7e73bf1fbeb6152\",\n        \"organization_token_id\": \"65ab4a31e7e73bf1fbeb6153\",\n        \"created_at\": \"2024-01-20T04:38:20.674Z\",\n        \"updated_at\": \"2024-01-20T05:23:49.258Z\"\n    },\n    \"status\": true,\n    \"message\": \"Ok\"\n}"
 								}
 							]
 						},
@@ -1859,7 +1859,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"first_name\": \"John\",\n    \"last_name\": \"Doe\",\n    \"phone\": \"+234903939898983\",\n    \"address\": \"No 4, Cresent Estate, Lagos\",\n    \"city\": \"Lagos\",\n    \"state\": \"Lagos\",\n    \"country\": \"Nigeria\",\n    \"photo\": \"https://api.swayauth.com/logo.png\"\n}",
+									"raw": "{\n    \"first_name\": \"John\",\n    \"last_name\": \"Doe\",\n    \"phone\": \"+234903939898983\",\n    \"address\": \"No 4, Cresent Estate, Lagos\",\n    \"city\": \"Lagos\",\n    \"state\": \"Lagos\",\n    \"country\": \"Nigeria\",\n    \"photo\": \"https://api.swayauth.com/public/logo.png\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1885,7 +1885,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n    \"first_name\": \"Tosin\",\n    \"last_name\": \"Fashanu\",\n    \"phone\": \"+2349033379793\",\n    \"address\": \"No 4, Cresent Estate, Lagos\",\n    \"city\": \"Lagos\",\n    \"state\": \"Lagos\",\n    \"country\": \"Nigeria\",\n    \"photo\": \"https://api.swayauth.com/logo.png\"\n}",
+											"raw": "{\n    \"first_name\": \"Tosin\",\n    \"last_name\": \"Fashanu\",\n    \"phone\": \"+2349033379793\",\n    \"address\": \"No 4, Cresent Estate, Lagos\",\n    \"city\": \"Lagos\",\n    \"state\": \"Lagos\",\n    \"country\": \"Nigeria\",\n    \"photo\": \"https://api.swayauth.com/public/logo.png\"\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -1940,7 +1940,7 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n    \"data\": {\n        \"id\": \"65ab4e3dcf0725fe6ebf4c3d\",\n        \"first_name\": \"John\",\n        \"last_name\": \"Doe\",\n        \"phone\": \"+234903393399\",\n        \"address\": \"No 4, Cresent Estate, Lagos\",\n        \"city\": \"Lagos\",\n        \"state\": \"Lagos\",\n        \"country\": \"Nigeria\",\n        \"ip_address\": \"::1\",\n        \"email\": \"fashanutosin7@gmail.com\",\n        \"status\": \"active\",\n        \"verified\": true,\n        \"photo\": \"https://api.swayauth.com/logo.png\",\n        \"scope\": [\n            \"manual\"\n        ],\n        \"permissions\": [\n            \"read\",\n            \"write\",\n            \"delete\"\n        ],\n        \"access\": \"level_1\",\n        \"two_factor_type\": null,\n        \"company_id\": \"65a2f888684add2bc7aa612d\",\n        \"organization_id\": \"65ab48e8e7e73bf1fbeb6152\",\n        \"organization_token_id\": \"65ab4a31e7e73bf1fbeb6153\",\n        \"created_at\": \"2024-01-20T04:38:20.674Z\",\n        \"updated_at\": \"2024-01-20T05:28:39.722Z\"\n    },\n    \"status\": true,\n    \"message\": \"Ok\"\n}"
+									"body": "{\n    \"data\": {\n        \"id\": \"65ab4e3dcf0725fe6ebf4c3d\",\n        \"first_name\": \"John\",\n        \"last_name\": \"Doe\",\n        \"phone\": \"+234903393399\",\n        \"address\": \"No 4, Cresent Estate, Lagos\",\n        \"city\": \"Lagos\",\n        \"state\": \"Lagos\",\n        \"country\": \"Nigeria\",\n        \"ip_address\": \"::1\",\n        \"email\": \"fashanutosin7@gmail.com\",\n        \"status\": \"active\",\n        \"verified\": true,\n        \"photo\": \"https://api.swayauth.com/public/logo.png\",\n        \"scope\": [\n            \"manual\"\n        ],\n        \"permissions\": [\n            \"read\",\n            \"write\",\n            \"delete\"\n        ],\n        \"access\": \"level_1\",\n        \"two_factor_type\": null,\n        \"company_id\": \"65a2f888684add2bc7aa612d\",\n        \"organization_id\": \"65ab48e8e7e73bf1fbeb6152\",\n        \"organization_token_id\": \"65ab4a31e7e73bf1fbeb6153\",\n        \"created_at\": \"2024-01-20T04:38:20.674Z\",\n        \"updated_at\": \"2024-01-20T05:28:39.722Z\"\n    },\n    \"status\": true,\n    \"message\": \"Ok\"\n}"
 								}
 							]
 						},
@@ -4745,7 +4745,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"name\":\"Cloutra\",\n    \"website\":\"https://cloutra.com\",\n    \"bio\":\"We create aws labs for our customers\", \n    \"photo\":\"https://api.swayauth.com/logo.png\"\n}",
+									"raw": "{\n    \"name\":\"Cloutra\",\n    \"website\":\"https://cloutra.com\",\n    \"bio\":\"We create aws labs for our customers\", \n    \"photo\":\"https://api.swayauth.com/public/logo.png\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -4773,7 +4773,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n    \"name\":\"Cloutra\",\n    \"website\":\"https://cloutra.com\",\n    \"bio\":\"We create aws labs for our customers\", \n    \"photo\":\"https://api.swayauth.com/logo.png\"\n}",
+											"raw": "{\n    \"name\":\"Cloutra\",\n    \"website\":\"https://cloutra.com\",\n    \"bio\":\"We create aws labs for our customers\", \n    \"photo\":\"https://api.swayauth.com/public/logo.png\"\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -4830,7 +4830,7 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n    \"data\": {\n        \"id\": \"65abaae051afd54bc2bc3399\",\n        \"photo\": \"https://api.swayauth.com/logo.png\",\n        \"name\": \"Cloutra\",\n        \"website\": \"https://cloutra.com\",\n        \"bio\": \"We create aws labs for our customers\",\n        \"company_id\": \"65a2f888684add2bc7aa612d\",\n        \"created_at\": \"2024-01-20T11:13:36.108Z\",\n        \"updated_at\": \"2024-01-20T11:13:36.108Z\"\n    },\n    \"status\": true,\n    \"message\": \"Organization created successfully\"\n}"
+									"body": "{\n    \"data\": {\n        \"id\": \"65abaae051afd54bc2bc3399\",\n        \"photo\": \"https://api.swayauth.com/public/logo.png\",\n        \"name\": \"Cloutra\",\n        \"website\": \"https://cloutra.com\",\n        \"bio\": \"We create aws labs for our customers\",\n        \"company_id\": \"65a2f888684add2bc7aa612d\",\n        \"created_at\": \"2024-01-20T11:13:36.108Z\",\n        \"updated_at\": \"2024-01-20T11:13:36.108Z\"\n    },\n    \"status\": true,\n    \"message\": \"Organization created successfully\"\n}"
 								}
 							]
 						},

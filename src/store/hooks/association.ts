@@ -14,7 +14,7 @@ const useAssociation = (auto = true) => {
                 http(reduxRequest(CONST.ACCOUNT.GET_ASSOCIATION, {}, updateAssociation, 'get'))
             }
         }
-    }, []);
+    }, [loading, data]);
 
     return { loading: loading == 'true', data, message, status }
 }

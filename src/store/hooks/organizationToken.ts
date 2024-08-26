@@ -33,8 +33,8 @@ const useOrganzationToken = (id: string, auto = true) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    loadOrganizationTokens(id)
-  }, []);
+    if (id) loadOrganizationTokens(id)
+  }, [id]);
 
   const loadOrganizationTokens = async (id: string) => {
     if (!auto) return

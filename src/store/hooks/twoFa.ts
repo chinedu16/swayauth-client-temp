@@ -14,7 +14,7 @@ const useTwoFa = (auto = true) => {
                 http(reduxRequest(CONST.AUTH.GET_TWO_FA, {}, updateTwoFa, 'get'))
             }
         }
-    }, []);
+    }, [loading, data]);
 
     return { loading: loading == 'true', data, message, status }
 }

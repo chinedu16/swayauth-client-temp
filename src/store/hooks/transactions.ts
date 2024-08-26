@@ -14,7 +14,7 @@ const useTransactions = (auto = true) => {
                 http(reduxRequest(CONST.COMPANY.TRANSACTION.LIST, {}, updateTransactions, 'get'))
             }
         }
-    }, []);
+    }, [loading, data]);
 
     const fetchTransactions = (query: string) => {
         http(reduxRequest(CONST.COMPANY.TRANSACTION.LIST + '?' + query.trim(), {}, updateTransactions, 'get'))
