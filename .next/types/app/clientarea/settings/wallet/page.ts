@@ -1,4 +1,4 @@
-// File: /Users/johnfash/Work/Swayauth/client/src/app/clientarea/settings/wallet/page.tsx
+// File: /Users/johnfash/Work/swayauth/swayauth-client/src/app/clientarea/settings/wallet/page.tsx
 import * as entry from '../../../../../../src/app/clientarea/settings/wallet/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
