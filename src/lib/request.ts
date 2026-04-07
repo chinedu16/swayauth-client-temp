@@ -29,6 +29,7 @@ export const normalRequest = async <T = any>(
       data: data,
       headers,
     });
+    console.log(res)
     if (res.data?.data?.access_token) saveAccessToken(res.data?.data?.access_token)
     return res.data as ResponseProp<T>
   } catch (error: any) {

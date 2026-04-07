@@ -8,13 +8,14 @@ import { copyText, cropString, dateLong } from "@/lib/utils";
 import useOneOrganization from "@/store/hooks/oneOrganization";
 import useOrganzationToken, { OrganizationTokenData } from "@/store/hooks/organizationToken";
 import { faCopy } from "@fortawesome/free-regular-svg-icons";
-import { faArrowLeft, faEllipsisV, faPen, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faEllipsisV, faPen, faPlus, faTrash, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import NProgress from 'nprogress';
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import Modal from "@/components/modal";
 import CreateCredModal from "../../../../components/clientarea/credentials/modals/createCred";
 import EditOrg from "../../../../components/clientarea/credentials/modals/editOrg";
 
@@ -23,9 +24,38 @@ const Company = ({ params }: { params: { organization: string } }) => {
   const [editModal, setEditModal] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [deleteModal, setDeleteModal] = useState<{ open: boolean, token_ids: string[] }>({ open: false, token_ids: [] });
+  const [viewModal, setViewModal] = useState<{ open: boolean, data: OrganizationTokenData | null }>({ open: false, data: null });
   const router = useRouter()
   const { data, loading, message, updateData } = useOneOrganization(params.organization)
   const { data: token, loading: tokenLoading, addToTokenData, removeTokenData, updateTokenData } = useOrganzationToken(params.organization)
+
+  const [useFallbackPhoto, setUseFallbackPhoto] = useState(false);
+  useEffect(() => {
+    setUseFallbackPhoto(false)
+  }, [data?.photo]);
+  const getHostedAuthUrls = (t: OrganizationTokenData) => {
+    const appId = t.id || ''
+    const redirectUrl = t.redirect_url || ''
+    const buildUrl = (path: string, defaultPage: 'login' | 'register') => {
+      const query = new URLSearchParams()
+      query.set('app_id', appId)
+      if (redirectUrl) query.set('redirect_url', redirectUrl)
+      query.set('default', defaultPage)
+      if (t.template) query.set('template', t.template)
+      return `${CONST.AUTH_BASE_URL}${path}?${query.toString()}`
+    }
+
+    return {
+      b2c: {
+        login: buildUrl('/oauth', 'login'),
+        register: buildUrl('/oauth', 'register'),
+      },
+      b2b: {
+        login: buildUrl('/b2b', 'login'),
+        register: buildUrl('/b2b', 'register'),
+      },
+    }
+  }
 
   const back = () => {
     NProgress.start()
@@ -35,6 +65,7 @@ const Company = ({ params }: { params: { organization: string } }) => {
   const toggleDeleteTokens = (token_ids?: string[]) => setDeleteModal(p => ({ token_ids: token_ids || p.token_ids, open: !p.open }))
   const toggleCred = (data: OrganizationTokenData | null) => setCredModal(p => ({ data, open: !p.open }))
   const toggleEditCred = () => setEditModal(!editModal)
+  const toggleView = (data: OrganizationTokenData | null) => setViewModal(p => ({ data, open: !p.open }))
 
   const deleteTokens = async (token_ids: string[]) => {
     if (token_ids.length) {
@@ -81,7 +112,14 @@ const Company = ({ params }: { params: { organization: string } }) => {
         <div className="w-14 h-14 border shadow-sm flex items-center justify-center">
           {
             loading ? <span className="animate-pulse w-full h-full bg-slate-200 relative"></span> :
-              <Image src={data?.photo || ''} alt="" className="bg-white object-cover w-full" width={400} height={400} />
+              <Image
+                src={useFallbackPhoto ? 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png' : (data?.photo || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png')}
+                alt=""
+                className="bg-white object-cover w-full"
+                width={400}
+                height={400}
+                onError={() => setUseFallbackPhoto(true)}
+              />
           }
         </div>
         <div className="ml-4">
@@ -138,7 +176,7 @@ const Company = ({ params }: { params: { organization: string } }) => {
           </div>
         </div>
       </div>
-      <div className="relative overflow-x-auto show-scrollbar pb-3">
+      <div className="relative overflow-y-visible show-scrollbar pb-3">
         <table className="w-full text-left font-normal min-h-24">
           <thead className="bg-slate-100">
             <tr>
@@ -226,6 +264,18 @@ const Company = ({ params }: { params: { organization: string } }) => {
                           <button disabled={deleteLoading} onClick={() => toggleDeleteTokens([item.id as string])} title="delete" className="hover:bg-slate-200 disabled:opacity-60 px-1 mr-1 rounded-full">
                             <FontAwesomeIcon icon={faTrash} />
                           </button>
+                          <DropDown.Container>
+                            <DropDown.Toggle hideCaret className="hover:bg-slate-200 disabled:opacity-60 px-1 mr-1 rounded-full" title="auth urls">
+                              <FontAwesomeIcon icon={faEllipsisV} />
+                            </DropDown.Toggle>
+                            <DropDown.Body className="inline-block right-0 sm:left-auto sm:right-0 top-[calc(100%+0.5rem)] min-w-[14rem] text-base font-normal z-50">
+                              <ul className="py-2 text-gray-200 bg-black rounded-md">
+                                <li onClick={() => toggleView(item)} className="block px-4 py-2 hover:bg-gray-700 cursor-pointer">
+                                  View Links
+                                </li>
+                              </ul>
+                            </DropDown.Body>
+                          </DropDown.Container>
                           <button disabled={deleteLoading} onClick={() => copyText(JSON.stringify(item, null, 2))} title="copy" className="hover:bg-slate-200 px-1 disabled:opacity-60 rounded-full">
                             <FontAwesomeIcon icon={faCopy} />
                           </button>
@@ -263,7 +313,103 @@ const Company = ({ params }: { params: { organization: string } }) => {
       action={() => deleteTokens(deleteModal.token_ids)}
     />
 
+    <UrlPreviewModal
+      isOpen={viewModal.open}
+      data={viewModal.data}
+      toggle={() => toggleView(null)}
+    />
+
   </div>;
 };
 
 export default Company;
+
+const UrlPreviewModal = ({ isOpen, data, toggle }: { isOpen: boolean, data?: OrganizationTokenData | null, toggle: () => void }) => {
+  const build = () => {
+    const urls = {
+      b2c: getUrls('oauth', data),
+      b2b: getUrls('b2b', data),
+      forgot: `${CONST.CLIENT_BASE_URL}${CONST.LOCATION.FORGOT_PASSWORD}`
+    }
+    return urls
+  }
+  const urls = build();
+
+  return <Modal isOpen={isOpen} toggle={toggle} center size="max-w-xl">
+    <div className="mx-auto transition w-full items-center justify-center flex" >
+      <div className="bg-white rounded-md w-full">
+        <div className="flex items-center p-4 w-full border-b">
+          <button onClick={toggle} className="p-1 font-bold text-xl rounded-full hover:bg-slate-100 px-3">
+            <FontAwesomeIcon icon={faXmark} />
+          </button>
+          <h2 className='text-xl pl-3 font-bold'>Hosted Auth Links</h2>
+        </div>
+        <div className="p-7 bg-gray-50">
+          <div className="mb-4">
+            <h4 className="font-semibold mb-2">B2C</h4>
+            <div className="text-sm break-all">
+              <div className="flex items-center justify-between">
+                <span className="mr-2">Login:</span>
+                <a href={urls.b2c.login} className="text-blue-700 underline underline-offset-2">Open</a>
+              </div>
+              <div className="mt-1 text-gray-600">{urls.b2c.login}</div>
+              <button onClick={() => copyText(urls.b2c.login)} className="mt-1 text-xs px-2 py-1 rounded border"><FontAwesomeIcon icon={faCopy} /> <span className="ml-1">Copy</span></button>
+            </div>
+            <div className="mt-4 text-sm break-all">
+              <div className="flex items-center justify-between">
+                <span className="mr-2">Register:</span>
+                <a href={urls.b2c.register} className="text-blue-700 underline underline-offset-2">Open</a>
+              </div>
+              <div className="mt-1 text-gray-600">{urls.b2c.register}</div>
+              <button onClick={() => copyText(urls.b2c.register)} className="mt-1 text-xs px-2 py-1 rounded border"><FontAwesomeIcon icon={faCopy} /> <span className="ml-1">Copy</span></button>
+            </div>
+          </div>
+          <div className="mb-4">
+            <h4 className="font-semibold mb-2">B2B</h4>
+            <div className="text-sm break-all">
+              <div className="flex items-center justify-between">
+                <span className="mr-2">Login:</span>
+                <a href={urls.b2b.login} className="text-blue-700 underline underline-offset-2">Open</a>
+              </div>
+              <div className="mt-1 text-gray-600">{urls.b2b.login}</div>
+              <button onClick={() => copyText(urls.b2b.login)} className="mt-1 text-xs px-2 py-1 rounded border"><FontAwesomeIcon icon={faCopy} /> <span className="ml-1">Copy</span></button>
+            </div>
+            <div className="mt-4 text-sm break-all">
+              <div className="flex items-center justify-between">
+                <span className="mr-2">Register:</span>
+                <a href={urls.b2b.register} className="text-blue-700 underline underline-offset-2">Open</a>
+              </div>
+              <div className="mt-1 text-gray-600">{urls.b2b.register}</div>
+              <button onClick={() => copyText(urls.b2b.register)} className="mt-1 text-xs px-2 py-1 rounded border"><FontAwesomeIcon icon={faCopy} /> <span className="ml-1">Copy</span></button>
+            </div>
+          </div>
+          <div className="mb-2">
+            <h4 className="font-semibold mb-2">Forgot Password</h4>
+            <div className="text-sm break-all">
+              <div className="flex items-center justify-between">
+                <span className="mr-2">Link:</span>
+                <a href={urls.forgot} className="text-blue-700 underline underline-offset-2">Open</a>
+              </div>
+              <div className="mt-1 text-gray-600">{urls.forgot}</div>
+              <button onClick={() => copyText(urls.forgot)} className="mt-1 text-xs px-2 py-1 rounded border"><FontAwesomeIcon icon={faCopy} /> <span className="ml-1">Copy</span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </Modal>
+}
+
+const getUrls = (path: 'oauth' | 'b2b', t?: OrganizationTokenData | null) => {
+  const appId = t?.id || ''
+  const redirectUrl = t?.redirect_url || ''
+  const query = new URLSearchParams()
+  query.set('app_id', appId)
+  if (redirectUrl) query.set('redirect_url', redirectUrl)
+  query.set('default', 'login')
+  if (t?.template) query.set('template', t.template)
+  const login = `${CONST.AUTH_BASE_URL}/${path}?${query.toString()}`
+  query.set('default', 'register')
+  const register = `${CONST.AUTH_BASE_URL}/${path}?${query.toString()}`
+  return { login, register }
+}

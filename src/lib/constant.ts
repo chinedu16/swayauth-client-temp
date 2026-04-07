@@ -1,6 +1,7 @@
 export const CONST = Object.freeze({
   BASE_URL: process.env.NODE_ENV == 'development' ? `http://${typeof window !== "undefined" ? window?.location?.hostname : 'localhost'}:8000/v1` : 'https://api.swayauth.com/v1',
   CLIENT_BASE_URL: process.env.NODE_ENV == 'development' ? `http://${typeof window !== "undefined" ? window?.location?.hostname : 'localhost'}:3000` : 'https://swayauth.com',
+  AUTH_BASE_URL: process.env.NEXT_PUBLIC_SWAYAUTH_AUTH_BASE_URL || (process.env.NODE_ENV == 'development' ? `http://${typeof window !== "undefined" ? window?.location?.hostname : 'localhost'}:3000` : 'https://auth.swayauth.com'),
   ACCESS_TOKEN: '__s_c_UUtk_at',
   REFRESH_TOKEN: '__s_c_UUtk_tr',
   LOCATION: {

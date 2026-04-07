@@ -5,7 +5,8 @@ const nextConfig = {
      'localhost',
      'api.swayauth.com', 
      'lh3.googleusercontent.com',
-     'platform-lookaside.fbsbx.com'
+     'platform-lookaside.fbsbx.com',
+     'cdn.pixabay.com'
     ],
   },
 }

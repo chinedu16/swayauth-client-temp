@@ -16,6 +16,7 @@ export interface OrganizationTokenData {
   permissions: ('read' | 'write' | 'delete')[]
   scope?: scope[]
   organization_id?: string
+  template?: 'classic' | 'modern' | 'minimal'
   created_at?: string
   updated_at?: string
 }

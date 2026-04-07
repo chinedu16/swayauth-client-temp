@@ -1,0 +1,102 @@
+.mo-shell {
+  background-color: var(--mo-bg);
+  background-image:
+    linear-gradient(rgba(0,212,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,212,255,0.04) 1px, transparent 1px),
+    linear-gradient(rgba(0,212,255,0.012) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,212,255,0.012) 1px, transparent 1px);
+  background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px;
+}
+.mo-shell::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 55% 35% at 0% 100%, rgba(0,212,255,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 55% 35% at 100% 0%, rgba(0,212,255,0.04) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.mo-syne { font-family: 'Syne', sans-serif; }
+.mo-mono { font-family: 'IBM Plex Mono', monospace; }
+
+.mo-card-shadow {
+  box-shadow:
+    0 0 0 1px rgba(0,212,255,0.04),
+    0 20px 50px rgba(0,0,0,0.7),
+    inset 0 0 30px rgba(0,212,255,0.03);
+}
+
+/* Scoped form overrides */
+.mo-scope label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.62rem;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mo-muted);
+  display: block;
+  margin-bottom: 7px;
+}
+.mo-scope input,
+.mo-scope textarea,
+.mo-scope select {
+  background: rgba(0,0,0,0.3) !important;
+  border: 1px solid var(--mo-border) !important;
+  border-radius: 1px !important;
+  color: var(--mo-text) !important;
+  font-family: 'IBM Plex Mono', monospace !important;
+  font-size: 0.82rem !important;
+  font-weight: 300 !important;
+  padding: 10px 13px !important;
+  width: 100% !important;
+  outline: none !important;
+  box-sizing: border-box !important;
+  transition: border-color 0.15s, box-shadow 0.15s !important;
+}
+.mo-scope input:focus,
+.mo-scope textarea:focus {
+  border-color: rgba(0,212,255,0.55) !important;
+  box-shadow: 0 0 0 3px var(--mo-glow) !important;
+}
+.mo-scope input::placeholder { color: rgba(0,212,255,0.18) !important; }
+.mo-scope button[type="submit"],
+.mo-scope .btn-primary {
+  width: 100% !important;
+  background: transparent !important;
+  border: 1px solid var(--mo-accent) !important;
+  color: var(--mo-accent) !important;
+  font-family: 'IBM Plex Mono', monospace !important;
+  font-size: 0.7rem !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.2em !important;
+  text-transform: uppercase !important;
+  padding: 12px !important;
+  border-radius: 1px !important;
+  cursor: pointer !important;
+  transition: background 0.15s, box-shadow 0.15s, text-shadow 0.15s !important;
+  margin-top: 8px !important;
+}
+.mo-scope button[type="submit"]:hover,
+.mo-scope .btn-primary:hover {
+  background: rgba(0,212,255,0.07) !important;
+  box-shadow: 0 0 20px var(--mo-glow), inset 0 0 16px rgba(0,212,255,0.04) !important;
+  text-shadow: 0 0 10px var(--mo-accent) !important;
+}
+
+.mo-scanlines {
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(0,212,255,0.012) 3px,
+    rgba(0,212,255,0.012) 4px
+  );
+}
+
+@keyframes mo-in {
+  from { opacity: 0; transform: translateY(12px) scale(0.99); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.mo-animate { animation: mo-in 0.45s ease both; }

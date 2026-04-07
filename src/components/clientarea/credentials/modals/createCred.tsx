@@ -32,6 +32,12 @@ const twoFaOptions = [
   { value: 'sms', label: 'SMS' },
 ]
 
+const templateOptions = [
+  { value: 'classic', label: 'Classic' },
+  { value: 'modern', label: 'Modern' },
+  { value: 'minimal', label: 'Minimal' },
+]
+
 const CreateCredModal = ({ isOpen, addToken, editToken, toggle, token, organization }: { addToken?: (d: OrganizationTokenData) => void, editToken?: (d: OrganizationTokenData) => void, organization?: string, isOpen: boolean, token?: OrganizationTokenData | null, toggle: () => void }) => {
   const [manual, setManual] = useState(token?.scope?.includes('manual') ? true : false);
   const [redirect_url, setRedirect_url] = useState('');
@@ -171,6 +177,19 @@ const CreateCredModal = ({ isOpen, addToken, editToken, toggle, token, organizat
                   required
                   styles={{ control: (styles) => ({ ...styles, borderColor: '#E5E7EB', borderRadius: 6, paddingTop: 3, paddingBottom: 3 }) as any }}
                   options={permissionOptions}
+                  classNamePrefix="select"
+                />
+              </div>
+            </div>
+            <div className='mb-4'>
+              <label>Hosted Template</label>
+              <div className='mt-1'>
+                <Select
+                  closeMenuOnSelect={true}
+                  defaultValue={token?.template ? templateOptions.filter(v => v.value === token.template) : templateOptions.filter(v => v.value === 'minimal')}
+                  name='template'
+                  styles={{ control: (styles) => ({ ...styles, borderColor: '#E5E7EB', borderRadius: 6, paddingTop: 3, paddingBottom: 3 }) as any }}
+                  options={templateOptions}
                   classNamePrefix="select"
                 />
               </div>
