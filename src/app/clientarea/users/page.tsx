@@ -47,7 +47,7 @@ const Customer = () => {
   const toggleUser = (data?: null | UsersData) => setViewUser(p => ({ open: !p.open, data }))
 
   const changeRouteQuery = (...args: string[]) => {
-    const params = new URLSearchParams(searchParams)
+    const params = new URLSearchParams(searchParams.toString())
     args.forEach((key, idx, arr) => {
       if (idx % 2 == 0) {
         if (key && arr[idx + 1]) {

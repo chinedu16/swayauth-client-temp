@@ -25,6 +25,7 @@ export const replaceMent = {
       );
     }
     if (domNode.name === "pre") {
+      const SH: any = SyntaxHighlighter
       return (
         <div className="relative rounded-md overflow-hidden">
           <div className="flex justify-end">
@@ -35,9 +36,9 @@ export const replaceMent = {
               Copy
             </button>
           </div>
-          <SyntaxHighlighter style={nightOwl} >
+          <SH style={nightOwl} >
             {domNode.children && domToReact(domNode.children)}
-          </SyntaxHighlighter>
+          </SH>
         </div>
       );
     }

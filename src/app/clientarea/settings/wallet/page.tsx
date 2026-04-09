@@ -53,7 +53,7 @@ const Wallet = () => {
   const toggleFundModal = () => setFundModal(!fundModal)
   const toggleDeleteCard = (id: string) => setDeleteCardModal(p => ({ id, open: !p.open }))
   const changeRouteQuery = (...args: string[]) => {
-    const params = new URLSearchParams(searchParams)
+    const params = new URLSearchParams(searchParams.toString())
     args.forEach((key, idx, arr) => {
       if (idx % 2 == 0) {
         if (key) params.set(key, arr[idx + 1] || '')

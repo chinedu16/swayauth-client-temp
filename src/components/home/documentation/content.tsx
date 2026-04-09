@@ -14,6 +14,7 @@ const DocContent = ({ folder }: { folder: any }) => {
   const auth = (Object.values(folder?.request?.auth || {})?.[1] || []) as { key: string, value: string }[]
   const authKey = auth?.find(v => v.key == 'key')
   const authVal = auth?.find(v => v.key == 'value')
+  const SH: any = SyntaxHighlighter
   return <div className='flex flex-wrap mb-14'>
     <div className='w-full lg:w-3/6 lg:pr-6 mb-10 lg:mb-0'>
       <h3 id={idMaker(folder?.request?.method + '__' + folder?.request?.url?.path?.join('__'))} className='text-lg mb-4'><span className={`${folder?.request?.method} mr-3`}>{folder?.request?.method}</span>{folder.name}</h3>
@@ -97,9 +98,9 @@ const DocContent = ({ folder }: { folder: any }) => {
                 <span className='inline-block rounded-md ml-2 border border-slate-500 p-1'>JSON</span>
                 <span onClick={() => copyText(folder.request.body?.raw)} title='Copy' className='inline-block mr-3 border border-slate-500 py-1 px-3 rounded-md hover:bg-slate-500 cursor-pointer'><FontAwesomeIcon icon={faClone} /></span>
               </div>
-              <SyntaxHighlighter language={folder.request?.body?.options?.raw?.language || 'json'} style={nightOwl} >
+            <SH language={folder.request?.body?.options?.raw?.language || 'json'} style={nightOwl} >
                 {folder.request.body?.raw}
-              </SyntaxHighlighter>
+            </SH>
             </div>
           </> : null
       }
@@ -123,7 +124,7 @@ const DocContent = ({ folder }: { folder: any }) => {
            `
                 )} title='Copy' className='inline-block mr-3 border border-slate-500 py-1 px-3 rounded-md hover:bg-slate-500 cursor-pointer'><FontAwesomeIcon icon={faClone} /></span>
               </div>
-              <SyntaxHighlighter language="json" style={nightOwl} >
+              <SH language="json" style={nightOwl} >
                 {
                   `
 ${folder.response[0]?.originalRequest?.method}
@@ -134,7 +135,7 @@ ${(folder.response[0]?.originalRequest as any)?.body ?
                     (folder.response[0]?.originalRequest as any)?.body?.raw : ''}
 `
                 }
-              </SyntaxHighlighter>
+              </SH>
             </div>
             <div className='flex justify-between  mb-4'>
               <p className='text-white'>Example Response</p>
@@ -147,9 +148,9 @@ ${(folder.response[0]?.originalRequest as any)?.body ?
                 <span className='inline-block rounded-md ml-2 border border-slate-500 p-1'>JSON</span>
                 <span onClick={() => copyText(folder.response[0]?.body)} title='Copy' className='inline-block mr-3 border border-slate-500 py-1 px-3 rounded-md hover:bg-slate-500 cursor-pointer'><FontAwesomeIcon icon={faClone} /></span>
               </div>
-              <SyntaxHighlighter language="json" style={nightOwl} >
+              <SH language="json" style={nightOwl} >
                 {folder.response[0]?.body}
-              </SyntaxHighlighter>
+              </SH>
             </div>
           </div> : null
       }
