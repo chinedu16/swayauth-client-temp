@@ -74,7 +74,7 @@ const Doc = () => {
                 }
                 <h3 className='text-lg mb-4 pr-6'>BASE URL —<span className='text-sm ml-1'>&#123;&#123;base_url&#125;&#125;</span></h3>
                 <div className='bg-slate-800 text-sm mb-10 px-3 mr-6 py-2 rounded-lg'>
-                  https://api.swayauth.com/v1
+                  {((pm as any)?.variable || [])?.find((v: any) => v?.key === 'base_url')?.value || 'https://swayauth-backend.onrender.com/v1'}
                 </div>
               </div>
             </div>

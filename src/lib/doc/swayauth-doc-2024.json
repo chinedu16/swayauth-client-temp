@@ -7086,7 +7086,7 @@
 	"variable": [
 		{
 			"key": "base_url",
-			"value": "https://api.swayauth.com/v1",
+			"value": "https://swayauth-backend.onrender.com/v1",
 			"type": "string"
 		},
 		{

@@ -1,5 +1,5 @@
 export const CONST = Object.freeze({
-  BASE_URL: process.env.NODE_ENV == 'development' ? `http://${typeof window !== "undefined" ? window?.location?.hostname : 'localhost'}:8000/v1` : 'https://api.swayauth.com/v1',
+  BASE_URL: process.env.NEXT_PUBLIC_SWAYAUTH_API_BASE_URL || (process.env.NODE_ENV == 'development' ? `http://${typeof window !== "undefined" ? window?.location?.hostname : 'localhost'}:8000/v1` : 'https://swayauth-backend.onrender.com/v1'),
   CLIENT_BASE_URL: process.env.NODE_ENV == 'development' ? `http://${typeof window !== "undefined" ? window?.location?.hostname : 'localhost'}:3000` : 'https://swayauth.com',
   AUTH_BASE_URL: process.env.NEXT_PUBLIC_SWAYAUTH_AUTH_BASE_URL || (process.env.NODE_ENV == 'development' ? `http://${typeof window !== "undefined" ? window?.location?.hostname : 'localhost'}:3000` : 'https://auth.swayauth.com'),
   ACCESS_TOKEN: '__s_c_UUtk_at',
@@ -34,10 +34,10 @@ export const CONST = Object.freeze({
     TWO_FACTOR_ENABLE: '/auth/2fa/enable',
     GOOGLE: process.env.NODE_ENV == 'development' ?
       'http://localhost:8000/v1/auth/google?client_id=' :
-      'https://api.swayauth.com/v1/auth/google?client_id=',
+      'https://swayauth-backend.onrender.com/v1/auth/google?client_id=',
     FACEBOOK: process.env.NODE_ENV == 'development' ?
       'http://localhost:8000/v1/auth/facebook?client_id=' :
-      'https://api.swayauth.com/v1/auth/facebook?client_id='
+      'https://swayauth-backend.onrender.com/v1/auth/facebook?client_id='
   },
   ACCOUNT: {
     PHOTO: '/account/photo',
