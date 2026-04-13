@@ -8,7 +8,7 @@ import { copyText, cropString, dateLong } from "@/lib/utils";
 import useOneOrganization from "@/store/hooks/oneOrganization";
 import useOrganzationToken, { OrganizationTokenData } from "@/store/hooks/organizationToken";
 import { faCopy } from "@fortawesome/free-regular-svg-icons";
-import { faArrowLeft, faEllipsisV, faPen, faPlus, faTrash, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faArrowUpRightFromSquare, faCheck, faEllipsisV, faPen, faPlus, faTrash, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -176,7 +176,7 @@ const Company = ({ params }: { params: { organization: string } }) => {
           </div>
         </div>
       </div>
-      <div className="relative overflow-y-visible show-scrollbar pb-3">
+      <div className="relative overflow-y-scroll show-scrollbar pb-3">
         <table className="w-full text-left font-normal min-h-24">
           <thead className="bg-slate-100">
             <tr>
@@ -335,65 +335,120 @@ const UrlPreviewModal = ({ isOpen, data, toggle }: { isOpen: boolean, data?: Org
   }
   const urls = build();
 
+  const [copiedKey, setCopiedKey] = useState<string | null>(null);
+
+    const handleCopy = (text: string, key: string) => {
+      copyText(text);
+      setCopiedKey(key);
+      setTimeout(() => setCopiedKey(null), 2000);
+    };
+
+
   return <Modal isOpen={isOpen} toggle={toggle} center size="max-w-xl">
-    <div className="mx-auto transition w-full items-center justify-center flex" >
+    <div className="mx-auto transition w-full items-center justify-center flex">
       <div className="bg-white rounded-md w-full">
-        <div className="flex items-center p-4 w-full border-b">
+
+        {/* Header */}
+        <div className="flex items-center justify-between p-4 w-full border-b">
+          <h2 className="text-xl pl-1 font-bold">Hosted Auth Links</h2>
           <button onClick={toggle} className="p-1 font-bold text-xl rounded-full hover:bg-slate-100 px-3">
             <FontAwesomeIcon icon={faXmark} />
           </button>
-          <h2 className='text-xl pl-3 font-bold'>Hosted Auth Links</h2>
         </div>
+
+        {/* Body */}
         <div className="p-7 bg-gray-50">
+
+          {/* B2C */}
           <div className="mb-4">
             <h4 className="font-semibold mb-2">B2C</h4>
-            <div className="text-sm break-all">
+
+            <div className="text-sm">
               <div className="flex items-center justify-between">
-                <span className="mr-2">Login:</span>
-                <a href={urls.b2c.login} className="text-blue-700 underline underline-offset-2">Open</a>
+                <span className="mr-2 text-gray-500">Login:</span>
+                <div className="flex items-center gap-2">
+                  <button onClick={() => handleCopy(urls.b2c.login, 'b2c-login')} className={`text-xs px-2 py-1 rounded border transition-colors ${copiedKey === 'b2c-login' ? 'bg-green-50 border-green-300 text-green-700' : 'hover:bg-gray-100'}`}>
+                    <FontAwesomeIcon icon={copiedKey === 'b2c-login' ? faCheck : faCopy} /> <span className="ml-1">{copiedKey === 'b2c-login' ? 'Copied!' : 'Copy'}</span>
+                  </button>
+                  <a href={urls.b2c.login} target="_blank" rel="noopener noreferrer" className="text-xs px-2 py-1 rounded border hover:bg-gray-100 transition-colors">
+                    <FontAwesomeIcon icon={faArrowUpRightFromSquare} /> <span className="ml-1">Open</span>
+                  </a>
+                </div>
               </div>
-              <div className="mt-1 text-gray-600">{urls.b2c.login}</div>
-              <button onClick={() => copyText(urls.b2c.login)} className="mt-1 text-xs px-2 py-1 rounded border"><FontAwesomeIcon icon={faCopy} /> <span className="ml-1">Copy</span></button>
+              <div className="mt-1 text-gray-400 font-mono text-xs truncate" title={urls.b2c.login}>{urls.b2c.login}</div>
             </div>
-            <div className="mt-4 text-sm break-all">
+
+            <div className="mt-4 text-sm">
               <div className="flex items-center justify-between">
-                <span className="mr-2">Register:</span>
-                <a href={urls.b2c.register} className="text-blue-700 underline underline-offset-2">Open</a>
+                <span className="mr-2 text-gray-500">Register:</span>
+                <div className="flex items-center gap-2">
+                  <button onClick={() => handleCopy(urls.b2c.register, 'b2c-register')} className={`text-xs px-2 py-1 rounded border transition-colors ${copiedKey === 'b2c-register' ? 'bg-green-50 border-green-300 text-green-700' : 'hover:bg-gray-100'}`}>
+                    <FontAwesomeIcon icon={copiedKey === 'b2c-register' ? faCheck : faCopy} /> <span className="ml-1">{copiedKey === 'b2c-register' ? 'Copied!' : 'Copy'}</span>
+                  </button>
+                  <a href={urls.b2c.register} target="_blank" rel="noopener noreferrer" className="text-xs px-2 py-1 rounded border hover:bg-gray-100 transition-colors">
+                    <FontAwesomeIcon icon={faArrowUpRightFromSquare} /> <span className="ml-1">Open</span>
+                  </a>
+                </div>
               </div>
-              <div className="mt-1 text-gray-600">{urls.b2c.register}</div>
-              <button onClick={() => copyText(urls.b2c.register)} className="mt-1 text-xs px-2 py-1 rounded border"><FontAwesomeIcon icon={faCopy} /> <span className="ml-1">Copy</span></button>
+              <div className="mt-1 text-gray-400 font-mono text-xs truncate" title={urls.b2c.register}>{urls.b2c.register}</div>
             </div>
           </div>
+
+          {/* B2B */}
           <div className="mb-4">
             <h4 className="font-semibold mb-2">B2B</h4>
-            <div className="text-sm break-all">
+
+            <div className="text-sm">
               <div className="flex items-center justify-between">
-                <span className="mr-2">Login:</span>
-                <a href={urls.b2b.login} className="text-blue-700 underline underline-offset-2">Open</a>
+                <span className="mr-2 text-gray-500">Login:</span>
+                <div className="flex items-center gap-2">
+                  <button onClick={() => handleCopy(urls.b2b.login, 'b2b-login')} className={`text-xs px-2 py-1 rounded border transition-colors ${copiedKey === 'b2b-login' ? 'bg-green-50 border-green-300 text-green-700' : 'hover:bg-gray-100'}`}>
+                    <FontAwesomeIcon icon={copiedKey === 'b2b-login' ? faCheck : faCopy} /> <span className="ml-1">{copiedKey === 'b2b-login' ? 'Copied!' : 'Copy'}</span>
+                  </button>
+                  <a href={urls.b2b.login} target="_blank" rel="noopener noreferrer" className="text-xs px-2 py-1 rounded border hover:bg-gray-100 transition-colors">
+                    <FontAwesomeIcon icon={faArrowUpRightFromSquare} /> <span className="ml-1">Open</span>
+                  </a>
+                </div>
               </div>
-              <div className="mt-1 text-gray-600">{urls.b2b.login}</div>
-              <button onClick={() => copyText(urls.b2b.login)} className="mt-1 text-xs px-2 py-1 rounded border"><FontAwesomeIcon icon={faCopy} /> <span className="ml-1">Copy</span></button>
+              <div className="mt-1 text-gray-400 font-mono text-xs truncate" title={urls.b2b.login}>{urls.b2b.login}</div>
             </div>
-            <div className="mt-4 text-sm break-all">
+
+            <div className="mt-4 text-sm">
               <div className="flex items-center justify-between">
-                <span className="mr-2">Register:</span>
-                <a href={urls.b2b.register} className="text-blue-700 underline underline-offset-2">Open</a>
+                <span className="mr-2 text-gray-500">Register:</span>
+                <div className="flex items-center gap-2">
+                  <button onClick={() => handleCopy(urls.b2b.register, 'b2b-register')} className={`text-xs px-2 py-1 rounded border transition-colors ${copiedKey === 'b2b-register' ? 'bg-green-50 border-green-300 text-green-700' : 'hover:bg-gray-100'}`}>
+                    <FontAwesomeIcon icon={copiedKey === 'b2b-register' ? faCheck : faCopy} /> <span className="ml-1">{copiedKey === 'b2b-register' ? 'Copied!' : 'Copy'}</span>
+                  </button>
+                  <a href={urls.b2b.register} target="_blank" rel="noopener noreferrer" className="text-xs px-2 py-1 rounded border hover:bg-gray-100 transition-colors">
+                    <FontAwesomeIcon icon={faArrowUpRightFromSquare} /> <span className="ml-1">Open</span>
+                  </a>
+                </div>
               </div>
-              <div className="mt-1 text-gray-600">{urls.b2b.register}</div>
-              <button onClick={() => copyText(urls.b2b.register)} className="mt-1 text-xs px-2 py-1 rounded border"><FontAwesomeIcon icon={faCopy} /> <span className="ml-1">Copy</span></button>
+              <div className="mt-1 text-gray-400 font-mono text-xs truncate" title={urls.b2b.register}>{urls.b2b.register}</div>
             </div>
           </div>
+
+          {/* Forgot Password */}
           <div className="mb-2">
             <h4 className="font-semibold mb-2">Forgot Password</h4>
-            <div className="text-sm break-all">
+
+            <div className="text-sm">
               <div className="flex items-center justify-between">
-                <span className="mr-2">Link:</span>
-                <a href={urls.forgot} className="text-blue-700 underline underline-offset-2">Open</a>
+                <span className="mr-2 text-gray-500">Link:</span>
+                <div className="flex items-center gap-2">
+                  <button onClick={() => handleCopy(urls.forgot, 'forgot')} className={`text-xs px-2 py-1 rounded border transition-colors ${copiedKey === 'forgot' ? 'bg-green-50 border-green-300 text-green-700' : 'hover:bg-gray-100'}`}>
+                    <FontAwesomeIcon icon={copiedKey === 'forgot' ? faCheck : faCopy} /> <span className="ml-1">{copiedKey === 'forgot' ? 'Copied!' : 'Copy'}</span>
+                  </button>
+                  <a href={urls.forgot} target="_blank" rel="noopener noreferrer" className="text-xs px-2 py-1 rounded border hover:bg-gray-100 transition-colors">
+                    <FontAwesomeIcon icon={faArrowUpRightFromSquare} /> <span className="ml-1">Open</span>
+                  </a>
+                </div>
               </div>
-              <div className="mt-1 text-gray-600">{urls.forgot}</div>
-              <button onClick={() => copyText(urls.forgot)} className="mt-1 text-xs px-2 py-1 rounded border"><FontAwesomeIcon icon={faCopy} /> <span className="ml-1">Copy</span></button>
+              <div className="mt-1 text-gray-400 font-mono text-xs truncate" title={urls.forgot}>{urls.forgot}</div>
             </div>
           </div>
+
         </div>
       </div>
     </div>

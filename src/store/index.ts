@@ -21,7 +21,7 @@ import wallet from './slice/wallet';
 import subscription from './slice/subscription';
 
 const persistConfig: PersistConfig<any> = {
-  key: 'swayauth.com',
+  key: 'swayauth-client.netlify.app',
   storage,
   whitelist: ['account', 'appKey', 'twoFa'],
 };

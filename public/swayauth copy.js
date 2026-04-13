@@ -1,5 +1,5 @@
 window.swayauthInitialize =  function swayauthInitialize (url, buttonID, callback) {
-  const baseUrl = 'https://swayauth.com'
+  const baseUrl = 'https://swayauth-client.netlify.app'
   const origin = window.location.origin
   const button = document.getElementById(buttonID);
   if (!button) return callback({ status: false, message: 'Unhandled button exception', data: null })

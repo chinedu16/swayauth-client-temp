@@ -17,7 +17,7 @@ const CheckPage = () => {
             })
           } catch (error: any) { }
         }}
-        src="https://swayauth.com/swayauth.js" />
+        src="https://swayauth-client.netlify.app/swayauth.js" />
       <div className="text-2xl mb-3">Test Login</div>
       <button id="GOOGLE-BUTTON" className="py-2 px-4 bg-blue-700 text-white rounded-md">Google Login</button>
     </div>

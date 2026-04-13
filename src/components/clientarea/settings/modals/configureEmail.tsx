@@ -131,7 +131,7 @@ const ConfigureEmail = ({ isOpen, toggle, title }: { isOpen: boolean, toggle: ()
                     invalid={message}
                     name='website'
                     autoComplete="website"
-                    placeholder='e.g https://swayauth.com'
+                    placeholder='e.g https://swayauth-client.netlify.app'
                   />
                 </div>
               </div>

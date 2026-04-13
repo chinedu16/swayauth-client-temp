@@ -123,7 +123,7 @@ const CreateCredModal = ({ isOpen, addToken, editToken, toggle, token, organizat
                   name='redirect_url'
                   defaultValue={token?.redirect_url}
                   className='w-full pr-10 focus:outline-1 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-2 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-200 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-700 focus:ring-2  border py-2 px-3 rounded-md'
-                  placeholder='e.g https://swayauth.com/verify-login' />
+                  placeholder='e.g https://swayauth-client.netlify.app/verify-login' />
               </div>
             </div>
 
