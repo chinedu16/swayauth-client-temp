@@ -41,6 +41,7 @@ const templateOptions = [
 const CreateCredModal = ({ isOpen, addToken, editToken, toggle, token, organization }: { addToken?: (d: OrganizationTokenData) => void, editToken?: (d: OrganizationTokenData) => void, organization?: string, isOpen: boolean, token?: OrganizationTokenData | null, toggle: () => void }) => {
   const [manual, setManual] = useState(token?.scope?.includes('manual') ? true : false);
   const [redirect_url, setRedirect_url] = useState('');
+  const [template, setTemplate] = useState<'classic' | 'modern' | 'minimal'>(token?.template || 'minimal');
   const [loading, setLoading] = useState(false);
 
   const handleScopeChanges = (e: MultiValue<{
@@ -52,7 +53,7 @@ const CreateCredModal = ({ isOpen, addToken, editToken, toggle, token, organizat
 
   const handleAddOrganizationToken = async (e: FormEvent<HTMLFormElement>) => {
     const body = FormData(e, ['name', 'origins', 'redirect_url', 'scope',
-      'two_factor_type', 'verify_registration', 'verify_registration_type', 'permissions'])
+      'two_factor_type', 'verify_registration', 'verify_registration_type', 'permissions', 'template'])
     for (let i = 0; i < (body.origins as unknown as string[]).length; i++) {
       if (!isValidUrl((body.origins as unknown as string[])[i])) {
         return toast.error('Invalid origin')
@@ -79,6 +80,7 @@ const CreateCredModal = ({ isOpen, addToken, editToken, toggle, token, organizat
         </div>
         <div className="p-7">
           <form onSubmit={handleAddOrganizationToken}>
+            <input type="text" name="template" value={template} readOnly className="hidden" />
             <div className='mb-4'>
               <label>Name</label>
               <div className='mt-1'>
@@ -186,8 +188,8 @@ const CreateCredModal = ({ isOpen, addToken, editToken, toggle, token, organizat
               <div className='mt-1'>
                 <Select
                   closeMenuOnSelect={true}
-                  defaultValue={token?.template ? templateOptions.filter(v => v.value === token.template) : templateOptions.filter(v => v.value === 'minimal')}
-                  name='template'
+                  defaultValue={templateOptions.find(v => v.value === (token?.template || 'minimal'))}
+                  onChange={(v) => setTemplate(((v as any)?.value || 'minimal') as any)}
                   styles={{ control: (styles) => ({ ...styles, borderColor: '#E5E7EB', borderRadius: 6, paddingTop: 3, paddingBottom: 3 }) as any }}
                   options={templateOptions}
                   classNamePrefix="select"

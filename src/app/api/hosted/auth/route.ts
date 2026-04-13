@@ -1,5 +1,23 @@
 import { CONST } from "@/lib/constant";
 import { NextResponse } from "next/server";
+import { randomBytes, createHash } from "crypto";
+
+const base64url = (buffer: Buffer) => {
+  return buffer
+    .toString("base64")
+    .replace(/=/g, "")
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_");
+};
+
+const generatePKCE = () => {
+  const verifier = randomBytes(32);
+  const challenge = createHash("sha256").update(verifier).digest();
+  return {
+    code_verifier: base64url(verifier),
+    code_challenge: base64url(challenge),
+  };
+};
 
 type TokenConfig = {
   id?: string;
@@ -36,7 +54,7 @@ const getApplicationKey = () => {
 
 const buildRedirectUrl = (
   redirectUrl: string,
-  params: Record<string, string>
+  params: Record<string, string>,
 ) => {
   const url = new URL(redirectUrl);
   for (const [key, value] of Object.entries(params)) {
@@ -52,7 +70,9 @@ const isAllowedRedirect = (redirectUrl: string, token: TokenConfig) => {
     const u = new URL(redirectUrl);
     const origin = u.origin;
     const allowedOrigins = token.origins || [];
-    return allowedOrigins.some((o) => redirectUrl.startsWith(o) || origin === o);
+    return allowedOrigins.some(
+      (o) => redirectUrl.startsWith(o) || origin === o,
+    );
   } catch {
     return false;
   }
@@ -64,15 +84,18 @@ const fetchTokenConfig = async (appId: string): Promise<TokenConfig> => {
     throw new Error("MISSING_APPLICATION_KEY");
   }
 
-  const res = await fetch(`${CONST.BASE_URL}/client/organizations/tokens/${appId}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      "Application-Key": applicationKey,
-      "Swayauth-Identifier": applicationKey,
+  const res = await fetch(
+    `${CONST.BASE_URL}/client/organizations/tokens/${appId}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Application-Key": applicationKey,
+        "Swayauth-Identifier": applicationKey,
+      },
+      cache: "no-store",
     },
-    cache: "no-store",
-  });
+  );
 
   const json = (await res.json()) as ResponseProp<TokenConfig | null>;
   if (!json?.status || !json.data) {
@@ -98,7 +121,7 @@ export async function GET(req: Request) {
     if (!appId) {
       return NextResponse.json(
         { status: false, message: "Missing app_id", data: null },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -107,13 +130,13 @@ export async function GET(req: Request) {
     if (!effectiveRedirectUrl) {
       return NextResponse.json(
         { status: false, message: "Missing redirect_url", data: null },
-        { status: 400 }
+        { status: 400 },
       );
     }
     if (!isAllowedRedirect(effectiveRedirectUrl, token)) {
       return NextResponse.json(
         { status: false, message: "Invalid redirect_url", data: null },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -135,7 +158,7 @@ export async function GET(req: Request) {
   } catch (error: any) {
     return NextResponse.json(
       { status: false, message: error?.message || "Error", data: null },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -160,7 +183,7 @@ export async function POST(req: Request) {
     if (!appId) {
       return NextResponse.json(
         { status: false, message: "Missing app_id", data: null },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -169,43 +192,38 @@ export async function POST(req: Request) {
     if (!effectiveRedirectUrl) {
       return NextResponse.json(
         { status: false, message: "Missing redirect_url", data: null },
-        { status: 400 }
+        { status: 400 },
       );
     }
     if (!isAllowedRedirect(effectiveRedirectUrl, token)) {
       return NextResponse.json(
         { status: false, message: "Invalid redirect_url", data: null },
-        { status: 400 }
-      );
-    }
-
-    const orgSecret = token.api_key || "";
-    if (!orgSecret) {
-      return NextResponse.json(
-        { status: false, message: "Invalid app configuration", data: null },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     if (action === "register") {
       const payload = body as any;
-      const registerRes = await fetch(`${CONST.BASE_URL}/auth/register/user`, {
+      console.log({
+        client_id: appId,
+          email: payload.email,
+          password: payload.password,
+          first_name: payload.first_name,
+          last_name: payload.last_name,
+          phone: payload.phone,
+      })
+      const registerRes = await fetch(`${CONST.BASE_URL}/oauth/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Organization-Secret": orgSecret,
         },
         body: JSON.stringify({
-          first_name: payload.first_name,
-          last_name: payload.last_name,
+          client_id: appId,
           email: payload.email,
           password: payload.password,
+          first_name: payload.first_name,
+          last_name: payload.last_name,
           phone: payload.phone,
-          address: payload.address,
-          city: payload.city,
-          state: payload.state,
-          country: payload.country,
-          photo: payload.photo,
         }),
       });
 
@@ -215,10 +233,24 @@ export async function POST(req: Request) {
         verification_type?: "sms" | "mail_link" | "mail_token";
       } | null>;
 
-      if (!registerJson?.status) {
+      console.log('Register payload sent:', {
+        client_id: appId,
+        email: payload.email,
+        password: payload.password,
+        first_name: payload.first_name,
+        last_name: payload.last_name,
+        phone: payload.phone,
+      });
+      console.log('Register API response:', registerJson);
+
+      if (!registerJson?.status && !registerJson?.success) {
         return NextResponse.json(
-          { status: false, message: registerJson?.message || "Register failed", data: null },
-          { status: 400 }
+          {
+            status: false,
+            message: registerJson?.message || registerJson?.error_description || "Register failed",
+            data: registerJson, // Include the full backend response
+          },
+          { status: 400 },
         );
       }
 
@@ -228,8 +260,10 @@ export async function POST(req: Request) {
         data: {
           registered: true,
           verification: registerJson.data?.verification ?? true,
-          verification_type: registerJson.data?.verification_type || "mail_token",
+          verification_type:
+            registerJson.data?.verification_type || "mail_token",
           reference: registerJson.data?.reference || "",
+          user_id: registerJson.user_id || registerJson.data?.user_id,
         },
       });
     }
@@ -238,32 +272,39 @@ export async function POST(req: Request) {
       if (!email) {
         return NextResponse.json(
           { status: false, message: "Missing email", data: null },
-          { status: 400 }
+          { status: 400 },
         );
       }
-      const forgotRes = await fetch(`${CONST.BASE_URL}/auth/forgot-password/user`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Organization-Secret": orgSecret,
+      const forgotRes = await fetch(
+        `${CONST.BASE_URL}/oauth/password-reset/request`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, client_id: appId }),
         },
-        body: JSON.stringify({ email }),
-      });
+      );
       const forgotJson = (await forgotRes.json()) as ResponseProp<{
         verification_method?: "mail_link" | "mail_token" | "sms";
         reference?: string;
       } | null>;
       if (!forgotJson?.status) {
         return NextResponse.json(
-          { status: false, message: forgotJson?.message || "Request failed", data: null },
-          { status: 400 }
+          {
+            status: false,
+            message: forgotJson?.message || "Request failed",
+            data: null,
+          },
+          { status: 400 },
         );
       }
       return NextResponse.json({
         status: true,
         message: forgotJson.message || "Ok",
         data: {
-          verification_method: forgotJson.data?.verification_method || "mail_link",
+          verification_method:
+            forgotJson.data?.verification_method || "mail_link",
           reference: forgotJson.data?.reference || "",
         },
       });
@@ -275,7 +316,7 @@ export async function POST(req: Request) {
       if (!otp || !reference) {
         return NextResponse.json(
           { status: false, message: "Missing token/reference", data: null },
-          { status: 400 }
+          { status: 400 },
         );
       }
 
@@ -283,16 +324,20 @@ export async function POST(req: Request) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Organization-Secret": orgSecret,
         },
         body: JSON.stringify({ token: otp, reference }),
       });
 
-      const verifyJson = (await verifyRes.json()) as ResponseProp<UserLoginResponse | null>;
+      const verifyJson =
+        (await verifyRes.json()) as ResponseProp<UserLoginResponse | null>;
       if (!verifyJson?.status || !verifyJson.data?.access_token) {
         return NextResponse.json(
-          { status: false, message: verifyJson?.message || "Invalid token", data: null },
-          { status: 400 }
+          {
+            status: false,
+            message: verifyJson?.message || "Invalid token",
+            data: null,
+          },
+          { status: 400 },
         );
       }
 
@@ -314,50 +359,105 @@ export async function POST(req: Request) {
     if (!email || !password) {
       return NextResponse.json(
         { status: false, message: "Missing email/password", data: null },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
-    const loginRes = await fetch(`${CONST.BASE_URL}/auth/login/user`, {
+    const { code_verifier, code_challenge } = generatePKCE();
+
+    console.log({
+      client_id: appId,
+      redirect_uri: effectiveRedirectUrl,
+      code_challenge,
+      code_challenge_method: "S256",
+      email,
+      password,
+    });
+    const authorizeRes = await fetch(`${CONST.BASE_URL}/oauth/authorize`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Organization-Secret": orgSecret,
       },
-      body: JSON.stringify({ email, password }),
+
+      body: JSON.stringify({
+        client_id: appId,
+        redirect_uri: effectiveRedirectUrl,
+        code_challenge,
+        code_challenge_method: "S256",
+        email,
+        password,
+      }),
     });
 
-    const loginJson = (await loginRes.json()) as ResponseProp<UserLoginResponse | null>;
-    if (!loginJson?.status || !loginJson.data) {
+    const authorizeJson = (await authorizeRes.json()) as ResponseProp<{
+      code?: string;
+      state?: string;
+      two_factor?: boolean;
+      reference?: string;
+      two_factor_type?: string;
+    } | null>;
+    if (!authorizeJson?.status || !authorizeJson.data) {
       return NextResponse.json(
-        { status: false, message: loginJson?.message || "Login failed", data: null },
-        { status: 400 }
+        {
+          status: false,
+          message: authorizeJson?.message || "Login failed",
+          data: null,
+        },
+        { status: 400 },
       );
     }
 
-    if (loginJson.data.two_factor_enabled && loginJson.data.reference) {
+    if (authorizeJson.data.two_factor && authorizeJson.data.reference) {
       return NextResponse.json({
         status: true,
         message: "Two-factor required",
         data: {
           two_factor: true,
-          reference: loginJson.data.reference,
-          two_factor_type: loginJson.data.two_factor_type || "app",
+          reference: authorizeJson.data.reference,
+          two_factor_type: authorizeJson.data.two_factor_type || "app",
         },
       });
     }
 
-    if (!loginJson.data.access_token) {
+    if (!authorizeJson.data.code) {
       return NextResponse.json(
         { status: false, message: "Login failed", data: null },
-        { status: 400 }
+        { status: 400 },
+      );
+    }
+
+    // Exchange code for tokens
+    const tokenRes = await fetch(`${CONST.BASE_URL}/oauth/token`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        grant_type: "authorization_code",
+        client_id: appId,
+        redirect_uri: effectiveRedirectUrl,
+        code: authorizeJson.data.code,
+        code_verifier,
+      }),
+    });
+
+    const tokenJson = (await tokenRes.json()) as ResponseProp<{
+      access_token?: string;
+      refresh_token?: string;
+      expires_in?: number;
+      scope?: string;
+    } | null>;
+    if (!tokenJson?.status || !tokenJson.data?.access_token) {
+      return NextResponse.json(
+        { status: false, message: "Token exchange failed", data: null },
+        { status: 400 },
       );
     }
 
     const redirect = buildRedirectUrl(effectiveRedirectUrl, {
       intent: "login",
       status: "true",
-      access_token: loginJson.data.access_token,
+      access_token: tokenJson.data.access_token,
     });
 
     return NextResponse.json({
@@ -368,7 +468,7 @@ export async function POST(req: Request) {
   } catch (error: any) {
     return NextResponse.json(
       { status: false, message: error?.message || "Error", data: null },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
