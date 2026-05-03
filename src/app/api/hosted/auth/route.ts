@@ -11,10 +11,12 @@ const base64url = (buffer: Buffer) => {
 };
 
 const generatePKCE = () => {
-  const verifier = randomBytes(32);
+  const verifierBuffer = randomBytes(32);
+  const verifier = base64url(verifierBuffer);
+  // PKCE spec requires hashing the ASCII string representation of the verifier
   const challenge = createHash("sha256").update(verifier).digest();
   return {
-    code_verifier: base64url(verifier),
+    code_verifier: verifier,
     code_challenge: base64url(challenge),
   };
 };
@@ -117,6 +119,23 @@ export async function GET(req: Request) {
     const defaultPage = (searchParams.get("default") || "login") as
       | "login"
       | "register";
+
+    const verifyToken = searchParams.get("token") || "";
+    const verifyReference = searchParams.get("reference") || "";
+
+    if (verifyToken && verifyReference) {
+      const verifyRes = await fetch(
+        `${CONST.BASE_URL}/auth/token/verify?token=${verifyToken}&reference=${verifyReference}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+      const verifyJson = await verifyRes.json();
+      return NextResponse.json(verifyJson, { status: verifyRes.status });
+    }
 
     if (!appId) {
       return NextResponse.json(
@@ -243,11 +262,11 @@ export async function POST(req: Request) {
       });
       console.log('Register API response:', registerJson);
 
-      if (!registerJson?.status && !registerJson?.success) {
+      if (!(registerJson as any)?.status && !(registerJson as any)?.success) {
         return NextResponse.json(
           {
             status: false,
-            message: registerJson?.message || registerJson?.error_description || "Register failed",
+            message: (registerJson as any)?.message || (registerJson as any)?.error_description || "Register failed",
             data: registerJson, // Include the full backend response
           },
           { status: 400 },
@@ -263,7 +282,7 @@ export async function POST(req: Request) {
           verification_type:
             registerJson.data?.verification_type || "mail_token",
           reference: registerJson.data?.reference || "",
-          user_id: registerJson.user_id || registerJson.data?.user_id,
+          user_id: (registerJson as any).user_id || (registerJson as any).data?.user_id,
         },
       });
     }
@@ -275,6 +294,8 @@ export async function POST(req: Request) {
           { status: 400 },
         );
       }
+      console.log("Forgot password payload:", { email, client_id: appId });
+      // Using standard OAuth password reset request flow
       const forgotRes = await fetch(
         `${CONST.BASE_URL}/oauth/password-reset/request`,
         {
@@ -285,16 +306,24 @@ export async function POST(req: Request) {
           body: JSON.stringify({ email, client_id: appId }),
         },
       );
-      const forgotJson = (await forgotRes.json()) as ResponseProp<{
-        verification_method?: "mail_link" | "mail_token" | "sms";
-        reference?: string;
-      } | null>;
-      if (!forgotJson?.status) {
+      const forgotText = await forgotRes.text();
+      console.log("Forgot password raw response:", forgotText);
+      let forgotJson: any;
+      try {
+        forgotJson = JSON.parse(forgotText);
+      } catch (e) {
+        console.error("Failed to parse forgot password response as JSON:", e);
+        return NextResponse.json(
+          { status: false, message: "Invalid response from reset server", data: null },
+          { status: 500 }
+        );
+      }
+      if (!forgotJson?.status && !forgotJson?.success) {
         return NextResponse.json(
           {
             status: false,
             message: forgotJson?.message || "Request failed",
-            data: null,
+            data: forgotJson,
           },
           { status: 400 },
         );
@@ -302,11 +331,7 @@ export async function POST(req: Request) {
       return NextResponse.json({
         status: true,
         message: forgotJson.message || "Ok",
-        data: {
-          verification_method:
-            forgotJson.data?.verification_method || "mail_link",
-          reference: forgotJson.data?.reference || "",
-        },
+        data: forgotJson.data,
       });
     }
 
@@ -329,8 +354,8 @@ export async function POST(req: Request) {
       });
 
       const verifyJson =
-        (await verifyRes.json()) as ResponseProp<UserLoginResponse | null>;
-      if (!verifyJson?.status || !verifyJson.data?.access_token) {
+        (await verifyRes.json()) as any;
+      if (!verifyJson?.status && !verifyJson?.success || (!verifyJson.data?.access_token && !verifyJson.access_token)) {
         return NextResponse.json(
           {
             status: false,
@@ -341,10 +366,12 @@ export async function POST(req: Request) {
         );
       }
 
+      const access_token = verifyJson.data?.access_token || verifyJson.access_token;
+
       const redirect = buildRedirectUrl(effectiveRedirectUrl, {
         intent: "login",
         status: "true",
-        access_token: verifyJson.data.access_token,
+        access_token,
       });
 
       return NextResponse.json({
@@ -365,7 +392,7 @@ export async function POST(req: Request) {
 
     const { code_verifier, code_challenge } = generatePKCE();
 
-    console.log({
+    console.log("Authorize payload:", {
       client_id: appId,
       redirect_uri: effectiveRedirectUrl,
       code_challenge,
@@ -373,12 +400,17 @@ export async function POST(req: Request) {
       email,
       password,
     });
+
+    // We use redirect: "manual" because the authorize endpoint returns a 302 Found
+    // which fetch would otherwise follow, potentially leading to HTML pages (like Google Drive)
+    // that cause JSON parsing errors.
     const authorizeRes = await fetch(`${CONST.BASE_URL}/oauth/authorize`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "Accept": "application/json",
       },
-
+      redirect: "manual",
       body: JSON.stringify({
         client_id: appId,
         redirect_uri: effectiveRedirectUrl,
@@ -389,37 +421,88 @@ export async function POST(req: Request) {
       }),
     });
 
-    const authorizeJson = (await authorizeRes.json()) as ResponseProp<{
+    let authorizeData: {
       code?: string;
       state?: string;
       two_factor?: boolean;
       reference?: string;
       two_factor_type?: string;
-    } | null>;
-    if (!authorizeJson?.status || !authorizeJson.data) {
+      message?: string;
+      status?: boolean;
+    } = {};
+
+    // Handle 302 Redirect
+    if (authorizeRes.status === 302 || authorizeRes.status === 301) {
+      const location = authorizeRes.headers.get("location");
+      console.log("Authorize redirect location:", location);
+      
+      if (location) {
+        try {
+          const url = new URL(location);
+          const code = url.searchParams.get("code");
+          const error = url.searchParams.get("error");
+          const error_description = url.searchParams.get("error_description");
+          
+          if (code) {
+            authorizeData = { code, status: true };
+          } else if (error) {
+            return NextResponse.json(
+              {
+                status: false,
+                message: error_description || error || "Login failed",
+                data: null,
+              },
+              { status: 400 },
+            );
+          }
+        } catch (e) {
+          console.error("Failed to parse redirect URL:", e);
+        }
+      }
+    } else {
+      // If it's not a redirect, try parsing as JSON (for cases where it returns JSON)
+      const authorizeText = await authorizeRes.text();
+      console.log("Authorize raw response:", authorizeText);
+      try {
+        const json = JSON.parse(authorizeText);
+        authorizeData = {
+          ...json.data,
+          status: json.status,
+          message: json.message
+        };
+      } catch (e) {
+        console.error("Failed to parse authorize response as JSON:", e);
+        return NextResponse.json(
+          { status: false, message: "Invalid response from authorization server", data: null },
+          { status: 500 }
+        );
+      }
+    }
+
+    if (!authorizeData.code && !authorizeData.two_factor) {
       return NextResponse.json(
         {
           status: false,
-          message: authorizeJson?.message || "Login failed",
+          message: authorizeData.message || "Login failed",
           data: null,
         },
         { status: 400 },
       );
     }
 
-    if (authorizeJson.data.two_factor && authorizeJson.data.reference) {
+    if (authorizeData.two_factor && authorizeData.reference) {
       return NextResponse.json({
         status: true,
         message: "Two-factor required",
         data: {
           two_factor: true,
-          reference: authorizeJson.data.reference,
-          two_factor_type: authorizeJson.data.two_factor_type || "app",
+          reference: authorizeData.reference,
+          two_factor_type: authorizeData.two_factor_type || "app",
         },
       });
     }
 
-    if (!authorizeJson.data.code) {
+    if (!authorizeData.code) {
       return NextResponse.json(
         { status: false, message: "Login failed", data: null },
         { status: 400 },
@@ -427,6 +510,14 @@ export async function POST(req: Request) {
     }
 
     // Exchange code for tokens
+    console.log("Token exchange payload:", {
+      grant_type: "authorization_code",
+      client_id: appId,
+      redirect_uri: effectiveRedirectUrl,
+      code: authorizeData.code,
+      code_verifier,
+    });
+
     const tokenRes = await fetch(`${CONST.BASE_URL}/oauth/token`, {
       method: "POST",
       headers: {
@@ -436,20 +527,34 @@ export async function POST(req: Request) {
         grant_type: "authorization_code",
         client_id: appId,
         redirect_uri: effectiveRedirectUrl,
-        code: authorizeJson.data.code,
+        code: authorizeData.code,
         code_verifier,
       }),
     });
 
-    const tokenJson = (await tokenRes.json()) as ResponseProp<{
-      access_token?: string;
-      refresh_token?: string;
-      expires_in?: number;
-      scope?: string;
-    } | null>;
-    if (!tokenJson?.status || !tokenJson.data?.access_token) {
+    const tokenText = await tokenRes.text();
+    console.log("Token raw response:", tokenText);
+    let tokenJson: any;
+    try {
+      tokenJson = JSON.parse(tokenText);
+    } catch (e) {
+      console.error("Failed to parse token response as JSON:", e);
       return NextResponse.json(
-        { status: false, message: "Token exchange failed", data: null },
+        { status: false, message: "Invalid response during token exchange", data: null },
+        { status: 500 }
+      );
+    }
+
+    const access_token = tokenJson?.access_token || tokenJson?.data?.access_token;
+
+    if (!access_token) {
+      console.log("Token exchange failed (no access_token):", tokenJson);
+      return NextResponse.json(
+        { 
+          status: false, 
+          message: tokenJson?.message || tokenJson?.error_description || tokenJson?.error || "Token exchange failed", 
+          data: tokenJson 
+        },
         { status: 400 },
       );
     }
@@ -457,7 +562,7 @@ export async function POST(req: Request) {
     const redirect = buildRedirectUrl(effectiveRedirectUrl, {
       intent: "login",
       status: "true",
-      access_token: tokenJson.data.access_token,
+      access_token: access_token,
     });
 
     return NextResponse.json({
@@ -465,6 +570,80 @@ export async function POST(req: Request) {
       message: "Ok",
       data: { redirect },
     });
+  } catch (error: any) {
+    return NextResponse.json(
+      { status: false, message: error?.message || "Error", data: null },
+      { status: 500 },
+    );
+  }
+}
+
+export async function PUT(req: Request) {
+  try {
+    const body = await req.json();
+    const { token, reference } = body;
+
+    if (!token || !reference) {
+      return NextResponse.json(
+        { status: false, message: "Missing token or reference", data: null },
+        { status: 400 },
+      );
+    }
+
+    const res = await fetch(`${CONST.BASE_URL}/auth/register/verify`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ token, reference }),
+    });
+
+    const json = await res.json();
+    return NextResponse.json(json, { status: res.status });
+  } catch (error: any) {
+    return NextResponse.json(
+      { status: false, message: error?.message || "Error", data: null },
+      { status: 500 },
+    );
+  }
+}
+
+export async function PATCH(req: Request) {
+  try {
+    const body = await req.json();
+    const { email, client_id, reset_token, new_password } = body;
+
+    if (!email || !client_id || !reset_token || !new_password) {
+      return NextResponse.json(
+        {
+          status: false,
+          message: "Missing required fields (email, client_id, reset_token, new_password)",
+          data: null,
+        },
+        { status: 400 },
+      );
+    }
+
+    console.log("Password reset payload:", {
+      email,
+      client_id,
+      reset_token,
+      new_password,
+    });
+
+    const res = await fetch(
+      `${CONST.BASE_URL}/oauth/password-reset/confirm`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, client_id, reset_token, new_password }),
+      },
+    );
+
+    const json = await res.json();
+    return NextResponse.json(json, { status: res.status });
   } catch (error: any) {
     return NextResponse.json(
       { status: false, message: error?.message || "Error", data: null },

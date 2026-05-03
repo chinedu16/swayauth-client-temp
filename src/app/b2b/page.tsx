@@ -6,6 +6,7 @@ import { CONST } from "@/lib/constant";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { FormEvent, useEffect, useMemo, useState } from "react";
+import toast from "react-hot-toast";
 import ClassicTemplate from "@/components/hosted/templates/ClassicTemplate";
 import ModernTemplate from "@/components/hosted/templates/ModernTemplate";
 import MinimalTemplate from "@/components/hosted/templates/MinimalTemplate";
@@ -53,10 +54,18 @@ const HostedAuthB2B = ({
 }) => {
   const [config, setConfig] = useState<HostedConfig | null>(null);
   const [loading, setLoading] = useState(true);
-  const [message, setMessage] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [verifyData, setVerifyData] = useState<{
+    open: boolean;
+    reference: string;
+    token: string;
+  }>({
+    open: false,
+    reference: "",
+    token: "",
+  });
   const [twoFactor, setTwoFactor] = useState<{
     open: boolean;
     reference: string;
@@ -86,14 +95,13 @@ const HostedAuthB2B = ({
         if (cancelled) return;
         if (json?.status && json.data) {
           setConfig(json.data);
-          setMessage("");
         } else {
-          setMessage(json?.message || "Invalid app configuration");
+          toast.error(json?.message || "Invalid app configuration");
         }
       })
       .catch(() => {
         if (cancelled) return;
-        setMessage("Invalid app configuration");
+        toast.error("Invalid app configuration");
       })
       .finally(() => {
         if (cancelled) return;
@@ -110,7 +118,6 @@ const HostedAuthB2B = ({
     e.preventDefault();
     if (submitting) return;
     setSubmitting(true);
-    setMessage("");
     try {
       const res = await fetch("/api/hosted/auth", {
         method: "POST",
@@ -135,13 +142,55 @@ const HostedAuthB2B = ({
         } else if (json?.data?.redirect) {
           window.location.href = json.data.redirect;
         } else {
-          setMessage("Login failed");
+          toast.error("Login failed");
         }
       } else {
-        setMessage(json?.message || "Login failed");
+        toast.error(json?.message || "Login failed");
       }
     } catch {
-      setMessage("Login failed");
+      toast.error("Login failed");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleVerifyChange = (v: string) => {
+    setVerifyData((p) => ({ ...p, token: v }));
+    if (v.length === 6) {
+      handleVerifyCode(v);
+    }
+  };
+
+  const handleVerifyCode = async (otp?: string) => {
+    const token = (typeof otp === "string" ? otp : verifyData.token).trim();
+    if (token.length !== 6 || !verifyData.reference) return;
+    if (submitting) return;
+    setSubmitting(true);
+    try {
+      const res = await fetch("/api/hosted/auth", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          token,
+          reference: verifyData.reference,
+        }),
+      });
+      const json = await res.json();
+      if (json?.status) {
+        toast.success("Account verified successfully. You can now sign in.");
+        setVerifyData((p) => ({ ...p, open: false }));
+        // Redirect to login page within the same flow
+        const q = new URLSearchParams();
+        q.set("app_id", appId);
+        if (redirectUrl) q.set("redirect_url", redirectUrl);
+        q.set("default", "login");
+        if (templateParam) q.set("template", templateParam);
+        window.location.href = `/b2b?${q.toString()}`;
+      } else {
+        toast.error(json?.message || "Verification failed");
+      }
+    } catch {
+      toast.error("Verification failed");
     } finally {
       setSubmitting(false);
     }
@@ -149,12 +198,10 @@ const HostedAuthB2B = ({
 
   const toggle2Auth = () => {
     if (submitting) return;
-    setMessage("");
     setTwoFactor((p) => ({ ...p, open: !p.open }));
   };
 
   const handle2AuthChange = (v: string) => {
-    setMessage("");
     setTwoFactor((p) => ({ ...p, token: v }));
     if (v.length === 6) {
       handle2faVerify(v);
@@ -166,7 +213,6 @@ const HostedAuthB2B = ({
     if (token.length !== 6 || !twoFactor.reference) return;
     if (submitting) return;
     setSubmitting(true);
-    setMessage("");
     try {
       const res = await fetch("/api/hosted/auth", {
         method: "POST",
@@ -183,10 +229,10 @@ const HostedAuthB2B = ({
       if (json?.status && json?.data?.redirect) {
         window.location.href = json.data.redirect;
       } else {
-        setMessage(json?.message || "Invalid token");
+        toast.error(json?.message || "Invalid token");
       }
     } catch {
-      setMessage("Invalid token");
+      toast.error("Invalid token");
     } finally {
       setSubmitting(false);
     }
@@ -214,6 +260,29 @@ const HostedAuthB2B = ({
 
   return (
     <main className="flex justify-center items-center min-h-[100svh]">
+      {verifyData.open ? (
+        <TemplateComp title={title} defaultPage="login" navLink={navLink}>
+          <h1 className="text-2xl mb-2 font-bold">Verify your account</h1>
+          <p className="text-slate-600 mb-6">
+            Enter the 6-digit verification code sent to your email.
+          </p>
+          <div className="mt-6 flex justify-center">
+            <App2factor
+              isOpen={true}
+              toggle={() => setVerifyData((p) => ({ ...p, open: false }))}
+              message={""}
+              handle2faVerify={() => handleVerifyCode()}
+              loading={submitting}
+              length={6}
+              type="mail-token"
+              onChange={handleVerifyChange}
+            />
+          </div>
+          <p className="text-center text-sm text-slate-500 mt-8">
+            Didn&apos;t receive the code? <button className="text-blue-600 hover:underline">Resend</button>
+          </p>
+        </TemplateComp>
+      ) : (
       <TemplateComp title={title} defaultPage={defaultPage === "register" ? "register" : "login"} navLink={navLink}>
             {defaultPage === "register" ? (
               <>
@@ -221,18 +290,12 @@ const HostedAuthB2B = ({
                 <p className="text-slate-600 mb-6">
                   {loading ? "Loading..." : "Fill in the details to register"}
                 </p>
-                {message ? (
-                  <div className="text-red-500 mb-4">
-                    <small>* {message}</small>
-                  </div>
-                ) : (
-                  <div className="min-h-[1.2rem] mb-4"></div>
-                )}
                 <RegisterFormB2B
                   submitting={submitting}
                   appId={appId}
                   redirectUrl={effectiveRedirectUrl}
-                  setMessage={setMessage}
+                  templateParam={templateParam}
+                  setVerifyData={setVerifyData}
                   setSubmitting={setSubmitting}
                 />
               </>
@@ -242,18 +305,10 @@ const HostedAuthB2B = ({
                 <p className="text-slate-600 mb-6">
                   {loading ? "Loading..." : "Enter your email to receive a reset link"}
                 </p>
-                {message ? (
-                  <div className="text-red-500 mb-4">
-                    <small>* {message}</small>
-                  </div>
-                ) : (
-                  <div className="min-h-[1.2rem] mb-4"></div>
-                )}
                 <ForgotFormB2B
                   submitting={submitting}
                   appId={appId}
                   redirectUrl={effectiveRedirectUrl}
-                  setMessage={setMessage}
                   setSubmitting={setSubmitting}
                 />
               </>
@@ -263,13 +318,6 @@ const HostedAuthB2B = ({
               <p className="text-slate-600 mb-6">
                 {loading ? "Loading..." : "Enter your account credentials to sign in"}
               </p>
-              {message ? (
-                <div className="text-red-500 mb-4">
-                  <small>* {message}</small>
-                </div>
-              ) : (
-                <div className="min-h-[1.2rem] mb-4"></div>
-              )}
               <form onSubmit={handleLogin}>
                 <div className="mb-6">
                   <label>Email address</label>
@@ -279,7 +327,6 @@ const HostedAuthB2B = ({
                       required
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      invalid={!!message}
                       name="email"
                       placeholder="e.g johndoe@email.com"
                       autoComplete="email"
@@ -291,7 +338,6 @@ const HostedAuthB2B = ({
                   <div className="mt-1">
                     <Input
                       required
-                      invalid={!!message}
                       type="password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
@@ -317,8 +363,8 @@ const HostedAuthB2B = ({
             </>
             )}
           </TemplateComp>
+      )}
       <App2factor
-        message={message}
         handle2faVerify={handle2faVerify}
         loading={submitting}
         length={6}
@@ -337,13 +383,15 @@ const RegisterFormB2B = ({
   submitting,
   appId,
   redirectUrl,
-  setMessage,
+  templateParam,
+  setVerifyData,
   setSubmitting,
 }: {
   submitting: boolean;
   appId: string;
   redirectUrl: string;
-  setMessage: (v: string) => void;
+  templateParam: "classic" | "modern" | "minimal";
+  setVerifyData: React.Dispatch<React.SetStateAction<{ open: boolean; reference: string; token: string; }>>;
   setSubmitting: (v: boolean) => void;
 }) => {
   const [first_name, setFirstName] = useState("");
@@ -355,7 +403,6 @@ const RegisterFormB2B = ({
     e.preventDefault();
     if (submitting) return;
     setSubmitting(true);
-    setMessage("");
     try {
       const res = await fetch("/api/hosted/auth", {
         method: "POST",
@@ -372,12 +419,29 @@ const RegisterFormB2B = ({
       });
       const json = (await res.json()) as ResponseProp<any>;
       if (json?.status) {
-        setMessage("Registration successful. Please check your email or phone to verify your account.");
+        toast.success(json.message || "Registration successful");
+        
+        if (json.data?.verification) {
+          // Verification required, show verify screen
+          setVerifyData({
+            open: true,
+            reference: json.data.reference || "",
+            token: "",
+          });
+        } else {
+          // No verification required, redirect to login
+          const q = new URLSearchParams();
+          q.set("app_id", appId);
+          if (redirectUrl) q.set("redirect_url", redirectUrl);
+          q.set("default", "login");
+          if (templateParam) q.set("template", templateParam);
+          window.location.href = `/b2b?${q.toString()}`;
+        }
       } else {
-        setMessage(json?.message || "Registration failed");
+        toast.error(json?.message || "Registration failed");
       }
     } catch {
-      setMessage("Registration failed");
+      toast.error("Registration failed");
     } finally {
       setSubmitting(false);
     }
@@ -459,13 +523,11 @@ const ForgotFormB2B = ({
   submitting,
   appId,
   redirectUrl,
-  setMessage,
   setSubmitting,
 }: {
   submitting: boolean;
   appId: string;
   redirectUrl: string;
-  setMessage: (v: string) => void;
   setSubmitting: (v: boolean) => void;
 }) => {
   const [email, setEmail] = useState("");
@@ -474,7 +536,6 @@ const ForgotFormB2B = ({
     e.preventDefault();
     if (submitting) return;
     setSubmitting(true);
-    setMessage("");
     try {
       const res = await fetch("/api/hosted/auth", {
         method: "POST",
@@ -488,12 +549,12 @@ const ForgotFormB2B = ({
       });
       const json = (await res.json()) as ResponseProp<any>;
       if (json?.status) {
-        setMessage("Request sent. Please check your email or phone to complete password reset.");
+        toast.success(json.message || "Request sent. Please check your email or phone.");
       } else {
-        setMessage(json?.message || "Request failed");
+        toast.error(json?.message || "Request failed");
       }
     } catch {
-      setMessage("Request failed");
+      toast.error("Request failed");
     } finally {
       setSubmitting(false);
     }

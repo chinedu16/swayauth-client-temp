@@ -16,7 +16,7 @@ const Pricing = ({ children }: { children?: ReactNode }) => {
               The Free (30 days) trial includes the following features:
             </p>
             <div>
-              <span className="inline-block font-bold text-3xl">₦0</span>
+              <span className="inline-block font-bold text-3xl">$0</span>
               <span className="inline-block ml-1 text-sm">
                 / Per Month
               </span>
@@ -48,7 +48,7 @@ const Pricing = ({ children }: { children?: ReactNode }) => {
               subscription, plus the following:
             </p>
             <div>
-              <span className="inline-block font-bold text-3xl">₦10,000</span>
+              <span className="inline-block font-bold text-3xl">$20</span>
               <span className="inline-block ml-1 text-sm">
                 / Per Month
               </span>
@@ -80,7 +80,7 @@ const Pricing = ({ children }: { children?: ReactNode }) => {
               of the Standard subscription, plus the following:
             </p>
             <div>
-              <span className="inline-block font-bold text-3xl">₦30,000</span>
+              <span className="inline-block font-bold text-3xl">$100</span>
               <span className="inline-block ml-1 text-sm">
                 / Per Month
               </span>

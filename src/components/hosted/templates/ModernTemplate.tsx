@@ -1,6 +1,7 @@
 "use client";
 import { ReactNode } from "react";
 import Head from "next/head";
+import Image from "next/image";
 import "@/styles/hosted-modern.css";
 
 interface ModernTemplateProps {
@@ -48,7 +49,7 @@ const ModernTemplate = ({
     if (!logo) return null;
     if (typeof logo === "string")
       return (
-        <img
+        <Image
           src={logo}
           alt={title}
           className="h-7 w-auto object-contain"

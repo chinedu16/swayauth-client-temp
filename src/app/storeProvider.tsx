@@ -31,12 +31,12 @@ export default function StoreProvider({
 
   return <Provider store={storeRef.current}>
     <Toaster
-      position="bottom-center"
+      position="top-right"
       toastOptions={{
-        duration: 2500,
-        style: { maxWidth: '600px', borderRadius: '5rem', background: '#333', color: '#fff' },
+        duration: 3500,
+        style: { maxWidth: '400px', borderRadius: '0.5rem', background: '#333', color: '#fff' },
         success: { iconTheme: { primary: '#2563EB', secondary: 'white' } },
-        error: { style: { background: 'red' } },
+        error: { style: { background: '#EF4444', color: '#fff' } },
       }}
     />
     {children}

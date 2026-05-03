@@ -2,7 +2,7 @@ import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { ComponentProps, ReactElement, useEffect, useState } from "react";
 
-const Container = ({ children }: { children?: ReactElement[] }) => {
+const Container = ({ children, className }: { children?: ReactElement[], className?: string }) => {
   const [show, setShow] = useState('hidden');
   const toggle = (e: any) => { e.stopPropagation(); setShow(p => p === 'hidden' ? '' : 'hidden'); }
   useEffect(() => {
@@ -12,7 +12,7 @@ const Container = ({ children }: { children?: ReactElement[] }) => {
     }
   }, []);
 
-  return <div className="relative inline-block">
+  return <div className={`relative inline-block ${className || ''}`}>
     {
       children ? React.Children.map(children, (child) => {
         return React.cloneElement(child, { toggle, show })

@@ -82,7 +82,7 @@ const UpgradeSubscriptionModal = ({ isOpen, toggle, }: { isOpen: boolean, toggle
               <div>
                 <h4 className="font-bold text-xl">Standard</h4>
                 <div className="mt-3">
-                  <span className="inline-block font-bold text-3xl">₦10,000</span>
+                  <span className="inline-block font-bold text-3xl">$20</span>
                   <span className="inline-block ml-1 text-sm">
                     / Per Month
                   </span>
@@ -103,7 +103,7 @@ const UpgradeSubscriptionModal = ({ isOpen, toggle, }: { isOpen: boolean, toggle
               <div>
                 <h4 className="font-bold text-xl">Premium</h4>
                 <div className="mt-3">
-                  <span className="inline-block font-bold text-3xl">₦30,000</span>
+                  <span className="inline-block font-bold text-3xl">$100</span>
                   <span className="inline-block ml-1 text-sm">
                     / Per Month
                   </span>

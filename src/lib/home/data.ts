@@ -3,7 +3,7 @@ import { flattenTree } from "react-accessible-treeview";
 export const pricingData = {
   free: [
     "Manual Login",
-    "User onboarding (500)",
+    "User onboarding (1000)",
     "Organization (1)",
     "Organization Token (2)",
   ],
