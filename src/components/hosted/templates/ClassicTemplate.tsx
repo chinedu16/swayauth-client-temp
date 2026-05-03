@@ -45,10 +45,23 @@ const ClassicTemplate = ({
   } as React.CSSProperties;
 
   const renderLogo = () => {
-    if (!logo) return null;
-    if (typeof logo === "string")
-      return <img src={logo} alt={title} className="h-8 w-auto object-contain" />;
-    return <span className="flex items-center">{logo}</span>;
+    if (logo) {
+      if (typeof logo === "string")
+        return <img src={logo} alt={title} className="h-9 w-auto object-contain" />;
+      return <span className="flex items-center">{logo}</span>;
+    }
+    return (
+      <span
+        className="cl-display flex items-center gap-2 text-lg sm:text-xl font-bold tracking-wide truncate"
+        style={{ color: "var(--cl-text)" }}
+      >
+        <span
+          className="inline-block w-2 h-2 flex-shrink-0 rotate-45"
+          style={{ background: "var(--cl-gold)", boxShadow: "0 0 5px var(--cl-gold)" }}
+        />
+        {title}
+      </span>
+    );
   };
 
   return (
@@ -63,24 +76,13 @@ const ClassicTemplate = ({
         className="cl-shell min-h-svh w-full flex flex-col items-center justify-center px-4 py-10 sm:py-14"
         style={vars}
       >
-        <div className="fixed top-4 left-4 z-30">{renderLogo()}</div>
         <div className="cl-animate w-full max-w-md sm:max-w-[460px]">
 
           {/* Top bar */}
-          <div className="flex items-center justify-between mb-3.5 px-px">
+          <div className="flex items-center justify-between mb-5 px-px">
             <div className="flex items-center gap-2.5 min-w-0">
-              <span
-                className="cl-display flex items-center gap-2 text-lg sm:text-xl font-bold tracking-wide truncate"
-                style={{ color: "var(--cl-text)" }}
-              >
-                <span
-                  className="inline-block w-2 h-2 flex-shrink-0 rotate-45"
-                  style={{ background: "var(--cl-gold)", boxShadow: "0 0 5px var(--cl-gold)" }}
-                />
-                {title}
-              </span>
+              {renderLogo()}
             </div>
-
           </div>
 
           {/* Card */}
@@ -129,11 +131,11 @@ const ClassicTemplate = ({
           {/* Footer */}
           <footer
             className="cl-body mt-4 flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1 text-center text-xs tracking-wide"
-            style={{ color: "rgba(201,169,122,0.38)" }}
+            style={{ color: "color-mix(in srgb, var(--cl-gold), transparent 62%)" }}
           >
             <span>{copyright}</span>
             <span className="opacity-50">·</span>
-            <a href={policyLink} className="transition-opacity hover:opacity-70" style={{ color: "rgba(201,169,122,0.55)" }}>
+            <a href={policyLink} className="transition-opacity hover:opacity-70" style={{ color: "color-mix(in srgb, var(--cl-gold), transparent 45%)" }}>
               {policyText}
             </a>
           </footer>

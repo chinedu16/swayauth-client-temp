@@ -38,25 +38,39 @@ const ModernTemplate = ({
   const vars = {
     "--mo-bg":     colors.background  ?? "#070b0f",
     "--mo-card":   colors.cardBg      ?? "#0d1318",
-    "--mo-border": colors.cardBorder  ?? "rgba(0,212,255,0.18)",
     "--mo-accent": colors.accent      ?? "#00d4ff",
-    "--mo-glow":   colors.accentGlow  ?? "rgba(0,212,255,0.22)",
+    "--mo-border": colors.cardBorder  ?? (colors.accent ? `color-mix(in srgb, ${colors.accent}, transparent 82%)` : "rgba(0,212,255,0.18)"),
+    "--mo-glow":   colors.accentGlow  ?? (colors.accent ? `color-mix(in srgb, ${colors.accent}, transparent 78%)` : "rgba(0,212,255,0.22)"),
     "--mo-text":   colors.textPrimary ?? "#e8f4f8",
     "--mo-muted":  colors.textMuted   ?? "#5a7a88",
   } as React.CSSProperties;
 
   const renderLogo = () => {
-    if (!logo) return null;
-    if (typeof logo === "string")
-      return (
-        <Image
-          src={logo}
-          alt={title}
-          className="h-7 w-auto object-contain"
-          style={{ filter: "brightness(0) invert(1)" }}
-        />
-      );
-    return <span className="flex items-center">{logo}</span>;
+    if (logo) {
+      if (typeof logo === "string")
+        return (
+          <Image
+            src={logo}
+            alt={title}
+            width={120}
+            height={40}
+            className="h-8 w-auto object-contain"
+            style={{ filter: "brightness(0) invert(1)" }}
+          />
+        );
+      return <span className="flex items-center">{logo}</span>;
+    }
+    return (
+      <span
+        className="mo-syne text-base sm:text-lg font-extrabold uppercase tracking-widest truncate"
+        style={{ color: "var(--mo-text)" }}
+      >
+        {title.length > 1
+          ? <>{title.slice(0, -1)}<span style={{ color: "var(--mo-accent)" }}>{title.slice(-1)}</span></>
+          : title
+        }
+      </span>
+    );
   };
 
   return (
@@ -71,24 +85,13 @@ const ModernTemplate = ({
         className="mo-shell relative min-h-svh w-full flex flex-col items-center justify-center px-4 py-10 sm:py-14"
         style={vars}
       >
-        <div className="fixed top-4 left-4 z-30">{renderLogo()}</div>
         <div className="mo-animate relative z-10 w-full max-w-md sm:max-w-[460px]">
 
           {/* Top bar */}
-          <div className="flex items-center justify-between mb-3 px-px">
+          <div className="flex items-center justify-between mb-5 px-px">
             <div className="flex items-center gap-2.5 min-w-0">
-              <span
-                className="mo-syne text-base sm:text-lg font-extrabold uppercase tracking-widest truncate"
-                style={{ color: "var(--mo-text)" }}
-              >
-                {title.length > 1
-                  ? <>{title.slice(0, -1)}<span style={{ color: "var(--mo-accent)" }}>{title.slice(-1)}</span></>
-                  : title
-                }
-              </span>
+              {renderLogo()}
             </div>
-
-          
           </div>
 
           {/* Card */}

@@ -43,10 +43,23 @@ const MinimalTemplate = ({
   } as React.CSSProperties;
 
   const renderLogo = () => {
-    if (!logo) return null;
-    if (typeof logo === "string")
-      return <img src={logo} alt={title} className="h-8 w-auto object-contain" />;
-    return <span className="flex items-center">{logo}</span>;
+    if (logo) {
+      if (typeof logo === "string")
+        return <img src={logo} alt={title} className="h-9 w-auto object-contain" />;
+      return <span className="flex items-center">{logo}</span>;
+    }
+    return (
+      <span
+        className="mn-display text-xl sm:text-2xl font-normal truncate"
+        style={{ color: "var(--mn-text)", letterSpacing: "-0.01em" }}
+      >
+        {title}
+        <span
+          className="inline-block w-1.5 h-1.5 rounded-full ml-0.5 align-super"
+          style={{ background: "var(--mn-accent)" }}
+        />
+      </span>
+    );
   };
 
   return (
@@ -61,25 +74,13 @@ const MinimalTemplate = ({
         className="mn-shell min-h-svh w-full flex flex-col items-center justify-center px-4 py-10 sm:py-14"
         style={vars}
       >
-        <div className="fixed top-4 left-4 z-30">{renderLogo()}</div>
         <div className="mn-animate w-full max-w-md sm:max-w-[450px]">
 
           {/* Top bar */}
-          <div className="flex items-center justify-between mb-4 px-px">
+          <div className="flex items-center justify-between mb-6 px-px">
             <div className="flex items-center gap-2.5 min-w-0">
-              <span
-                className="mn-display text-xl sm:text-2xl font-normal truncate"
-                style={{ color: "var(--mn-text)", letterSpacing: "-0.01em" }}
-              >
-                {title}
-                <span
-                  className="inline-block w-1.5 h-1.5 rounded-full ml-0.5 align-super"
-                  style={{ background: "var(--mn-accent)" }}
-                />
-              </span>
+              {renderLogo()}
             </div>
-
-
           </div>
 
           {/* Card */}
@@ -94,7 +95,7 @@ const MinimalTemplate = ({
             <div
               className="absolute top-0 left-0 right-0 h-[3px] rounded-t-xl"
               style={{
-                background: "linear-gradient(90deg, var(--mn-accent), rgba(61,107,80,0.25))",
+                background: "linear-gradient(90deg, var(--mn-accent), color-mix(in srgb, var(--mn-accent), transparent 75%))",
               }}
             />
 
@@ -112,7 +113,7 @@ const MinimalTemplate = ({
                   <a
                     href={navLink("register")}
                     className="font-medium underline underline-offset-2 transition-opacity hover:opacity-70"
-                    style={{ color: "var(--mn-accent)", textDecorationColor: "rgba(61,107,80,0.4)" }}
+                    style={{ color: "var(--mn-accent)", textDecorationColor: "color-mix(in srgb, var(--mn-accent), transparent 60%)" }}
                   >
                     Sign up
                   </a>
@@ -123,7 +124,7 @@ const MinimalTemplate = ({
                   <a
                     href={navLink("login")}
                     className="font-medium underline underline-offset-2 transition-opacity hover:opacity-70"
-                    style={{ color: "var(--mn-accent)", textDecorationColor: "rgba(61,107,80,0.4)" }}
+                    style={{ color: "var(--mn-accent)", textDecorationColor: "color-mix(in srgb, var(--mn-accent), transparent 60%)" }}
                   >
                     Sign in
                   </a>
@@ -142,7 +143,7 @@ const MinimalTemplate = ({
             <a
               href={policyLink}
               className="underline underline-offset-2 transition-colors hover:opacity-70"
-              style={{ textDecorationColor: "rgba(61,107,80,0.35)" }}
+              style={{ textDecorationColor: "color-mix(in srgb, var(--mn-accent), transparent 65%)" }}
             >
               {policyText}
             </a>
